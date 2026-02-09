@@ -60,7 +60,7 @@ export default function Home() {
             <Eye className="w-8 h-8 text-white" />
           </div>
           <h1 className="text-2xl font-bold text-gray-800">
-            Retina<span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-rose-500">Scan</span>
+            DR <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-rose-500">Monster</span>
           </h1>
           <p className="text-gray-500 mt-1">Diabetic Retinopathy Screening</p>
         </motion.div>
