@@ -31,7 +31,7 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
         ref={cameraInputRef}
         onChange={handleFileChange}
         accept="image/*"
-        capture="environment"
+        capture
         className="hidden"
       />
 
