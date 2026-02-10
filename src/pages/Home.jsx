@@ -56,7 +56,7 @@ export default function Home() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-8"
         >
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-400 to-rose-500 shadow-lg shadow-orange-200 mb-4">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-400 to-rose-500 shadow-lg shadow-orange-200 dark:shadow-orange-900/50 mb-4">
             <Eye className="w-8 h-8 text-white" />
           </div>
           <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">

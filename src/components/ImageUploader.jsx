@@ -39,7 +39,7 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
         <Button
           onClick={() => cameraInputRef.current?.click()}
           disabled={isUploading}
-          className="h-32 flex-col gap-3 bg-gradient-to-br from-coral-500 to-orange-500 hover:from-coral-600 hover:to-orange-600 text-white rounded-2xl shadow-lg shadow-orange-200 transition-all hover:scale-[1.02] hover:shadow-xl"
+          className="h-32 flex-col gap-3 bg-gradient-to-br from-coral-500 to-orange-500 hover:from-coral-600 hover:to-orange-600 text-white rounded-2xl shadow-lg shadow-orange-200 dark:shadow-orange-900/50 transition-all hover:scale-[1.02] hover:shadow-xl dark:hover:shadow-orange-900/70"
           style={{ background: 'linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%)' }}
         >
           <Camera className="w-8 h-8" />
@@ -49,7 +49,7 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
         <Button
           onClick={() => fileInputRef.current?.click()}
           disabled={isUploading}
-          className="h-32 flex-col gap-3 bg-gradient-to-br from-teal-400 to-emerald-500 hover:from-teal-500 hover:to-emerald-600 text-white rounded-2xl shadow-lg shadow-teal-200 transition-all hover:scale-[1.02] hover:shadow-xl"
+          className="h-32 flex-col gap-3 bg-gradient-to-br from-teal-400 to-emerald-500 hover:from-teal-500 hover:to-emerald-600 text-white rounded-2xl shadow-lg shadow-teal-200 dark:shadow-teal-900/50 transition-all hover:scale-[1.02] hover:shadow-xl dark:hover:shadow-teal-900/70"
         >
           <Upload className="w-8 h-8" />
           <span className="font-medium">Upload Image</span>
