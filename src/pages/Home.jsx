@@ -26,11 +26,8 @@ export default function Home() {
     }
   });
 
-  const clearHistoryMutation = useMutation({
-    mutationFn: async () => {
-      // Delete all scans
-      await Promise.all(scans.map(scan => base44.entities.Scan.delete(scan.id)));
-    },
+  const deleteScanMutation = useMutation({
+    mutationFn: (scanId) => base44.entities.Scan.delete(scanId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['scans'] });
     }
@@ -138,7 +135,7 @@ export default function Home() {
                     ) : (
                       <ScanHistory 
                         scans={scans} 
-                        onClearHistory={() => clearHistoryMutation.mutate()}
+                        onDeleteScan={(scanId) => deleteScanMutation.mutate(scanId)}
                       />
                     )}
                   </div>

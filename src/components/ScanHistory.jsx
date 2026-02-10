@@ -39,7 +39,7 @@ const statusConfig = {
   }
 };
 
-export default function ScanHistory({ scans, onScanClick, onClearHistory }) {
+export default function ScanHistory({ scans, onScanClick, onDeleteScan }) {
   if (!scans || scans.length === 0) {
     return (
       <div className="text-center py-12 text-gray-400 dark:text-gray-500">
@@ -51,40 +51,8 @@ export default function ScanHistory({ scans, onScanClick, onClearHistory }) {
   }
 
   return (
-    <div className="space-y-4">
-      {scans.length > 0 && (
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button
-              variant="outline"
-              className="w-full border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 dark:border-red-900 dark:text-red-400 dark:hover:bg-red-950/30"
-            >
-              <Trash2 className="w-4 h-4 mr-2" />
-              Clear History
-            </Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Clear all scan history?</AlertDialogTitle>
-              <AlertDialogDescription>
-                This will permanently delete all {scans.length} scan{scans.length !== 1 ? 's' : ''} from your history. This action cannot be undone.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction
-                onClick={onClearHistory}
-                className="bg-red-600 hover:bg-red-700"
-              >
-                Delete All
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
-      )}
-      
-      <div className="space-y-3">
-        {scans.map((scan, index) => {
+    <div className="space-y-3">
+      {scans.map((scan, index) => {
         const status = statusConfig[scan.result] || statusConfig.pending;
         const StatusIcon = status.icon;
 
@@ -94,15 +62,15 @@ export default function ScanHistory({ scans, onScanClick, onClearHistory }) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.05 }}
-            onClick={() => onScanClick?.(scan)}
-            className={`flex items-center gap-4 p-3 rounded-xl border ${status.border} ${status.bg} cursor-pointer hover:shadow-md transition-all`}
+            className={`flex items-center gap-4 p-3 rounded-xl border ${status.border} ${status.bg}`}
           >
             <img
               src={scan.image_url}
               alt="Scan"
-              className="w-16 h-16 rounded-lg object-cover shadow-sm"
+              className="w-16 h-16 rounded-lg object-cover shadow-sm cursor-pointer"
+              onClick={() => onScanClick?.(scan)}
             />
-            <div className="flex-1 min-w-0">
+            <div className="flex-1 min-w-0 cursor-pointer" onClick={() => onScanClick?.(scan)}>
               <div className="flex items-center gap-2">
                 <StatusIcon className={`w-4 h-4 ${status.color}`} />
                 <span className={`font-medium ${status.color}`}>{status.label}</span>
@@ -116,11 +84,38 @@ export default function ScanHistory({ scans, onScanClick, onClearHistory }) {
                 </p>
               )}
             </div>
-            <ChevronRight className="w-5 h-5 text-gray-300 dark:text-gray-600" />
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-gray-400 hover:text-red-600 dark:hover:text-red-400"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <Trash2 className="w-4 h-4" />
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Delete this scan?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This will permanently delete this scan from your history. This action cannot be undone.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={() => onDeleteScan(scan.id)}
+                    className="bg-red-600 hover:bg-red-700"
+                  >
+                    Delete
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </motion.div>
         );
       })}
-      </div>
     </div>
   );
 }
