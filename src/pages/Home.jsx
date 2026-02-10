@@ -33,15 +33,23 @@ export default function Home() {
     }
   });
 
+  const renameScanMutation = useMutation({
+    mutationFn: ({ scanId, name }) => base44.entities.Scan.update(scanId, { name }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['scans'] });
+    }
+  });
+
   const handleImageUploaded = (url) => {
     setPreviewImage(url);
   };
 
-  const handleAnalyze = async () => {
+  const handleAnalyze = async (scanName) => {
     setIsAnalyzing(true);
     
     // Create scan with pending status (AI integration will update this later)
     await createScanMutation.mutateAsync({
+      name: scanName || undefined,
       image_url: previewImage,
       result: 'pending'
     });
@@ -136,6 +144,7 @@ export default function Home() {
                       <ScanHistory 
                         scans={scans} 
                         onDeleteScan={(scanId) => deleteScanMutation.mutate(scanId)}
+                        onRenameScan={(scanId, name) => renameScanMutation.mutate({ scanId, name })}
                       />
                     )}
                   </div>

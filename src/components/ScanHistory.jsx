@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { format } from 'date-fns';
-import { CheckCircle2, XCircle, Clock, ChevronRight, Trash2 } from 'lucide-react';
+import { CheckCircle2, XCircle, Clock, ChevronRight, Trash2, Edit2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -14,6 +15,15 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 
 const statusConfig = {
   pending: {
@@ -39,7 +49,9 @@ const statusConfig = {
   }
 };
 
-export default function ScanHistory({ scans, onScanClick, onDeleteScan }) {
+export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRenameScan }) {
+  const [editingId, setEditingId] = useState(null);
+  const [editName, setEditName] = useState('');
   if (!scans || scans.length === 0) {
     return (
       <div className="text-center py-12 text-gray-400 dark:text-gray-500">
@@ -75,6 +87,11 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan }) {
                 <StatusIcon className={`w-4 h-4 ${status.color}`} />
                 <span className={`font-medium ${status.color}`}>{status.label}</span>
               </div>
+              {scan.name && (
+                <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mt-1">
+                  {scan.name}
+                </p>
+              )}
               <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                 {format(new Date(scan.created_date), 'MMM d, yyyy • h:mm a')}
               </p>
@@ -84,6 +101,52 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan }) {
                 </p>
               )}
             </div>
+            <Dialog open={editingId === scan.id} onOpenChange={(open) => !open && setEditingId(null)}>
+              <DialogTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-gray-400 hover:text-blue-600 dark:hover:text-blue-400"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setEditingId(scan.id);
+                    setEditName(scan.name || '');
+                  }}
+                >
+                  <Edit2 className="w-4 h-4" />
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Rename Scan</DialogTitle>
+                  <DialogDescription>
+                    Enter a new name for this scan
+                  </DialogDescription>
+                </DialogHeader>
+                <Input
+                  placeholder="Scan name"
+                  value={editName}
+                  onChange={(e) => setEditName(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      onRenameScan(scan.id, editName);
+                      setEditingId(null);
+                    }
+                  }}
+                />
+                <DialogFooter>
+                  <Button variant="outline" onClick={() => setEditingId(null)}>
+                    Cancel
+                  </Button>
+                  <Button onClick={() => {
+                    onRenameScan(scan.id, editName);
+                    setEditingId(null);
+                  }}>
+                    Save
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button
