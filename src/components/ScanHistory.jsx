@@ -6,9 +6,9 @@ import { motion } from 'framer-motion';
 const statusConfig = {
   pending: {
     icon: Clock,
-    color: 'text-amber-500',
-    bg: 'bg-amber-50',
-    border: 'border-amber-200',
+    color: 'text-amber-500 dark:text-amber-400',
+    bg: 'bg-amber-50 dark:bg-amber-950/30',
+    border: 'border-amber-200 dark:border-amber-800',
     label: 'Pending'
   },
   positive: {
@@ -30,7 +30,7 @@ const statusConfig = {
 export default function ScanHistory({ scans, onScanClick }) {
   if (!scans || scans.length === 0) {
     return (
-      <div className="text-center py-12 text-gray-400">
+      <div className="text-center py-12 text-gray-400 dark:text-gray-500">
         <Clock className="w-12 h-12 mx-auto mb-3 opacity-50" />
         <p>No scans yet</p>
         <p className="text-sm">Upload an image to get started</p>
@@ -63,16 +63,16 @@ export default function ScanHistory({ scans, onScanClick }) {
                 <StatusIcon className={`w-4 h-4 ${status.color}`} />
                 <span className={`font-medium ${status.color}`}>{status.label}</span>
               </div>
-              <p className="text-sm text-gray-500 mt-1">
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                 {format(new Date(scan.created_date), 'MMM d, yyyy • h:mm a')}
               </p>
               {scan.confidence && (
-                <p className="text-xs text-gray-400 mt-0.5">
+                <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">
                   Confidence: {scan.confidence}%
                 </p>
               )}
             </div>
-            <ChevronRight className="w-5 h-5 text-gray-300" />
+            <ChevronRight className="w-5 h-5 text-gray-300 dark:text-gray-600" />
           </motion.div>
         );
       })}
