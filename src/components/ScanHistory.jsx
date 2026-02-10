@@ -1,7 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { format } from 'date-fns';
-import { CheckCircle2, XCircle, Clock, ChevronRight } from 'lucide-react';
+import { CheckCircle2, XCircle, Clock, ChevronRight, Trash2 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { Button } from '@/components/ui/button';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 
 const statusConfig = {
   pending: {
@@ -27,7 +39,7 @@ const statusConfig = {
   }
 };
 
-export default function ScanHistory({ scans, onScanClick }) {
+export default function ScanHistory({ scans, onScanClick, onClearHistory }) {
   if (!scans || scans.length === 0) {
     return (
       <div className="text-center py-12 text-gray-400 dark:text-gray-500">
@@ -39,8 +51,40 @@ export default function ScanHistory({ scans, onScanClick }) {
   }
 
   return (
-    <div className="space-y-3">
-      {scans.map((scan, index) => {
+    <div className="space-y-4">
+      {scans.length > 0 && (
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button
+              variant="outline"
+              className="w-full border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 dark:border-red-900 dark:text-red-400 dark:hover:bg-red-950/30"
+            >
+              <Trash2 className="w-4 h-4 mr-2" />
+              Clear History
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Clear all scan history?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This will permanently delete all {scans.length} scan{scans.length !== 1 ? 's' : ''} from your history. This action cannot be undone.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction
+                onClick={onClearHistory}
+                className="bg-red-600 hover:bg-red-700"
+              >
+                Delete All
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      )}
+      
+      <div className="space-y-3">
+        {scans.map((scan, index) => {
         const status = statusConfig[scan.result] || statusConfig.pending;
         const StatusIcon = status.icon;
 
@@ -76,6 +120,7 @@ export default function ScanHistory({ scans, onScanClick }) {
           </motion.div>
         );
       })}
+      </div>
     </div>
   );
 }

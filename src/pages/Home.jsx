@@ -26,6 +26,16 @@ export default function Home() {
     }
   });
 
+  const clearHistoryMutation = useMutation({
+    mutationFn: async () => {
+      // Delete all scans
+      await Promise.all(scans.map(scan => base44.entities.Scan.delete(scan.id)));
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['scans'] });
+    }
+  });
+
   const handleImageUploaded = (url) => {
     setPreviewImage(url);
   };
@@ -126,7 +136,10 @@ export default function Home() {
                         <div className="w-8 h-8 border-3 border-teal-400 border-t-transparent rounded-full animate-spin" />
                       </div>
                     ) : (
-                      <ScanHistory scans={scans} />
+                      <ScanHistory 
+                        scans={scans} 
+                        onClearHistory={() => clearHistoryMutation.mutate()}
+                      />
                     )}
                   </div>
                 </TabsContent>
