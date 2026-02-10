@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { X, Sparkles, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 
 export default function ScanPreview({ imageUrl, onCancel, onAnalyze, isAnalyzing }) {
+  const [scanName, setScanName] = useState('');
+
   return (
     <div className="space-y-4">
       <div className="relative rounded-2xl overflow-hidden shadow-xl">
@@ -19,8 +22,15 @@ export default function ScanPreview({ imageUrl, onCancel, onAnalyze, isAnalyzing
         </button>
       </div>
 
+      <Input
+        placeholder="Name this scan (optional)"
+        value={scanName}
+        onChange={(e) => setScanName(e.target.value)}
+        className="bg-white dark:bg-gray-800"
+      />
+
       <Button
-        onClick={onAnalyze}
+        onClick={() => onAnalyze(scanName)}
         disabled={isAnalyzing}
         className="w-full h-14 text-lg font-semibold rounded-xl bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-600 hover:to-purple-700 shadow-lg shadow-purple-200 dark:shadow-purple-900/50 transition-all hover:scale-[1.01]"
       >
