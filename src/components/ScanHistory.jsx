@@ -147,11 +147,7 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
               <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                 {format(new Date(scan.created_date), 'MMM d, yyyy • h:mm a')}
               </p>
-              {scan.confidence && (
-                <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">
-                  Confidence: {scan.confidence}%
-                </p>
-              )}
+
             </div>
             <Dialog open={editingId === scan.id} onOpenChange={(open) => !open && setEditingId(null)}>
               <DialogTrigger asChild>
