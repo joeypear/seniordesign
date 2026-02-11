@@ -158,8 +158,8 @@ export default function Home() {
                     ) : (
                       <ScanHistory 
                         scans={scans} 
-                        onDeleteScan={(scanId) => deleteScanMutation.mutate(scanId)}
-                        onRenameScan={(scanId, name) => renameScanMutation.mutate({ scanId, name })}
+                        onDeleteScan={(scanId) => deleteScanMutation.mutateAsync(scanId)}
+                        onRenameScan={(scanId, name) => renameScanMutation.mutateAsync({ scanId, name })}
                       />
                     )}
                   </div>
