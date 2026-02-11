@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Moon, Sun, User } from 'lucide-react';
+import { Moon, Sun, User, Info } from 'lucide-react';
+import DisclaimerDialog from '@/components/DisclaimerDialog';
 import { Button } from '@/components/ui/button';
 import {
   Sheet,
@@ -15,6 +16,18 @@ export default function Layout({ children }) {
     const saved = localStorage.getItem('darkMode');
     return saved ? JSON.parse(saved) : false;
   });
+  
+  const [showDisclaimer, setShowDisclaimer] = useState(() => {
+    const seen = localStorage.getItem('disclaimerSeen');
+    return !seen;
+  });
+
+  const handleDisclaimerClose = (open) => {
+    setShowDisclaimer(open);
+    if (!open) {
+      localStorage.setItem('disclaimerSeen', 'true');
+    }
+  };
 
   useEffect(() => {
     localStorage.setItem('darkMode', JSON.stringify(darkMode));
@@ -27,7 +40,18 @@ export default function Layout({ children }) {
 
   return (
     <div className={darkMode ? 'dark' : ''}>
+      <DisclaimerDialog open={showDisclaimer} onOpenChange={handleDisclaimerClose} />
+      
       <div className="fixed top-4 right-4 z-50 flex gap-2">
+        <Button
+          onClick={() => setShowDisclaimer(true)}
+          variant="outline"
+          size="icon"
+          className="rounded-full shadow-lg bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700"
+        >
+          <Info className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+        </Button>
+        
         <Button
           onClick={() => setDarkMode(!darkMode)}
           variant="outline"
