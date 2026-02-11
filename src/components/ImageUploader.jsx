@@ -57,11 +57,15 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
       </div>
 
       {isUploading && (
-        <div className="flex items-center justify-center gap-3 py-4 text-gray-500">
+        <div className="flex items-center justify-center gap-3 py-4 text-gray-500 dark:text-gray-400">
           <div className="w-5 h-5 border-2 border-orange-400 border-t-transparent rounded-full animate-spin" />
           <span>Uploading image...</span>
         </div>
       )}
+
+      <p className="text-xs text-center text-gray-400 dark:text-gray-500">
+        Accepted formats: JPEG, PNG, WebP, GIF, BMP
+      </p>
     </div>
   );
 }
