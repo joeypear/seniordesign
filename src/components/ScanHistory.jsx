@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { format } from 'date-fns';
-import { CheckCircle2, XCircle, Clock, ChevronRight, Trash2, Edit2 } from 'lucide-react';
+import { CheckCircle2, XCircle, Clock, ChevronRight, Trash2, Edit2, Filter, ArrowUpDown } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -52,6 +53,22 @@ const statusConfig = {
 export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRenameScan }) {
   const [editingId, setEditingId] = useState(null);
   const [editName, setEditName] = useState('');
+  const [filter, setFilter] = useState('all');
+  const [sortBy, setSortBy] = useState('newest');
+
+  // Filter scans
+  let filteredScans = scans.filter(scan => {
+    if (filter === 'all') return true;
+    return scan.result === filter;
+  });
+
+  // Sort scans
+  filteredScans = [...filteredScans].sort((a, b) => {
+    const dateA = new Date(a.created_date).getTime();
+    const dateB = new Date(b.created_date).getTime();
+    return sortBy === 'newest' ? dateB - dateA : dateA - dateB;
+  });
+
   if (!scans || scans.length === 0) {
     return (
       <div className="text-center py-12 text-gray-400 dark:text-gray-500">
@@ -63,8 +80,43 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
   }
 
   return (
-    <div className="space-y-3">
-      {scans.map((scan, index) => {
+    <div className="space-y-4">
+      <div className="flex gap-3">
+        <div className="flex-1">
+          <Select value={filter} onValueChange={setFilter}>
+            <SelectTrigger className="bg-white dark:bg-gray-800">
+              <Filter className="w-4 h-4 mr-2" />
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Results</SelectItem>
+              <SelectItem value="positive">DR Detected</SelectItem>
+              <SelectItem value="negative">No DR Detected</SelectItem>
+              <SelectItem value="pending">Pending</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="flex-1">
+          <Select value={sortBy} onValueChange={setSortBy}>
+            <SelectTrigger className="bg-white dark:bg-gray-800">
+              <ArrowUpDown className="w-4 h-4 mr-2" />
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="newest">Newest First</SelectItem>
+              <SelectItem value="oldest">Oldest First</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
+      {filteredScans.length === 0 ? (
+        <div className="text-center py-8 text-gray-400 dark:text-gray-500">
+          <p className="text-sm">No scans match the selected filter</p>
+        </div>
+      ) : (
+        <div className="space-y-3">
+          {filteredScans.map((scan, index) => {
         const status = statusConfig[scan.result] || statusConfig.pending;
         const StatusIcon = status.icon;
 
@@ -177,8 +229,10 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
               </AlertDialogContent>
             </AlertDialog>
           </motion.div>
-        );
-      })}
+          );
+        })}
+        </div>
+      )}
     </div>
   );
 }
