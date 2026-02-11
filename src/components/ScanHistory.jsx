@@ -145,7 +145,7 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
                 </p>
               )}
               <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                {format(new Date(scan.created_date), 'MMM d, yyyy • h:mm a')}
+                {format(new Date(scan.created_date + 'Z'), 'MMM d, yyyy • h:mm a')}
               </p>
 
             </div>
