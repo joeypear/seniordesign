@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { Eye, History, User } from 'lucide-react';
+import { Eye, History } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import ImageUploader from '@/components/ImageUploader';
 import ScanPreview from '@/components/ScanPreview';
 import ScanHistory from '@/components/ScanHistory';
-import AccountSettings from '@/components/AccountSettings';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Home() {
@@ -105,7 +104,7 @@ export default function Home() {
               exit={{ opacity: 0 }}
             >
               <Tabs defaultValue="scan" className="w-full">
-                <TabsList className="grid w-full grid-cols-3 mb-6 bg-white/80 dark:bg-gray-800/80 backdrop-blur rounded-xl p-1 shadow-sm">
+                <TabsList className="grid w-full grid-cols-2 mb-6 bg-white/80 dark:bg-gray-800/80 backdrop-blur rounded-xl p-1 shadow-sm">
                   <TabsTrigger 
                     value="scan" 
                     className="rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-400 data-[state=active]:to-rose-500 data-[state=active]:text-white data-[state=active]:shadow-md transition-all"
@@ -119,13 +118,6 @@ export default function Home() {
                   >
                     <History className="w-4 h-4 mr-2" />
                     History
-                  </TabsTrigger>
-                  <TabsTrigger 
-                    value="account"
-                    className="rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-violet-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all"
-                  >
-                    <User className="w-4 h-4 mr-2" />
-                    Account
                   </TabsTrigger>
                 </TabsList>
 
@@ -155,13 +147,6 @@ export default function Home() {
                         onRenameScan={(scanId, name) => renameScanMutation.mutate({ scanId, name })}
                       />
                     )}
-                  </div>
-                </TabsContent>
-
-                <TabsContent value="account" className="mt-0">
-                  <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-700">
-                    <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">Account Settings</h2>
-                    <AccountSettings />
                   </div>
                 </TabsContent>
               </Tabs>
