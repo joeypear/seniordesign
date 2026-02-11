@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Eye, History } from 'lucide-react';
@@ -6,13 +6,27 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import ImageUploader from '@/components/ImageUploader';
 import ScanPreview from '@/components/ScanPreview';
 import ScanHistory from '@/components/ScanHistory';
+import OnboardingGuide from '@/components/OnboardingGuide';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Home() {
   const [previewImage, setPreviewImage] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [showOnboarding, setShowOnboarding] = useState(false);
   const queryClient = useQueryClient();
+
+  useEffect(() => {
+    const hasSeenOnboarding = localStorage.getItem('onboardingSeen');
+    if (!hasSeenOnboarding) {
+      setShowOnboarding(true);
+    }
+  }, []);
+
+  const handleCloseOnboarding = () => {
+    setShowOnboarding(false);
+    localStorage.setItem('onboardingSeen', 'true');
+  };
 
   const { data: scans = [], isLoading } = useQuery({
     queryKey: ['scans'],
@@ -64,6 +78,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-orange-50 via-white to-teal-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+      <OnboardingGuide open={showOnboarding} onClose={handleCloseOnboarding} />
       <div className="max-w-lg mx-auto px-4 py-8">
         {/* Header */}
         <motion.div 
