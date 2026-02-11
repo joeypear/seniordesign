@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { User, Mail, Calendar, Shield, LogOut, Trash2 } from 'lucide-react';
+import { User, Mail, Calendar, Shield, LogOut, Trash2, Pencil, Check, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -18,11 +19,38 @@ import { format } from 'date-fns';
 
 export default function AccountSettings() {
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isEditingName, setIsEditingName] = useState(false);
+  const [newName, setNewName] = useState('');
+  const [isSavingName, setIsSavingName] = useState(false);
+  const queryClient = useQueryClient();
 
   const { data: user, isLoading } = useQuery({
     queryKey: ['currentUser'],
     queryFn: () => base44.auth.me()
   });
+
+  const handleEditName = () => {
+    setNewName(user?.full_name || '');
+    setIsEditingName(true);
+  };
+
+  const handleSaveName = async () => {
+    if (!newName.trim()) return;
+    setIsSavingName(true);
+    try {
+      await base44.auth.updateMe({ full_name: newName.trim() });
+      queryClient.invalidateQueries({ queryKey: ['currentUser'] });
+      setIsEditingName(false);
+    } catch (error) {
+      alert('Unable to update name. Please try again.');
+    }
+    setIsSavingName(false);
+  };
+
+  const handleCancelEdit = () => {
+    setIsEditingName(false);
+    setNewName('');
+  };
 
   const handleDeleteAccount = async () => {
     setIsDeleting(true);
@@ -55,10 +83,53 @@ export default function AccountSettings() {
           <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-400 to-pink-500 flex items-center justify-center text-white text-2xl font-bold">
             {user?.full_name?.[0]?.toUpperCase() || user?.email?.[0]?.toUpperCase() || 'U'}
           </div>
-          <div>
-            <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100">
-              {user?.full_name || 'User'}
-            </h3>
+          <div className="flex-1">
+            {isEditingName ? (
+              <div className="flex items-center gap-2">
+                <Input
+                  value={newName}
+                  onChange={(e) => setNewName(e.target.value)}
+                  placeholder="Enter your name"
+                  className="h-9 text-sm"
+                  autoFocus
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') handleSaveName();
+                    if (e.key === 'Escape') handleCancelEdit();
+                  }}
+                />
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  onClick={handleSaveName}
+                  disabled={isSavingName || !newName.trim()}
+                  className="h-8 w-8 text-green-600 hover:text-green-700 hover:bg-green-50"
+                >
+                  <Check className="w-4 h-4" />
+                </Button>
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  onClick={handleCancelEdit}
+                  className="h-8 w-8 text-gray-500 hover:text-gray-700 hover:bg-gray-100"
+                >
+                  <X className="w-4 h-4" />
+                </Button>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100">
+                  {user?.full_name || 'User'}
+                </h3>
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  onClick={handleEditName}
+                  className="h-7 w-7 text-gray-400 hover:text-gray-600"
+                >
+                  <Pencil className="w-3.5 h-3.5" />
+                </Button>
+              </div>
+            )}
             <p className="text-sm text-gray-500 dark:text-gray-400">{user?.email}</p>
           </div>
         </div>
