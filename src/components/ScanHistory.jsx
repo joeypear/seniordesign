@@ -84,7 +84,7 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
       <div className="flex gap-3">
         <div className="flex-1">
           <Select value={filter} onValueChange={setFilter}>
-            <SelectTrigger className="bg-white dark:bg-gray-800">
+            <SelectTrigger className="bg-white dark:bg-gray-800 dark:border-gray-600">
               <Filter className="w-4 h-4 mr-2" />
               <SelectValue />
             </SelectTrigger>
@@ -98,7 +98,7 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
         </div>
         <div className="flex-1">
           <Select value={sortBy} onValueChange={setSortBy}>
-            <SelectTrigger className="bg-white dark:bg-gray-800">
+            <SelectTrigger className="bg-white dark:bg-gray-800 dark:border-gray-600">
               <ArrowUpDown className="w-4 h-4 mr-2" />
               <SelectValue />
             </SelectTrigger>
