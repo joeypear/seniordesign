@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { format } from 'date-fns';
-import { CheckCircle2, XCircle, Clock, ChevronRight, Trash2, Edit2, Filter, ArrowUpDown } from 'lucide-react';
+import { CheckCircle2, XCircle, Clock, ChevronRight, Trash2, Edit2, Filter, ArrowUpDown, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -55,6 +55,21 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
   const [editName, setEditName] = useState('');
   const [filter, setFilter] = useState('all');
   const [sortBy, setSortBy] = useState('newest');
+  const [deletingId, setDeletingId] = useState(null);
+  const [renamingId, setRenamingId] = useState(null);
+
+  const handleDelete = async (scanId) => {
+    setDeletingId(scanId);
+    await onDeleteScan(scanId);
+    setDeletingId(null);
+  };
+
+  const handleRename = async (scanId, name) => {
+    setRenamingId(scanId);
+    await onRenameScan(scanId, name);
+    setRenamingId(null);
+    setEditingId(null);
+  };
 
   // Filter scans
   let filteredScans = scans.filter(scan => {
@@ -176,21 +191,25 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
                   value={editName}
                   onChange={(e) => setEditName(e.target.value)}
                   onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      onRenameScan(scan.id, editName);
-                      setEditingId(null);
+                    if (e.key === 'Enter' && !renamingId) {
+                      handleRename(scan.id, editName);
                     }
                   }}
                 />
                 <DialogFooter>
-                  <Button variant="outline" onClick={() => setEditingId(null)}>
+                  <Button variant="outline" onClick={() => setEditingId(null)} disabled={renamingId === scan.id}>
                     Cancel
                   </Button>
-                  <Button onClick={() => {
-                    onRenameScan(scan.id, editName);
-                    setEditingId(null);
-                  }}>
-                    Save
+                  <Button 
+                    onClick={() => handleRename(scan.id, editName)}
+                    disabled={renamingId === scan.id}
+                  >
+                    {renamingId === scan.id ? (
+                      <>
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        Saving...
+                      </>
+                    ) : 'Save'}
                   </Button>
                 </DialogFooter>
               </DialogContent>
@@ -202,8 +221,13 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
                   size="icon"
                   className="text-gray-400 hover:text-red-600 dark:hover:text-red-400"
                   onClick={(e) => e.stopPropagation()}
+                  disabled={deletingId === scan.id}
                 >
-                  <Trash2 className="w-4 h-4" />
+                  {deletingId === scan.id ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <Trash2 className="w-4 h-4" />
+                  )}
                 </Button>
               </AlertDialogTrigger>
               <AlertDialogContent>
@@ -216,10 +240,16 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
                   <AlertDialogAction
-                    onClick={() => onDeleteScan(scan.id)}
+                    onClick={() => handleDelete(scan.id)}
                     className="bg-red-600 hover:bg-red-700"
+                    disabled={deletingId === scan.id}
                   >
-                    Delete
+                    {deletingId === scan.id ? (
+                      <>
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        Deleting...
+                      </>
+                    ) : 'Delete'}
                   </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
