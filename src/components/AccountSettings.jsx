@@ -30,7 +30,7 @@ export default function AccountSettings() {
   });
 
   const handleEditName = () => {
-    setNewName(user?.full_name || '');
+    setNewName(user?.username || user?.full_name || '');
     setIsEditingName(true);
   };
 
@@ -38,7 +38,7 @@ export default function AccountSettings() {
     if (!newName.trim()) return;
     setIsSavingName(true);
     try {
-      await base44.auth.updateMe({ full_name: newName.trim() });
+      await base44.auth.updateMe({ username: newName.trim() });
       queryClient.invalidateQueries({ queryKey: ['currentUser'] });
       setIsEditingName(false);
     } catch (error) {
@@ -81,7 +81,7 @@ export default function AccountSettings() {
       <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950/30 dark:to-pink-950/30 rounded-2xl p-6 border border-purple-100 dark:border-purple-900">
         <div className="flex items-center gap-4 mb-4">
           <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-400 to-pink-500 flex items-center justify-center text-white text-2xl font-bold">
-            {user?.full_name?.[0]?.toUpperCase() || user?.email?.[0]?.toUpperCase() || 'U'}
+            {(user?.username || user?.full_name)?.[0]?.toUpperCase() || user?.email?.[0]?.toUpperCase() || 'U'}
           </div>
           <div className="flex-1">
             {isEditingName ? (
@@ -118,7 +118,7 @@ export default function AccountSettings() {
             ) : (
               <div className="flex items-center gap-2">
                 <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100">
-                  {user?.full_name || 'User'}
+                  {user?.username || user?.full_name || 'User'}
                 </h3>
                 <Button
                   size="icon"
