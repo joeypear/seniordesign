@@ -23,14 +23,14 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
         type="file"
         ref={fileInputRef}
         onChange={handleFileChange}
-        accept="image/*"
+        accept="image/jpeg,image/jpg,image/png,image/webp,image/bmp"
         className="hidden"
       />
       <input
         type="file"
         ref={cameraInputRef}
         onChange={handleFileChange}
-        accept="image/*"
+        accept="image/jpeg,image/jpg,image/png,image/webp,image/bmp"
         capture
         className="hidden"
       />
@@ -64,7 +64,7 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
       )}
 
       <p className="text-xs text-center text-gray-400 dark:text-gray-500">
-        Accepted formats: JPEG, PNG, WebP, GIF, BMP
+        Accepted formats: JPEG, PNG, WebP, BMP
       </p>
     </div>
   );
