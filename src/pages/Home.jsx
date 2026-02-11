@@ -6,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import ImageUploader from '@/components/ImageUploader';
 import ScanPreview from '@/components/ScanPreview';
 import ScanHistory from '@/components/ScanHistory';
+import ScanDetailModal from '@/components/ScanDetailModal';
 import OnboardingGuide from '@/components/OnboardingGuide';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -14,6 +15,7 @@ export default function Home() {
   const [isUploading, setIsUploading] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [showOnboarding, setShowOnboarding] = useState(false);
+  const [selectedScan, setSelectedScan] = useState(null);
   const queryClient = useQueryClient();
 
   useEffect(() => {
@@ -79,6 +81,11 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-orange-50 via-white to-teal-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       <OnboardingGuide open={showOnboarding} onClose={handleCloseOnboarding} />
+      <ScanDetailModal 
+        scan={selectedScan} 
+        open={!!selectedScan} 
+        onOpenChange={(open) => !open && setSelectedScan(null)} 
+      />
       <div className="max-w-lg mx-auto px-4 py-8">
         {/* Header */}
         <motion.div 
@@ -157,7 +164,8 @@ export default function Home() {
                       </div>
                     ) : (
                       <ScanHistory 
-                        scans={scans} 
+                        scans={scans}
+                        onScanClick={(scan) => setSelectedScan(scan)}
                         onDeleteScan={(scanId) => deleteScanMutation.mutateAsync(scanId)}
                         onRenameScan={(scanId, name) => renameScanMutation.mutateAsync({ scanId, name })}
                       />
