@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { format } from 'date-fns';
-import { CheckCircle2, XCircle, Clock, Calendar, Percent, Loader2 } from 'lucide-react';
+import { CheckCircle2, XCircle, Clock, Calendar, Percent, Loader2, HelpCircle } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -9,25 +9,34 @@ import {
 } from '@/components/ui/dialog';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 const statusConfig = {
   pending: {
     icon: Clock,
     color: 'text-amber-500 dark:text-amber-400',
     bg: 'bg-amber-100 dark:bg-amber-900/50',
-    label: 'Pending Analysis'
+    label: 'Pending Analysis',
+    description: 'The analysis is still in progress. Results will be available shortly.'
   },
   positive: {
     icon: XCircle,
     color: 'text-rose-500 dark:text-rose-400',
     bg: 'bg-rose-100 dark:bg-rose-900/50',
-    label: 'Abnormal'
+    label: 'Abnormal',
+    description: 'The analysis indicates potential signs of diabetic retinopathy. We recommend consulting a healthcare professional for further evaluation.'
   },
   negative: {
     icon: CheckCircle2,
     color: 'text-emerald-500 dark:text-emerald-400',
     bg: 'bg-emerald-100 dark:bg-emerald-900/50',
-    label: 'Normal'
+    label: 'Normal',
+    description: 'No signs of diabetic retinopathy were detected. Routine follow-up screenings are still recommended.'
   }
 };
 
@@ -74,7 +83,7 @@ export default function ScanDetailModal({ scan, open, onOpenChange, onUpdateNote
           {/* Result Badge */}
           <div className={`flex items-center gap-3 p-4 rounded-xl ${status.bg}`}>
             <StatusIcon className={`w-8 h-8 ${status.color}`} />
-            <div>
+            <div className="flex-1">
               <p className={`font-semibold ${status.color}`}>{status.label}</p>
               {scan.result !== 'pending' && scan.confidence != null && (
                 <p className="text-sm text-gray-600 dark:text-gray-400">
@@ -82,6 +91,18 @@ export default function ScanDetailModal({ scan, open, onOpenChange, onUpdateNote
                 </p>
               )}
             </div>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                    <HelpCircle className="w-5 h-5" />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent side="left" className="max-w-[250px]">
+                  <p className="text-sm">{status.description}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
 
           {/* Details */}
