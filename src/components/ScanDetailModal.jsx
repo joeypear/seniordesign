@@ -10,11 +10,10 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
 
 const statusConfig = {
   pending: {
@@ -91,18 +90,16 @@ export default function ScanDetailModal({ scan, open, onOpenChange, onUpdateNote
                 </p>
               )}
             </div>
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <button className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
-                    <HelpCircle className="w-5 h-5" />
-                  </button>
-                </TooltipTrigger>
-                <TooltipContent side="left" className="max-w-[250px]">
-                  <p className="text-sm">{status.description}</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            <Popover>
+              <PopoverTrigger asChild>
+                <button className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                  <HelpCircle className="w-5 h-5" />
+                </button>
+              </PopoverTrigger>
+              <PopoverContent side="left" className="max-w-[250px] text-sm">
+                {status.description}
+              </PopoverContent>
+            </Popover>
           </div>
 
           {/* Details */}
