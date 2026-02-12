@@ -56,6 +56,13 @@ export default function Home() {
     }
   });
 
+  const updateNotesMutation = useMutation({
+    mutationFn: ({ scanId, notes }) => base44.entities.Scan.update(scanId, { notes }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['scans'] });
+    }
+  });
+
   const handleImageUploaded = (url) => {
     setPreviewImage(url);
   };
@@ -84,7 +91,8 @@ export default function Home() {
       <ScanDetailModal 
         scan={selectedScan} 
         open={!!selectedScan} 
-        onOpenChange={(open) => !open && setSelectedScan(null)} 
+        onOpenChange={(open) => !open && setSelectedScan(null)}
+        onUpdateNotes={(scanId, notes) => updateNotesMutation.mutateAsync({ scanId, notes })}
       />
       <div className="max-w-lg mx-auto px-4 py-8">
         {/* Header */}

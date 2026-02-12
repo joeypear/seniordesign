@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { format } from 'date-fns';
-import { CheckCircle2, XCircle, Clock, Calendar, Percent } from 'lucide-react';
+import { CheckCircle2, XCircle, Clock, Calendar, Percent, Loader2 } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { Badge } from '@/components/ui/badge';
+import { Textarea } from '@/components/ui/textarea';
+import { Button } from '@/components/ui/button';
 
 const statusConfig = {
   pending: {
@@ -20,7 +21,7 @@ const statusConfig = {
     icon: XCircle,
     color: 'text-rose-500 dark:text-rose-400',
     bg: 'bg-rose-100 dark:bg-rose-900/50',
-    label: 'Abnormal Detected'
+    label: 'Abnormal'
   },
   negative: {
     icon: CheckCircle2,
@@ -30,11 +31,26 @@ const statusConfig = {
   }
 };
 
-export default function ScanDetailModal({ scan, open, onOpenChange }) {
+export default function ScanDetailModal({ scan, open, onOpenChange, onUpdateNotes }) {
+  const [notes, setNotes] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
+
+  useEffect(() => {
+    if (scan) {
+      setNotes(scan.notes || '');
+    }
+  }, [scan]);
+
   if (!scan) return null;
 
   const status = statusConfig[scan.result] || statusConfig.pending;
   const StatusIcon = status.icon;
+
+  const handleSaveNotes = async () => {
+    setIsSaving(true);
+    await onUpdateNotes?.(scan.id, notes);
+    setIsSaving(false);
+  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -84,12 +100,30 @@ export default function ScanDetailModal({ scan, open, onOpenChange }) {
           </div>
 
           {/* Notes */}
-          {scan.notes && (
-            <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-4">
-              <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Notes</p>
-              <p className="text-sm text-gray-600 dark:text-gray-400">{scan.notes}</p>
-            </div>
-          )}
+          <div className="space-y-2">
+            <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Notes</p>
+            <Textarea
+              placeholder="Add notes about this scan..."
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              className="min-h-[80px] resize-none"
+            />
+            {notes !== (scan.notes || '') && (
+              <Button 
+                onClick={handleSaveNotes} 
+                disabled={isSaving}
+                size="sm"
+                className="w-full"
+              >
+                {isSaving ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Saving...
+                  </>
+                ) : 'Save Notes'}
+              </Button>
+            )}
+          </div>
         </div>
       </DialogContent>
     </Dialog>
