@@ -1,11 +1,14 @@
-import React, { useRef } from 'react';
-import { Camera, Upload, Image as ImageIcon } from 'lucide-react';
+import React, { useRef, useState } from 'react';
+import { Camera, Upload, Video } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { base44 } from '@/api/base44Client';
+import VideoFrameSelector from './VideoFrameSelector';
 
 export default function ImageUploader({ onImageUploaded, isUploading, setIsUploading }) {
   const fileInputRef = useRef(null);
   const cameraInputRef = useRef(null);
+  const videoInputRef = useRef(null);
+  const [selectedVideo, setSelectedVideo] = useState(null);
 
   const handleFileChange = async (e) => {
     const file = e.target.files?.[0];
@@ -16,6 +19,34 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
     onImageUploaded(file_url);
     setIsUploading(false);
   };
+
+  const handleVideoChange = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setSelectedVideo(file);
+  };
+
+  const handleFrameSelected = async (frameFile) => {
+    setIsUploading(true);
+    const { file_url } = await base44.integrations.Core.UploadFile({ file: frameFile });
+    setSelectedVideo(null);
+    onImageUploaded(file_url);
+    setIsUploading(false);
+  };
+
+  const handleCancelVideo = () => {
+    setSelectedVideo(null);
+  };
+
+  if (selectedVideo) {
+    return (
+      <VideoFrameSelector
+        videoFile={selectedVideo}
+        onFrameSelected={handleFrameSelected}
+        onCancel={handleCancelVideo}
+      />
+    );
+  }
 
   return (
     <div className="space-y-4">
@@ -34,8 +65,15 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
         capture
         className="hidden"
       />
+      <input
+        type="file"
+        ref={videoInputRef}
+        onChange={handleVideoChange}
+        accept="video/mp4,video/quicktime,video/x-msvideo,video/webm"
+        className="hidden"
+      />
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-3 gap-4">
         <Button
           onClick={() => cameraInputRef.current?.click()}
           disabled={isUploading}
@@ -54,6 +92,15 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
           <Upload className="w-8 h-8" />
           <span className="font-medium">Upload Image</span>
         </Button>
+
+        <Button
+          onClick={() => videoInputRef.current?.click()}
+          disabled={isUploading}
+          className="h-32 flex-col gap-3 bg-gradient-to-br from-purple-400 to-pink-500 hover:from-purple-500 hover:to-pink-600 text-white rounded-2xl shadow-lg shadow-purple-200 dark:shadow-purple-900/50 transition-all hover:scale-[1.02] hover:shadow-xl dark:hover:shadow-purple-900/70"
+        >
+          <Video className="w-8 h-8" />
+          <span className="font-medium">Upload Video</span>
+        </Button>
       </div>
 
       {isUploading && (
@@ -64,7 +111,7 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
       )}
 
       <p className="text-xs text-center text-gray-400 dark:text-gray-500">
-        Accepted formats: JPEG, PNG, WebP, BMP
+        Images: JPEG, PNG, WebP, BMP • Videos: MP4, MOV, AVI, WebM
       </p>
     </div>
   );
