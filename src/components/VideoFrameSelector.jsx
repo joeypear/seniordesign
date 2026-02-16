@@ -8,6 +8,13 @@ export default function VideoFrameSelector({ videoFile, onFrameSelected, onCance
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [videoUrl, setVideoUrl] = useState(null);
+
+  React.useEffect(() => {
+    const url = URL.createObjectURL(videoFile);
+    setVideoUrl(url);
+    return () => URL.revokeObjectURL(url);
+  }, [videoFile]);
 
   const handleLoadedMetadata = () => {
     if (videoRef.current) {
@@ -63,9 +70,11 @@ export default function VideoFrameSelector({ videoFile, onFrameSelected, onCance
       <div className="relative rounded-xl overflow-hidden bg-black">
         <video
           ref={videoRef}
-          src={URL.createObjectURL(videoFile)}
+          src={videoUrl}
           onLoadedMetadata={handleLoadedMetadata}
           onTimeUpdate={handleTimeUpdate}
+          preload="metadata"
+          playsInline
           className="w-full h-auto max-h-96"
         />
       </div>
