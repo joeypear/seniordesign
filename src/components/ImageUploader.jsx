@@ -14,13 +14,20 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
     const file = e.target.files?.[0];
     if (!file) return;
 
+    // Check if it's a video file
+    if (file.type.startsWith('video/')) {
+      setSelectedVideo(file);
+      return;
+    }
+
+    // Handle image upload
     setIsUploading(true);
     const { file_url } = await base44.integrations.Core.UploadFile({ file });
     onImageUploaded(file_url);
     setIsUploading(false);
   };
 
-  const handleVideoChange = (e) => {
+  const handleCameraVideoChange = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
     setSelectedVideo(file);
@@ -54,34 +61,27 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
         type="file"
         ref={fileInputRef}
         onChange={handleFileChange}
-        accept="image/jpeg,image/jpg,image/png,image/webp,image/bmp"
+        accept="image/jpeg,image/jpg,image/png,image/webp,image/bmp,video/mp4,video/quicktime,video/x-msvideo,video/webm"
         className="hidden"
       />
       <input
         type="file"
         ref={cameraInputRef}
-        onChange={handleFileChange}
-        accept="image/jpeg,image/jpg,image/png,image/webp,image/bmp"
+        onChange={handleCameraVideoChange}
+        accept="video/mp4,video/quicktime,video/x-msvideo,video/webm"
         capture
         className="hidden"
       />
-      <input
-        type="file"
-        ref={videoInputRef}
-        onChange={handleVideoChange}
-        accept="video/mp4,video/quicktime,video/x-msvideo,video/webm"
-        className="hidden"
-      />
 
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 gap-4">
         <Button
           onClick={() => cameraInputRef.current?.click()}
           disabled={isUploading}
           className="h-32 flex-col gap-3 bg-gradient-to-br from-coral-500 to-orange-500 hover:from-coral-600 hover:to-orange-600 text-white rounded-2xl shadow-lg shadow-orange-200 dark:shadow-orange-900/50 transition-all hover:scale-[1.02] hover:shadow-xl dark:hover:shadow-orange-900/70"
           style={{ background: 'linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%)' }}
         >
-          <Camera className="w-8 h-8" />
-          <span className="font-medium">Take Photo</span>
+          <Video className="w-8 h-8" />
+          <span className="font-medium">Use Camera</span>
         </Button>
 
         <Button
@@ -90,16 +90,7 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
           className="h-32 flex-col gap-3 bg-gradient-to-br from-teal-400 to-emerald-500 hover:from-teal-500 hover:to-emerald-600 text-white rounded-2xl shadow-lg shadow-teal-200 dark:shadow-teal-900/50 transition-all hover:scale-[1.02] hover:shadow-xl dark:hover:shadow-teal-900/70"
         >
           <Upload className="w-8 h-8" />
-          <span className="font-medium">Upload Image</span>
-        </Button>
-
-        <Button
-          onClick={() => videoInputRef.current?.click()}
-          disabled={isUploading}
-          className="h-32 flex-col gap-3 bg-gradient-to-br from-purple-400 to-pink-500 hover:from-purple-500 hover:to-pink-600 text-white rounded-2xl shadow-lg shadow-purple-200 dark:shadow-purple-900/50 transition-all hover:scale-[1.02] hover:shadow-xl dark:hover:shadow-purple-900/70"
-        >
-          <Video className="w-8 h-8" />
-          <span className="font-medium">Upload Video</span>
+          <span className="font-medium">Upload File</span>
         </Button>
       </div>
 
@@ -111,7 +102,7 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
       )}
 
       <p className="text-xs text-center text-gray-400 dark:text-gray-500">
-        Images: JPEG, PNG, WebP, BMP • Videos: MP4, MOV, AVI, WebM
+        Upload images or videos to select a clear frame for analysis
       </p>
     </div>
   );
