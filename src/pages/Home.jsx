@@ -154,7 +154,7 @@ export default function Home() {
                 <TabsContent value="scan" className="mt-0">
                   <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-700">
                     <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-1">Upload Retina Image</h2>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">Take a photo or upload from your device</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">Use camera or upload from your device</p>
                     <ImageUploader
                       onImageUploaded={handleImageUploaded}
                       isUploading={isUploading}
