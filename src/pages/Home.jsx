@@ -9,6 +9,7 @@ import ScanHistory from '@/components/ScanHistory';
 import ScanDetailModal from '@/components/ScanDetailModal';
 import OnboardingGuide from '@/components/OnboardingGuide';
 import ModelInfoButton from '@/components/ModelInfoButton';
+import MissionInfoButton from '@/components/MissionInfoButton';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Home() {
@@ -191,7 +192,11 @@ export default function Home() {
           <p className="text-xs text-gray-400 dark:text-gray-500">
             For screening purposes only. Consult a healthcare professional for diagnosis.
           </p>
-          <ModelInfoButton />
+          <div className="flex items-center justify-center gap-2">
+            <ModelInfoButton />
+            <span className="text-gray-300 dark:text-gray-600">•</span>
+            <MissionInfoButton />
+          </div>
         </div>
       </div>
     </div>
