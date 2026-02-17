@@ -33,7 +33,7 @@ export default function DisclaimerDialog({ open, onOpenChange }) {
           </div>
           
           <div className="flex gap-3">
-            <Lightbulb className="w-5 h-5 text-amber-500 mt-0.5 shrink-0" />
+            <Lightbulb className="w-5 h-5 text-yellow-500 mt-0.5 shrink-0" />
             <div>
               <h4 className="font-medium text-gray-800 dark:text-gray-100 mb-1">Flash Safety</h4>
               <p className="text-sm text-gray-600 dark:text-gray-400">
