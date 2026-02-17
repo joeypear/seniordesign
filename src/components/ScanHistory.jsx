@@ -107,33 +107,29 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
           className="pl-9 bg-white dark:bg-gray-800 dark:border-gray-600"
         />
       </div>
-      <div className="flex gap-3">
-        <div className="flex-1">
-          <Select value={filter} onValueChange={setFilter}>
-            <SelectTrigger className="bg-white dark:bg-gray-800 dark:border-gray-600">
-              <Filter className="w-4 h-4 mr-2" />
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Results</SelectItem>
-              <SelectItem value="positive">Abnormal</SelectItem>
-              <SelectItem value="negative">Normal</SelectItem>
-              <SelectItem value="pending">Pending</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="flex-1">
-          <Select value={sortBy} onValueChange={setSortBy}>
-            <SelectTrigger className="bg-white dark:bg-gray-800 dark:border-gray-600">
-              <ArrowUpDown className="w-4 h-4 mr-2" />
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="newest">Newest First</SelectItem>
-              <SelectItem value="oldest">Oldest First</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+      <div className="flex gap-2">
+        <Select value={filter} onValueChange={setFilter}>
+          <SelectTrigger className="bg-white dark:bg-gray-800 dark:border-gray-600 text-xs h-8 px-2">
+            <Filter className="w-3 h-3 mr-1" />
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All</SelectItem>
+            <SelectItem value="positive">Abnormal</SelectItem>
+            <SelectItem value="negative">Normal</SelectItem>
+            <SelectItem value="pending">Pending</SelectItem>
+          </SelectContent>
+        </Select>
+        <Select value={sortBy} onValueChange={setSortBy}>
+          <SelectTrigger className="bg-white dark:bg-gray-800 dark:border-gray-600 text-xs h-8 px-2">
+            <ArrowUpDown className="w-3 h-3 mr-1" />
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="newest">Newest</SelectItem>
+            <SelectItem value="oldest">Oldest</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
       {filteredScans.length === 0 ? (
