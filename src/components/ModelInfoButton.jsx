@@ -19,7 +19,6 @@ export default function ModelInfoButton() {
         onClick={() => setOpen(true)}
         className="text-xs"
       >
-        <Info className="w-3.5 h-3.5 mr-1.5" />
         About Our Model
       </Button>
 
