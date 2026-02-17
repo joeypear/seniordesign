@@ -166,10 +166,7 @@ export default function Home() {
 
                 <TabsContent value="history" className="mt-0">
                   <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-700">
-                    <div className="flex items-center justify-between mb-4">
-                      <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100">Scan History</h2>
-                      <ModelInfoButton />
-                    </div>
+                    <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">Scan History</h2>
                     {isLoading ? (
                       <div className="flex justify-center py-12">
                         <div className="w-8 h-8 border-3 border-teal-400 border-t-transparent rounded-full animate-spin" />
@@ -190,9 +187,12 @@ export default function Home() {
         </AnimatePresence>
 
         {/* Footer */}
-        <p className="text-center text-xs text-gray-400 dark:text-gray-500 mt-8">
-          For screening purposes only. Consult a healthcare professional for diagnosis.
-        </p>
+        <div className="text-center mt-8 space-y-3">
+          <p className="text-xs text-gray-400 dark:text-gray-500">
+            For screening purposes only. Consult a healthcare professional for diagnosis.
+          </p>
+          <ModelInfoButton />
+        </div>
       </div>
     </div>
   );
