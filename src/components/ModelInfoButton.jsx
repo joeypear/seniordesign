@@ -14,10 +14,10 @@ export default function ModelInfoButton() {
   return (
     <>
       <Button
-        variant="outline"
+        variant="ghost"
         size="sm"
         onClick={() => setOpen(true)}
-        className="text-xs"
+        className="text-xs hover:bg-transparent"
       >
         About Our Model
       </Button>
