@@ -74,8 +74,9 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
 
   // Filter scans
   let filteredScans = scans.filter(scan => {
-    if (filter === 'all') return true;
-    return scan.result === filter;
+    if (filter !== 'all' && scan.result !== filter) return false;
+    if (searchQuery && !(scan.name || '').toLowerCase().includes(searchQuery.toLowerCase())) return false;
+    return true;
   });
 
   // Sort scans
