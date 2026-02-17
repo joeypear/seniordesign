@@ -57,6 +57,7 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
   const [sortBy, setSortBy] = useState('newest');
   const [deletingId, setDeletingId] = useState(null);
   const [renamingId, setRenamingId] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const handleDelete = async (scanId) => {
     setDeletingId(scanId);
