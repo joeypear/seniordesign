@@ -98,6 +98,15 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
 
   return (
     <div className="space-y-4">
+      <div className="relative">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+        <Input
+          placeholder="Search by name..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="pl-9 bg-white dark:bg-gray-800 dark:border-gray-600"
+        />
+      </div>
       <div className="flex gap-3">
         <div className="flex-1">
           <Select value={filter} onValueChange={setFilter}>
