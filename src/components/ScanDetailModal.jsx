@@ -40,17 +40,29 @@ const statusConfig = {
   }
 };
 
-export default function ScanDetailModal({ scan, open, onOpenChange, onUpdateNotes }) {
+export default function ScanDetailModal({ scan, open, onOpenChange, onUpdateNotes, onRenameScan }) {
   const [notes, setNotes] = useState('');
   const [savedNotes, setSavedNotes] = useState('');
   const [isSaving, setIsSaving] = useState(false);
+  const [isEditingName, setIsEditingName] = useState(false);
+  const [editName, setEditName] = useState('');
+  const [isRenamingInModal, setIsRenamingInModal] = useState(false);
 
   useEffect(() => {
     if (scan) {
       setNotes(scan.notes || '');
       setSavedNotes(scan.notes || '');
+      setIsEditingName(false);
+      setEditName(scan.name || '');
     }
   }, [scan]);
+
+  const handleRename = async () => {
+    setIsRenamingInModal(true);
+    await onRenameScan?.(scan.id, editName);
+    setIsRenamingInModal(false);
+    setIsEditingName(false);
+  };
 
   if (!scan) return null;
 
