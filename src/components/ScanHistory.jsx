@@ -98,18 +98,18 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
 
   return (
     <div className="space-y-4">
-      <div className="relative">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-        <Input
-          placeholder="Search by name..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="pl-9 bg-white dark:bg-gray-800 dark:border-gray-600"
-        />
-      </div>
-      <div className="flex gap-2">
+      <div className="flex gap-2 items-center">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+          <Input
+            placeholder="Search by name..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="pl-9 h-8 text-xs bg-white dark:bg-gray-800 dark:border-gray-600"
+          />
+        </div>
         <Select value={filter} onValueChange={setFilter}>
-          <SelectTrigger className="bg-white dark:bg-gray-800 dark:border-gray-600 text-xs h-8 px-2">
+          <SelectTrigger className="bg-white dark:bg-gray-800 dark:border-gray-600 text-xs h-8 w-auto px-2">
             <Filter className="w-3 h-3 mr-1" />
             <SelectValue />
           </SelectTrigger>
@@ -121,7 +121,7 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
           </SelectContent>
         </Select>
         <Select value={sortBy} onValueChange={setSortBy}>
-          <SelectTrigger className="bg-white dark:bg-gray-800 dark:border-gray-600 text-xs h-8 px-2">
+          <SelectTrigger className="bg-white dark:bg-gray-800 dark:border-gray-600 text-xs h-8 w-auto px-2">
             <ArrowUpDown className="w-3 h-3 mr-1" />
             <SelectValue />
           </SelectTrigger>
