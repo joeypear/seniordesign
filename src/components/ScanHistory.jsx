@@ -114,7 +114,7 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All</SelectItem>
+            <SelectItem value="all">All Results</SelectItem>
             <SelectItem value="positive">Abnormal</SelectItem>
             <SelectItem value="negative">Normal</SelectItem>
             <SelectItem value="pending">Pending</SelectItem>
