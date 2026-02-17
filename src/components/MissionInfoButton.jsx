@@ -37,7 +37,7 @@ export default function MissionInfoButton() {
             </p>
             
             <p>
-              Our goal is simple: bring early detection to underserved populations and prevent vision loss before it becomes irreversible.
+              Vision loss from diabetic retinopathy is largely preventable, yet for millions, early detection remains out of reach. Our mission is to ensure that geography and resources never determine whether someone loses their sight.
             </p>
           </div>
         </DialogContent>
