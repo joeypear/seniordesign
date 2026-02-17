@@ -29,15 +29,15 @@ export default function MissionInfoButton() {
 
           <div className="space-y-4 text-sm text-gray-600 dark:text-gray-400">
             <p>
-              We know that current diabetic retinopathy screening techniques can be expensive and not accessible to all parts of the world. Many communities lack the specialized equipment and trained professionals needed for proper eye examinations.
+              Diabetic retinopathy screening remains out of reach for millions of people worldwide. Many communities lack the specialized equipment and trained professionals required for proper eye examinations, leaving preventable vision loss undetected.
             </p>
             
             <p>
-              That's why we created this tool—to make screening <strong>low-cost, portable, and accessible</strong> to everyone, anywhere. All you need is a phone.
+              We built this tool to address that gap. Using only a smartphone, patients and healthcare workers anywhere in the world can access affordable, portable screening without the need for costly infrastructure or specialist referrals.
             </p>
             
             <p>
-              Our goal is to democratize healthcare by bringing advanced AI-powered screening capabilities to underserved populations, helping detect diabetic retinopathy early and prevent vision loss worldwide.
+              Our goal is simple: bring early detection to underserved populations and prevent vision loss before it becomes irreversible.
             </p>
           </div>
         </DialogContent>
