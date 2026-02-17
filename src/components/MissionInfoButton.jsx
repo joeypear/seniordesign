@@ -33,7 +33,7 @@ export default function MissionInfoButton() {
             </p>
             
             <p>
-              We built this tool to address that gap. Using only a smartphone, patients and healthcare workers anywhere in the world can access affordable, portable screening without the need for costly infrastructure or specialist referrals.
+              We built this tool to address that gap. Using only a smartphone and our mount, patients and healthcare workers anywhere in the world can access affordable, portable screening without the need for costly infrastructure or specialist referrals.
             </p>
             
             <p>
