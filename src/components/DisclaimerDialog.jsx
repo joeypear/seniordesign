@@ -8,7 +8,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { AlertTriangle, Lightbulb, Stethoscope } from 'lucide-react';
+import { AlertTriangle, Lightbulb, Stethoscope, Database } from 'lucide-react';
 
 export default function DisclaimerDialog({ open, onOpenChange }) {
   return (
@@ -38,6 +38,16 @@ export default function DisclaimerDialog({ open, onOpenChange }) {
               <h4 className="font-medium text-gray-800 dark:text-gray-100 mb-1">Flash Safety</h4>
               <p className="text-sm text-gray-600 dark:text-gray-400">
                 Avoid prolonged flashlight exposure when capturing retina images, as extended bright light can cause discomfort or potential damage to the eye.
+              </p>
+            </div>
+          </div>
+          
+          <div className="flex gap-3">
+            <Database className="w-5 h-5 text-blue-500 mt-0.5 shrink-0" />
+            <div>
+              <h4 className="font-medium text-gray-800 dark:text-gray-100 mb-1">Data Storage</h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Uploaded images are stored anonymously on secure servers for screening purposes. No personally identifiable information is linked to your scans.
               </p>
             </div>
           </div>
