@@ -90,7 +90,7 @@ export default function ScanDetailModal({ scan, open, onOpenChange, onUpdateNote
                     if (e.key === 'Enter') handleRename();
                     if (e.key === 'Escape') setIsEditingName(false);
                   }}
-                  className="h-8 text-base w-48"
+                  className="h-8 text-base"
                   autoFocus
                 />
                 <Button size="icon" variant="ghost" className="h-8 w-8 text-green-600" onClick={handleRename} disabled={isRenamingInModal}>
