@@ -41,11 +41,13 @@ const statusConfig = {
 
 export default function ScanDetailModal({ scan, open, onOpenChange, onUpdateNotes }) {
   const [notes, setNotes] = useState('');
+  const [savedNotes, setSavedNotes] = useState('');
   const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
     if (scan) {
       setNotes(scan.notes || '');
+      setSavedNotes(scan.notes || '');
     }
   }, [scan]);
 
@@ -57,6 +59,7 @@ export default function ScanDetailModal({ scan, open, onOpenChange, onUpdateNote
   const handleSaveNotes = async () => {
     setIsSaving(true);
     await onUpdateNotes?.(scan.id, notes);
+    setSavedNotes(notes);
     setIsSaving(false);
   };
 
@@ -126,7 +129,7 @@ export default function ScanDetailModal({ scan, open, onOpenChange, onUpdateNote
               onChange={(e) => setNotes(e.target.value)}
               className="min-h-[80px] resize-none"
             />
-            {notes !== (scan.notes || '') && (
+            {notes !== savedNotes && (
               <Button 
                 onClick={handleSaveNotes} 
                 disabled={isSaving}
