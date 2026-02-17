@@ -10,6 +10,7 @@ import ScanDetailModal from '@/components/ScanDetailModal';
 import OnboardingGuide from '@/components/OnboardingGuide';
 import ModelInfoButton from '@/components/ModelInfoButton';
 import MissionInfoButton from '@/components/MissionInfoButton';
+import ContactUsButton from '@/components/ContactUsButton';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Home() {
@@ -196,6 +197,8 @@ export default function Home() {
             <ModelInfoButton />
             <span className="text-gray-300 dark:text-gray-600">•</span>
             <MissionInfoButton />
+            <span className="text-gray-300 dark:text-gray-600">•</span>
+            <ContactUsButton />
           </div>
         </div>
       </div>
