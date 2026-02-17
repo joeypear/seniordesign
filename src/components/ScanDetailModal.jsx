@@ -81,7 +81,36 @@ export default function ScanDetailModal({ scan, open, onOpenChange, onUpdateNote
       <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-lg">
-            {scan.name || 'Scan Details'}
+            {isEditingName ? (
+              <div className="flex items-center gap-2">
+                <Input
+                  value={editName}
+                  onChange={(e) => setEditName(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') handleRename();
+                    if (e.key === 'Escape') setIsEditingName(false);
+                  }}
+                  className="h-8 text-base"
+                  autoFocus
+                />
+                <Button size="icon" variant="ghost" className="h-8 w-8 text-green-600" onClick={handleRename} disabled={isRenamingInModal}>
+                  {isRenamingInModal ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
+                </Button>
+                <Button size="icon" variant="ghost" className="h-8 w-8 text-gray-400" onClick={() => setIsEditingName(false)}>
+                  <X className="w-4 h-4" />
+                </Button>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2 group">
+                <span>{scan.name || 'Scan Details'}</span>
+                <button
+                  onClick={() => { setEditName(scan.name || ''); setIsEditingName(true); }}
+                  className="opacity-0 group-hover:opacity-100 transition-opacity text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                >
+                  <Pencil className="w-4 h-4" />
+                </button>
+              </div>
+            )}
           </DialogTitle>
         </DialogHeader>
 
