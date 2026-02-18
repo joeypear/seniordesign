@@ -47,6 +47,7 @@ export default function ScanDetailModal({ scan, open, onOpenChange, onUpdateNote
   const [isEditingName, setIsEditingName] = useState(false);
   const [editName, setEditName] = useState('');
   const [isRenamingInModal, setIsRenamingInModal] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     if (scan) {
