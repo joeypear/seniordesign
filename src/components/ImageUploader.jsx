@@ -4,6 +4,7 @@ import { Camera, Upload, Video } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { base44 } from '@/api/base44Client';
 import VideoFrameSelector from './VideoFrameSelector';
+import ImageCropper from './ImageCropper';
 
 export default function ImageUploader({ onImageUploaded, isUploading, setIsUploading }) {
   const fileInputRef = useRef(null);
