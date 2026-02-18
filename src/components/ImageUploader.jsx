@@ -118,6 +118,16 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
     setSelectedVideo(null);
   };
 
+  if (pendingImageUrl) {
+    return (
+      <ImageCropper
+        imageUrl={pendingImageUrl}
+        onCropDone={handleCropDone}
+        onSkip={handleCropSkip}
+      />
+    );
+  }
+
   if (selectedVideo) {
     return (
       <VideoFrameSelector
