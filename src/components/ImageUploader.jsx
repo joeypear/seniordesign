@@ -9,8 +9,10 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
   const mediaStreamRef = useRef(null);
   const mediaRecorderRef = useRef(null);
   const recordedChunksRef = useRef([]);
+  const liveVideoRef = useRef(null);
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
+  const [showLivePreview, setShowLivePreview] = useState(false);
 
   const handleFileChange = async (e) => {
     const file = e.target.files?.[0];
