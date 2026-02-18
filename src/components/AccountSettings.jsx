@@ -144,7 +144,7 @@ export default function AccountSettings() {
           </div>
           <div className="flex items-center gap-3 text-sm text-gray-600 dark:text-gray-400">
             <Calendar className="w-4 h-4" />
-            <span>Joined {new Date(user?.created_date).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}</span>
+            <span>Joined {user?.created_date ? new Date(user.created_date.endsWith('Z') ? user.created_date : user.created_date + 'Z').toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }) : ''}</span>
           </div>
         </div>
       </div>
