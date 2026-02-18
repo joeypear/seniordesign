@@ -111,6 +111,45 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
     );
   }
 
+  if (showLivePreview) {
+    return (
+      <div className="space-y-4">
+        <div className="relative rounded-xl overflow-hidden bg-black">
+          <video
+            ref={liveVideoRef}
+            autoPlay
+            playsInline
+            muted
+            className="w-full h-auto max-h-96 object-cover"
+          />
+          {isRecording && (
+            <div className="absolute top-3 left-3 flex items-center gap-2 bg-black/50 rounded-full px-3 py-1">
+              <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+              <span className="text-white text-xs font-medium">Recording</span>
+            </div>
+          )}
+        </div>
+        <div className="grid grid-cols-2 gap-3">
+          <Button
+            onClick={handleCancelCamera}
+            variant="outline"
+            className="w-full"
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={isRecording ? handleStopRecording : handleStartRecording}
+            className="w-full text-white"
+            style={{ background: isRecording ? 'linear-gradient(135deg, #e53e3e 0%, #c53030 100%)' : 'linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%)' }}
+          >
+            <Video className="w-4 h-4 mr-2" />
+            {isRecording ? 'Stop Recording' : 'Start Recording'}
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-4">
       <input
@@ -123,13 +162,13 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
 
       <div className="grid grid-cols-2 gap-4">
         <Button
-          onClick={isRecording ? handleStopCamera : handleStartCamera}
+          onClick={handleOpenCamera}
           disabled={isUploading}
           className="h-32 flex-col gap-3 text-white rounded-2xl shadow-lg shadow-orange-200 dark:shadow-orange-900/50 transition-all hover:scale-[1.02] hover:shadow-xl dark:hover:shadow-orange-900/70"
-          style={{ background: isRecording ? 'linear-gradient(135deg, #e53e3e 0%, #c53030 100%)' : 'linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%)' }}
+          style={{ background: 'linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%)' }}
         >
           <Video className="w-8 h-8" />
-          <span className="font-medium">{isRecording ? 'Stop Recording' : 'Use Camera'}</span>
+          <span className="font-medium">Use Camera</span>
         </Button>
 
         <Button
