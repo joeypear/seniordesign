@@ -30,9 +30,10 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
   const handleStartCamera = async () => {
     const constraints = {
       video: {
-        width: { ideal: 3840 },
-        height: { ideal: 2160 },
-        frameRate: { ideal: 30, max: 60 }
+        width: { min: 1280, ideal: 3840, max: 3840 },
+        height: { min: 720, ideal: 2160, max: 2160 },
+        frameRate: { ideal: 30, max: 60 },
+        facingMode: { ideal: 'environment' }
       },
       audio: false
     };
