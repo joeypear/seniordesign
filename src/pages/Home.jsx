@@ -98,6 +98,7 @@ export default function Home() {
         onOpenChange={(open) => !open && setSelectedScan(null)}
         onUpdateNotes={(scanId, notes) => updateNotesMutation.mutateAsync({ scanId, notes })}
         onRenameScan={(scanId, name) => renameScanMutation.mutateAsync({ scanId, name })}
+        onDeleteScan={(scanId) => deleteScanMutation.mutateAsync(scanId)}
       />
       <div className="max-w-lg mx-auto px-4 py-8">
         {/* Header */}
