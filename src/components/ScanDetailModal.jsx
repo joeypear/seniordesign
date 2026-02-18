@@ -195,6 +195,24 @@ export default function ScanDetailModal({ scan, open, onOpenChange, onUpdateNote
               </Button>
             )}
           </div>
+
+          {/* Delete */}
+          <div className="pt-2 border-t border-gray-100 dark:border-gray-700">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleDelete}
+              disabled={isDeleting}
+              className="text-rose-500 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-900/20 w-full"
+            >
+              {isDeleting ? (
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              ) : (
+                <Trash2 className="w-4 h-4 mr-2" />
+              )}
+              Delete Scan
+            </Button>
+          </div>
         </div>
       </DialogContent>
     </Dialog>
