@@ -28,7 +28,7 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
 
     setIsUploading(true);
     const { file_url } = await base44.integrations.Core.UploadFile({ file });
-    onImageUploaded(file_url);
+    setPendingImageUrl(file_url);
     setIsUploading(false);
   };
 
