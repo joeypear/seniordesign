@@ -54,8 +54,9 @@ export default function Home() {
 
   const renameScanMutation = useMutation({
     mutationFn: ({ scanId, name }) => base44.entities.Scan.update(scanId, { name }),
-    onSuccess: () => {
+    onSuccess: (_, { scanId, name }) => {
       queryClient.invalidateQueries({ queryKey: ['scans'] });
+      setSelectedScan(prev => prev?.id === scanId ? { ...prev, name } : prev);
     }
   });
 
