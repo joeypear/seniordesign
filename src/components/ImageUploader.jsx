@@ -112,41 +112,43 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
     );
   }
 
-  if (showLivePreview) {
-    return (
-      <div className="fixed inset-0 z-50 bg-black flex flex-col">
-        <video
-          ref={liveVideoRef}
-          autoPlay
-          playsInline
-          muted
-          className="flex-1 w-full object-cover"
-        />
-        {isRecording && (
-          <div className="absolute top-4 left-4 flex items-center gap-2 bg-black/50 rounded-full px-3 py-1">
-            <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-            <span className="text-white text-xs font-medium">Recording</span>
-          </div>
-        )}
-        <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-4 px-6">
-          <Button
-            onClick={handleCancelCamera}
-            variant="outline"
-            className="bg-black/50 border-white/30 text-white hover:bg-white/20 hover:text-white"
-          >
-            Cancel
-          </Button>
-          <Button
-            onClick={isRecording ? handleStopRecording : handleStartRecording}
-            className="text-white px-8"
-            style={{ background: isRecording ? 'linear-gradient(135deg, #e53e3e 0%, #c53030 100%)' : 'linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%)' }}
-          >
-            <Video className="w-4 h-4 mr-2" />
-            {isRecording ? 'Stop Recording' : 'Start Recording'}
-          </Button>
+  const livePreviewPortal = showLivePreview && createPortal(
+    <div style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'black', display: 'flex', flexDirection: 'column' }}>
+      <video
+        ref={liveVideoRef}
+        autoPlay
+        playsInline
+        muted
+        style={{ flex: 1, width: '100%', objectFit: 'cover' }}
+      />
+      {isRecording && (
+        <div style={{ position: 'absolute', top: 16, left: 16, display: 'flex', alignItems: 'center', gap: 8, background: 'rgba(0,0,0,0.5)', borderRadius: 999, padding: '4px 12px' }}>
+          <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#ef4444', animation: 'pulse 1s infinite' }} />
+          <span style={{ color: 'white', fontSize: 12, fontWeight: 500 }}>Recording</span>
         </div>
+      )}
+      <div style={{ position: 'absolute', bottom: 40, left: 0, right: 0, display: 'flex', justifyContent: 'center', gap: 16, padding: '0 24px' }}>
+        <Button
+          onClick={handleCancelCamera}
+          variant="outline"
+          style={{ background: 'rgba(0,0,0,0.5)', borderColor: 'rgba(255,255,255,0.3)', color: 'white' }}
+        >
+          Cancel
+        </Button>
+        <Button
+          onClick={isRecording ? handleStopRecording : handleStartRecording}
+          style={{ background: isRecording ? 'linear-gradient(135deg, #e53e3e 0%, #c53030 100%)' : 'linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%)', color: 'white', padding: '0 32px' }}
+        >
+          <Video style={{ width: 16, height: 16, marginRight: 8 }} />
+          {isRecording ? 'Stop Recording' : 'Start Recording'}
+        </Button>
       </div>
-    );
+    </div>,
+    document.body
+  );
+
+  if (showLivePreview) {
+    return <>{livePreviewPortal}</>;
   }
 
   return (
