@@ -40,7 +40,7 @@ const statusConfig = {
   }
 };
 
-export default function ScanDetailModal({ scan, open, onOpenChange, onUpdateNotes, onRenameScan }) {
+export default function ScanDetailModal({ scan, open, onOpenChange, onUpdateNotes, onRenameScan, onDeleteScan }) {
   const [notes, setNotes] = useState('');
   const [savedNotes, setSavedNotes] = useState('');
   const [isSaving, setIsSaving] = useState(false);
