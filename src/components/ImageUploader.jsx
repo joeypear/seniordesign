@@ -15,6 +15,7 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
   const [showLivePreview, setShowLivePreview] = useState(false);
+  const [pendingImageUrl, setPendingImageUrl] = useState(null);
 
   const handleFileChange = async (e) => {
     const file = e.target.files?.[0];
