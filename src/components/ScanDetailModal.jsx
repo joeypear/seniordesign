@@ -58,6 +58,13 @@ export default function ScanDetailModal({ scan, open, onOpenChange, onUpdateNote
     }
   }, [scan]);
 
+  const handleDelete = async () => {
+    setIsDeleting(true);
+    await onDeleteScan?.(scan.id);
+    setIsDeleting(false);
+    onOpenChange(false);
+  };
+
   const handleRename = async () => {
     setIsRenamingInModal(true);
     await onRenameScan?.(scan.id, editName);
