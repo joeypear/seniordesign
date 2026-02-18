@@ -13,7 +13,7 @@ const steps = [
   {
     icon: Camera,
     title: 'Capture or Upload',
-    description: 'Record a video of the retina using your device camera and select a frame, or upload an existing image or video. For best results, ensure the retina is clear and well-lit.',
+    description: 'Record a video of the retina using your device camera and select a frame, or upload an existing image or video. For best results, ensure the image is clear and well-lit.',
     color: 'from-blue-500 to-cyan-500'
   },
   {
