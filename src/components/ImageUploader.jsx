@@ -6,31 +6,62 @@ import VideoFrameSelector from './VideoFrameSelector';
 
 export default function ImageUploader({ onImageUploaded, isUploading, setIsUploading }) {
   const fileInputRef = useRef(null);
-  const cameraInputRef = useRef(null);
-  const videoInputRef = useRef(null);
+  const mediaStreamRef = useRef(null);
+  const mediaRecorderRef = useRef(null);
+  const recordedChunksRef = useRef([]);
   const [selectedVideo, setSelectedVideo] = useState(null);
+  const [isRecording, setIsRecording] = useState(false);
 
   const handleFileChange = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Check if it's a video file
     if (file.type.startsWith('video/')) {
       setSelectedVideo(file);
       return;
     }
 
-    // Handle image upload
     setIsUploading(true);
     const { file_url } = await base44.integrations.Core.UploadFile({ file });
     onImageUploaded(file_url);
     setIsUploading(false);
   };
 
-  const handleCameraVideoChange = (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setSelectedVideo(file);
+  const handleStartCamera = async () => {
+    const constraints = {
+      video: {
+        width: { ideal: 3840 },
+        height: { ideal: 2160 },
+        frameRate: { ideal: 30, max: 60 }
+      },
+      audio: false
+    };
+
+    const stream = await navigator.mediaDevices.getUserMedia(constraints);
+    mediaStreamRef.current = stream;
+    recordedChunksRef.current = [];
+
+    const recorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+    mediaRecorderRef.current = recorder;
+
+    recorder.ondataavailable = (e) => {
+      if (e.data.size > 0) recordedChunksRef.current.push(e.data);
+    };
+
+    recorder.onstop = () => {
+      const blob = new Blob(recordedChunksRef.current, { type: 'video/webm' });
+      const file = new File([blob], 'recording.webm', { type: 'video/webm' });
+      stream.getTracks().forEach(t => t.stop());
+      setIsRecording(false);
+      setSelectedVideo(file);
+    };
+
+    recorder.start();
+    setIsRecording(true);
+  };
+
+  const handleStopCamera = () => {
+    mediaRecorderRef.current?.stop();
   };
 
   const handleFrameSelected = async (frameFile) => {
@@ -64,24 +95,16 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
         accept="image/jpeg,image/jpg,image/png,image/webp,image/bmp,video/mp4,video/quicktime,video/x-msvideo,video/webm"
         className="hidden"
       />
-      <input
-        type="file"
-        ref={cameraInputRef}
-        onChange={handleCameraVideoChange}
-        accept="video/mp4,video/quicktime,video/x-msvideo,video/webm"
-        capture
-        className="hidden"
-      />
 
       <div className="grid grid-cols-2 gap-4">
         <Button
-          onClick={() => cameraInputRef.current?.click()}
+          onClick={isRecording ? handleStopCamera : handleStartCamera}
           disabled={isUploading}
-          className="h-32 flex-col gap-3 bg-gradient-to-br from-coral-500 to-orange-500 hover:from-coral-600 hover:to-orange-600 text-white rounded-2xl shadow-lg shadow-orange-200 dark:shadow-orange-900/50 transition-all hover:scale-[1.02] hover:shadow-xl dark:hover:shadow-orange-900/70"
-          style={{ background: 'linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%)' }}
+          className="h-32 flex-col gap-3 text-white rounded-2xl shadow-lg shadow-orange-200 dark:shadow-orange-900/50 transition-all hover:scale-[1.02] hover:shadow-xl dark:hover:shadow-orange-900/70"
+          style={{ background: isRecording ? 'linear-gradient(135deg, #e53e3e 0%, #c53030 100%)' : 'linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%)' }}
         >
           <Video className="w-8 h-8" />
-          <span className="font-medium">Use Camera</span>
+          <span className="font-medium">{isRecording ? 'Stop Recording' : 'Use Camera'}</span>
         </Button>
 
         <Button
