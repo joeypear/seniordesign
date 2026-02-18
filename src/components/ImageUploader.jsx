@@ -29,7 +29,7 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
     setIsUploading(false);
   };
 
-  const handleStartCamera = async () => {
+  const handleOpenCamera = async () => {
     const constraints = {
       video: {
         width: { min: 1280, ideal: 3840, max: 3840 },
@@ -42,9 +42,22 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
 
     const stream = await navigator.mediaDevices.getUserMedia(constraints);
     mediaStreamRef.current = stream;
-    recordedChunksRef.current = [];
+    setShowLivePreview(true);
 
-    const recorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+    // Attach stream to live preview video element
+    setTimeout(() => {
+      if (liveVideoRef.current) {
+        liveVideoRef.current.srcObject = stream;
+        liveVideoRef.current.play();
+      }
+    }, 50);
+  };
+
+  const handleStartRecording = () => {
+    if (!mediaStreamRef.current) return;
+    recordedChunksRef.current = [];
+    const mimeType = MediaRecorder.isTypeSupported('video/mp4') ? 'video/mp4' : 'video/webm';
+    const recorder = new MediaRecorder(mediaStreamRef.current, { mimeType });
     mediaRecorderRef.current = recorder;
 
     recorder.ondataavailable = (e) => {
@@ -52,10 +65,13 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
     };
 
     recorder.onstop = () => {
-      const blob = new Blob(recordedChunksRef.current, { type: 'video/webm' });
-      const file = new File([blob], 'recording.webm', { type: 'video/webm' });
-      stream.getTracks().forEach(t => t.stop());
+      const mimeUsed = recorder.mimeType || 'video/webm';
+      const ext = mimeUsed.includes('mp4') ? 'mp4' : 'webm';
+      const blob = new Blob(recordedChunksRef.current, { type: mimeUsed });
+      const file = new File([blob], `recording.${ext}`, { type: mimeUsed });
+      mediaStreamRef.current?.getTracks().forEach(t => t.stop());
       setIsRecording(false);
+      setShowLivePreview(false);
       setSelectedVideo(file);
     };
 
@@ -63,8 +79,14 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
     setIsRecording(true);
   };
 
-  const handleStopCamera = () => {
+  const handleStopRecording = () => {
     mediaRecorderRef.current?.stop();
+  };
+
+  const handleCancelCamera = () => {
+    mediaStreamRef.current?.getTracks().forEach(t => t.stop());
+    setShowLivePreview(false);
+    setIsRecording(false);
   };
 
   const handleFrameSelected = async (frameFile) => {
