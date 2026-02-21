@@ -107,8 +107,8 @@ export default function Home() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-8"
         >
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-400 to-rose-500 shadow-lg shadow-orange-200 dark:shadow-orange-900/50 mb-4">
-            <Eye className="w-8 h-8 text-white" />
+          <div className="mb-4">
+            <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/699487c9411fa11aa2460379/ba16aba8e_updatedlogo2.png" alt="DR Monster Logo" className="w-16 h-16 rounded-2xl shadow-lg shadow-orange-200 dark:shadow-orange-900/50" />
           </div>
           <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
             DR <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-rose-500">Monster</span>
