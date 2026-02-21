@@ -108,12 +108,12 @@ export default function Home() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-8"
         >
-          <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-3">
-            DR <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-rose-500">Monster</span>
-          </h1>
-          <div className="flex justify-center mb-2">
+          <div className="flex justify-center mb-3">
             <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/699487c9411fa11aa2460379/ba16aba8e_updatedlogo2.png" alt="DR Monster Logo" className="w-20 h-20" style={{ mixBlendMode: 'multiply' }} />
           </div>
+          <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
+            DR <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-rose-500">Monster</span>
+          </h1>
           <p className="text-gray-500 dark:text-gray-400 mt-1">Diabetic Retinopathy Screening</p>
         </motion.div>
 
