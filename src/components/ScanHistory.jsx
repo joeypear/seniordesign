@@ -92,8 +92,8 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
     return (
       <div className="text-center py-12 text-gray-400 dark:text-gray-500">
         <Clock className="w-12 h-12 mx-auto mb-3 opacity-50" />
-        <p>No scans yet</p>
-        <p className="text-sm">Upload an image to get started</p>
+        <p>{t('noScansYet')}</p>
+        <p className="text-sm">{t('uploadToStart')}</p>
       </div>
     );
   }
@@ -104,7 +104,7 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
           <Input
-            placeholder="Search by name..."
+            placeholder={t('searchByName')}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-9 h-8 text-xs bg-white dark:bg-gray-800 dark:border-gray-600"
@@ -116,10 +116,10 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Results</SelectItem>
-            <SelectItem value="positive">Abnormal</SelectItem>
-            <SelectItem value="negative">Normal</SelectItem>
-            <SelectItem value="pending">Pending</SelectItem>
+            <SelectItem value="all">{t('allResults')}</SelectItem>
+            <SelectItem value="positive">{t('abnormal')}</SelectItem>
+            <SelectItem value="negative">{t('normal')}</SelectItem>
+            <SelectItem value="pending">{t('pending')}</SelectItem>
           </SelectContent>
         </Select>
         <Select value={sortBy} onValueChange={setSortBy}>
@@ -128,15 +128,15 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="newest">Newest</SelectItem>
-            <SelectItem value="oldest">Oldest</SelectItem>
+            <SelectItem value="newest">{t('newest')}</SelectItem>
+            <SelectItem value="oldest">{t('oldest')}</SelectItem>
           </SelectContent>
         </Select>
       </div>
 
       {filteredScans.length === 0 ? (
         <div className="text-center py-8 text-gray-400 dark:text-gray-500">
-          <p className="text-sm">No scans match the selected filter</p>
+          <p className="text-sm">{t('noScansMatch')}</p>
         </div>
       ) : (
         <div className="space-y-3">
