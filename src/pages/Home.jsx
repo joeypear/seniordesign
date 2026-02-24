@@ -148,7 +148,7 @@ export default function Home() {
                 <TabsList className="grid w-full grid-cols-2 mb-6 bg-white/80 dark:bg-gray-800/80 backdrop-blur rounded-xl p-1 shadow-sm">
                   <TabsTrigger 
                     value="scan" 
-                    className="rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-400 data-[state=active]:to-rose-500 data-[state=active]:text-white data-[state=active]:shadow-md transition-all"
+                    className="rounded-lg data-[state=active]:text-white data-[state=active]:shadow-md transition-all [&[data-state=active]]:bg-[image:linear-gradient(to_right,#fb923c,#f43f5e)]"
                   >
                     <Eye className="w-4 h-4 mr-2" />
                     {t('newScan')}
