@@ -590,6 +590,12 @@ export const translations = {
     missionP2: 'Criamos esta ferramenta para preencher essa lacuna. Usando apenas um smartphone, pacientes e profissionais de saúde em qualquer lugar do mundo podem acessar triagem acessível e portátil.',
     missionP3: 'A perda de visão por retinopatia diabética é em grande parte evitável, mas para milhões, a detecção precoce continua fora do alcance. Nossa missão é garantir que a geografia e os recursos nunca determinem se alguém perde a visão.',
     contactDesc: 'Tem perguntas, feedback ou precisa de suporte? Adoraríamos ouvir de você.',
+    onboardingWelcomeTitle: 'Bem-vindo ao DR Monster',
+    onboardingWelcomeDesc: 'Esta ferramenta ajuda a detectar retinopatia diabética. Selecione seu idioma abaixo.',
+    onboardingCaptureTitle: 'Capturar ou Enviar',
+    onboardingCaptureDesc: 'Grave um vídeo da retina com a câmera do seu dispositivo e selecione um quadro, ou envie uma imagem ou vídeo existente.',
+    onboardingHistoryTitle: 'Ver seu Histórico',
+    onboardingHistoryDesc: 'Todas as suas varreduras são salvas na aba Histórico. Você pode filtrar, renomear e excluir registros antigos.',
   },
   hi: {
     appName: 'DR Monster',
