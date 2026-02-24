@@ -34,6 +34,12 @@ function LayoutInner({ children }) {
   };
 
   useEffect(() => {
+    const handler = () => setShowDisclaimer(true);
+    window.addEventListener('showDisclaimer', handler);
+    return () => window.removeEventListener('showDisclaimer', handler);
+  }, []);
+
+  useEffect(() => {
     localStorage.setItem('darkMode', JSON.stringify(darkMode));
     if (darkMode) {
       document.documentElement.classList.add('dark');
