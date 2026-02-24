@@ -152,6 +152,26 @@ export default function AccountSettings() {
         </div>
       </div>
 
+      {/* Language Selector */}
+      <div className="bg-gray-50 dark:bg-gray-800/50 rounded-2xl p-4 border border-gray-100 dark:border-gray-700">
+        <div className="flex items-center gap-2 mb-3">
+          <Globe className="w-4 h-4 text-gray-500" />
+          <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{t('language')}</span>
+        </div>
+        <Select value={lang} onValueChange={changeLang}>
+          <SelectTrigger className="w-full bg-white dark:bg-gray-800">
+            <SelectValue placeholder={t('selectLanguage')} />
+          </SelectTrigger>
+          <SelectContent>
+            {Object.entries(languages).map(([code, { label, flag }]) => (
+              <SelectItem key={code} value={code}>
+                <span className="mr-2">{flag}</span>{label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
       {/* Actions */}
       <div className="space-y-3">
         <Button
@@ -160,7 +180,7 @@ export default function AccountSettings() {
           className="w-full justify-start h-12 border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800"
         >
           <LogOut className="w-4 h-4 mr-3" />
-          Log Out
+          {t('logOut')}
         </Button>
 
         <AlertDialog>
