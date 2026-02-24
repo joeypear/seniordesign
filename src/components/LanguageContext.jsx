@@ -408,6 +408,9 @@ export const translations = {
     onboardingCaptureDesc: 'سجّل فيديو للشبكية باستخدام كاميرا جهازك واختر إطاراً، أو ارفع صورة أو فيديو موجوداً.',
     onboardingHistoryTitle: 'عرض السجل',
     onboardingHistoryDesc: 'تُحفظ جميع فحوصاتك في تبويب السجل. يمكنك التصفية، وإعادة التسمية، وحذف الفحوصات القديمة.',
+    onboardingBack: 'رجوع',
+    onboardingNext: 'التالي',
+    onboardingGetStarted: 'ابدأ',
   },
   zh: {
     appName: 'DR Monster',
