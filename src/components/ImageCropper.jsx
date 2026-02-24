@@ -91,7 +91,7 @@ export default function ImageCropper({ imageUrl, onCropDone, onSkip }) {
           style={{ flex: 1, background: 'rgba(255,255,255,0.1)', borderColor: 'rgba(255,255,255,0.2)', color: 'white' }}
         >
           <X style={{ width: 16, height: 16, marginRight: 6 }} />
-          Skip
+          {t('skip')}
         </Button>
         <Button
           onClick={handleConfirm}
@@ -103,7 +103,7 @@ export default function ImageCropper({ imageUrl, onCropDone, onSkip }) {
           ) : (
             <Check style={{ width: 16, height: 16, marginRight: 6 }} />
           )}
-          {isProcessing ? 'Processing...' : 'Use Crop'}
+          {isProcessing ? t('processing') : t('useCrop')}
         </Button>
       </div>
     </div>,
