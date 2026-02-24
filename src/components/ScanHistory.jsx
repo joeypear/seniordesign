@@ -162,7 +162,7 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
             <div className="flex-1 min-w-0 cursor-pointer" onClick={() => onScanClick?.(scan)}>
               <div className="flex items-center gap-2">
                 <StatusIcon className={`w-4 h-4 ${status.color}`} />
-                <span className={`font-medium ${status.color}`}>{status.label}</span>
+                <span className={`font-medium ${status.color}`}>{statusLabel}</span>
               </div>
               {scan.name && (
                 <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mt-1">
@@ -191,13 +191,13 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
               </DialogTrigger>
               <DialogContent>
                 <DialogHeader>
-                  <DialogTitle>Rename Scan</DialogTitle>
+                  <DialogTitle>{t('renameScan')}</DialogTitle>
                   <DialogDescription>
-                    Enter a new name for this scan
+                    {t('enterNewName')}
                   </DialogDescription>
                 </DialogHeader>
                 <Input
-                  placeholder="Scan name"
+                  placeholder={t('scanName')}
                   value={editName}
                   onChange={(e) => setEditName(e.target.value)}
                   onKeyDown={(e) => {
@@ -208,8 +208,8 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
                 />
                 <DialogFooter>
                   <Button variant="outline" onClick={() => setEditingId(null)} disabled={renamingId === scan.id}>
-                    Cancel
-                  </Button>
+                        {t('cancel')}
+                      </Button>
                   <Button 
                     onClick={() => handleRename(scan.id, editName)}
                     disabled={renamingId === scan.id}
@@ -217,9 +217,9 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
                     {renamingId === scan.id ? (
                       <>
                         <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                        Saving...
+                        {t('saving')}
                       </>
-                    ) : 'Save'}
+                    ) : t('save')}
                   </Button>
                 </DialogFooter>
               </DialogContent>
@@ -242,13 +242,13 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle>Delete this scan?</AlertDialogTitle>
+                  <AlertDialogTitle>{t('deleteThisScan')}</AlertDialogTitle>
                   <AlertDialogDescription>
-                    This will permanently delete this scan from your history. This action cannot be undone.
+                    {t('deleteConfirm')}
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogCancel>{t('cancel')}</AlertDialogCancel>
                   <AlertDialogAction
                     onClick={() => handleDelete(scan.id)}
                     className="bg-red-600 hover:bg-red-700"
@@ -257,9 +257,9 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
                     {deletingId === scan.id ? (
                       <>
                         <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                        Deleting...
+                        {t('deleting')}
                       </>
-                    ) : 'Delete'}
+                    ) : t('delete')}
                   </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
