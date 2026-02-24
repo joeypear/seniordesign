@@ -708,6 +708,9 @@ export const translations = {
     onboardingCaptureDesc: 'अपने डिवाइस कैमरा से रेटिना वीडियो रिकॉर्ड करें और एक फ्रेम चुनें, या मौजूदा छवि या वीडियो अपलोड करें।',
     onboardingHistoryTitle: 'अपना इतिहास देखें',
     onboardingHistoryDesc: 'आपके सभी स्कैन इतिहास टैब में सहेजे जाते हैं। आप परिणाम के अनुसार फ़िल्टर कर सकते हैं, स्कैन का नाम बदल सकते हैं और पुराने हटा सकते हैं।',
+    onboardingBack: 'वापस',
+    onboardingNext: 'अगला',
+    onboardingGetStarted: 'शुरू करें',
   },
 };
 
