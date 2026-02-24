@@ -79,7 +79,7 @@ function LayoutInner({ children }) {
           </SheetTrigger>
           <SheetContent>
             <SheetHeader>
-              <SheetTitle>Account Settings</SheetTitle>
+              <SheetTitle>{t('accountSettings')}</SheetTitle>
             </SheetHeader>
             <div className="mt-6">
               <AccountSettings />
