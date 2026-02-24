@@ -12,7 +12,8 @@ import {
 } from '@/components/ui/sheet';
 import AccountSettings from '@/components/AccountSettings';
 
-export default function Layout({ children }) {
+function LayoutInner({ children }) {
+  const { isRtl } = useLanguage();
   const [darkMode, setDarkMode] = useState(() => {
     const saved = localStorage.getItem('darkMode');
     return saved ? JSON.parse(saved) : false;
