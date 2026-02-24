@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Camera, History, Eye, ChevronRight, ChevronLeft } from 'lucide-react';
 import { useLanguage, languages } from '@/components/LanguageContext';
+import FlagIcon from '@/components/FlagIcon';
 
 const steps = [
   {
