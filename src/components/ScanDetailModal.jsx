@@ -22,22 +22,22 @@ const statusConfig = {
     icon: Clock,
     color: 'text-amber-500 dark:text-amber-400',
     bg: 'bg-amber-100 dark:bg-amber-900/50',
-    label: 'Pending Analysis',
-    description: 'The analysis is still in progress. Results will be available shortly.'
+    labelKey: 'pendingAnalysis',
+    descKey: 'pendingDesc',
   },
   positive: {
     icon: XCircle,
     color: 'text-rose-500 dark:text-rose-400',
     bg: 'bg-rose-100 dark:bg-rose-900/50',
-    label: 'Abnormal',
-    description: 'The analysis indicates potential signs of diabetic retinopathy. We recommend consulting a healthcare professional for further evaluation.'
+    labelKey: 'abnormalLabel',
+    descKey: 'abnormalDesc',
   },
   negative: {
     icon: CheckCircle2,
     color: 'text-emerald-500 dark:text-emerald-400',
     bg: 'bg-emerald-100 dark:bg-emerald-900/50',
-    label: 'Normal',
-    description: 'No signs of diabetic retinopathy were detected. Routine follow-up screenings are still recommended.'
+    labelKey: 'normalLabel',
+    descKey: 'normalDesc',
   }
 };
 
