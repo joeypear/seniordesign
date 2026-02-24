@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { format } from 'date-fns';
+import { useLanguage } from '@/components/LanguageContext';
 import { CheckCircle2, XCircle, Clock, Calendar, Percent, Loader2, HelpCircle, Pencil, Check, X, Trash2 } from 'lucide-react';
 import {
   Dialog,
