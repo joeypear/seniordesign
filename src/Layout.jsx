@@ -22,7 +22,7 @@ function LayoutInner({ children }) {
   const [showDisclaimer, setShowDisclaimer] = useState(() => {
     const disclaimerSeen = localStorage.getItem('disclaimerSeen');
     const onboardingSeen = localStorage.getItem('onboardingSeen');
-    // Only auto-show disclaimer if onboarding has already been completed
+    // Auto-show disclaimer only if onboarding was already seen previously
     return !disclaimerSeen && !!onboardingSeen;
   });
 
