@@ -211,6 +211,9 @@ export const translations = {
     onboardingCaptureDesc: 'Grabe un vídeo de la retina usando la cámara de su dispositivo y seleccione un fotograma, o suba una imagen o vídeo existente.',
     onboardingHistoryTitle: 'Ver su Historial',
     onboardingHistoryDesc: 'Todos sus escaneos se guardan en la pestaña Historial. Puede filtrar por resultado, renombrar escaneos y eliminar los antiguos.',
+    onboardingBack: 'Atrás',
+    onboardingNext: 'Siguiente',
+    onboardingGetStarted: 'Empezar',
   },
   fr: {
     appName: 'DR Monster',
