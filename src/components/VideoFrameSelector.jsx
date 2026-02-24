@@ -114,7 +114,7 @@ export default function VideoFrameSelector({ videoFile, onFrameSelected, onCance
         </div>
 
         <p className="text-sm text-center text-gray-600 dark:text-gray-400">
-          Scrub through the video and select a clear frame
+          {t('scrubVideo')}
         </p>
 
         <div className="grid grid-cols-2 gap-3">
@@ -123,14 +123,14 @@ export default function VideoFrameSelector({ videoFile, onFrameSelected, onCance
             variant="outline"
             className="w-full"
           >
-            Cancel
+            {t('cancel')}
           </Button>
           <Button
             onClick={captureFrame}
             className="w-full bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-600 hover:to-emerald-600"
           >
             <CheckCircle className="w-4 h-4 mr-2" />
-            Use This Frame
+            {t('useThisFrame')}
           </Button>
         </div>
       </div>
