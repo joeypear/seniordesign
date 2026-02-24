@@ -25,7 +25,7 @@ export default function ScanPreview({ imageUrl, onCancel, onAnalyze, isAnalyzing
       </div>
 
       <Input
-        placeholder="Name this scan (optional)"
+        placeholder={t('nameScanPlaceholder')}
         value={scanName}
         onChange={(e) => setScanName(e.target.value)}
         className="bg-white dark:bg-gray-800"
@@ -39,12 +39,12 @@ export default function ScanPreview({ imageUrl, onCancel, onAnalyze, isAnalyzing
         {isAnalyzing ? (
           <>
             <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-            Analyzing...
-          </>
-        ) : (
-          <>
+            {t('analyzing')}
+            </>
+            ) : (
+            <>
             <Sparkles className="w-5 h-5 mr-2" />
-            Analyze for Diabetic Retinopathy
+            {t('analyzeButton')}
           </>
         )}
       </Button>
