@@ -138,10 +138,10 @@ export default function ScanDetailModal({ scan, open, onOpenChange, onUpdateNote
           <div className={`flex items-center gap-3 p-4 rounded-xl ${status.bg}`}>
             <StatusIcon className={`w-8 h-8 ${status.color}`} />
             <div className="flex-1">
-              <p className={`font-semibold ${status.color}`}>{status.label}</p>
+              <p className={`font-semibold ${status.color}`}>{t(status.labelKey)}</p>
               {scan.result !== 'pending' && scan.confidence != null && (
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Confidence: {scan.confidence}%
+                  {t('confidence')}: {scan.confidence}%
                 </p>
               )}
             </div>
@@ -152,7 +152,7 @@ export default function ScanDetailModal({ scan, open, onOpenChange, onUpdateNote
                 </button>
               </PopoverTrigger>
               <PopoverContent side="left" className="max-w-[250px] text-sm">
-                {status.description}
+                {t(status.descKey)}
               </PopoverContent>
             </Popover>
           </div>
@@ -161,22 +161,22 @@ export default function ScanDetailModal({ scan, open, onOpenChange, onUpdateNote
           <div className="space-y-3">
             <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
               <Calendar className="w-4 h-4" />
-              <span>Scanned on {format(new Date(scan.created_date + 'Z'), 'MMMM d, yyyy • h:mm a')}</span>
+              <span>{t('scannedOn')} {format(new Date(scan.created_date + 'Z'), 'MMMM d, yyyy • h:mm a')}</span>
             </div>
 
             {scan.confidence != null && scan.result !== 'pending' && (
               <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
                 <Percent className="w-4 h-4" />
-                <span>Confidence Score: {scan.confidence}%</span>
+                <span>{t('confidenceScore')}: {scan.confidence}%</span>
               </div>
             )}
           </div>
 
           {/* Notes */}
           <div className="space-y-2">
-            <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Notes</p>
+            <p className="text-sm font-medium text-gray-700 dark:text-gray-300">{t('notes')}</p>
             <Textarea
-              placeholder="Add notes about this scan..."
+              placeholder={t('addNotes')}
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               className="min-h-[80px] resize-none"
@@ -191,9 +191,9 @@ export default function ScanDetailModal({ scan, open, onOpenChange, onUpdateNote
                 {isSaving ? (
                   <>
                     <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    Saving...
-                  </>
-                ) : 'Save Notes'}
+                    {t('saving')}
+                    </>
+                    ) : t('saveNotes')}
               </Button>
             )}
           </div>
@@ -212,7 +212,7 @@ export default function ScanDetailModal({ scan, open, onOpenChange, onUpdateNote
               ) : (
                 <Trash2 className="w-4 h-4 mr-2" />
               )}
-              Delete Scan
+              {t('deleteScan')}
             </Button>
           </div>
         </div>
