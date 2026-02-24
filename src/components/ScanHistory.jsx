@@ -52,6 +52,7 @@ const statusConfig = {
 };
 
 export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRenameScan }) {
+  const { t } = useLanguage();
   const [editingId, setEditingId] = useState(null);
   const [editName, setEditName] = useState('');
   const [filter, setFilter] = useState('all');

@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { useLanguage } from '@/components/LanguageContext';
 
 export default function ScanPreview({ imageUrl, onCancel, onAnalyze, isAnalyzing }) {
+  const { t } = useLanguage();
   const [scanName, setScanName] = useState('');
 
   return (

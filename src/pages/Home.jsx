@@ -16,6 +16,7 @@ import ContactUsButton from '@/components/ContactUsButton';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Home() {
+  const { t } = useLanguage();
   const [previewImage, setPreviewImage] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
