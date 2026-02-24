@@ -83,7 +83,7 @@ export default function AccountSettings() {
       {/* User Info Card */}
       <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950/30 dark:to-pink-950/30 rounded-2xl p-6 border border-purple-100 dark:border-purple-900">
         <div className="flex items-center gap-4 mb-4">
-          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-400 to-pink-500 flex items-center justify-center text-white text-xl font-bold overflow-hidden">
+          <div className="w-12 h-12 rounded-full flex items-center justify-center text-white text-xl font-bold overflow-hidden" style={{ background: 'linear-gradient(to bottom right, #c084fc, #ec4899)' }}>
             {user?.profile_picture || user?.avatar_url ? (
               <img
                 src={user.profile_picture || user.avatar_url}
