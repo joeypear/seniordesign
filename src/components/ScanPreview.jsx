@@ -34,7 +34,8 @@ export default function ScanPreview({ imageUrl, onCancel, onAnalyze, isAnalyzing
       <Button
         onClick={() => onAnalyze(scanName)}
         disabled={isAnalyzing}
-        className="w-full h-14 text-lg font-semibold rounded-xl bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-600 hover:to-purple-700 shadow-lg shadow-purple-200 dark:shadow-purple-900/50 transition-all hover:scale-[1.01]"
+        className="w-full h-14 text-lg font-semibold rounded-xl text-white shadow-lg shadow-purple-200 dark:shadow-purple-900/50 transition-all hover:scale-[1.01]"
+        style={{ background: 'linear-gradient(to right, #8b5cf6, #9333ea)' }}
       >
         {isAnalyzing ? (
           <>
