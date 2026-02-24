@@ -71,7 +71,7 @@ export default function ImageCropper({ imageUrl, onCropDone, onSkip }) {
 
       {/* Zoom slider */}
       <div style={{ padding: '12px 24px', background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', gap: 12 }}>
-        <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: 12 }}>Zoom</span>
+        <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: 12 }}>{t('zoom')}</span>
         <input
           type="range"
           min={1}
