@@ -308,6 +308,9 @@ export const translations = {
     onboardingCaptureDesc: 'Enregistrez une vidéo de la rétine avec votre caméra et sélectionnez une image, ou téléchargez une image ou vidéo existante.',
     onboardingHistoryTitle: 'Voir votre Historique',
     onboardingHistoryDesc: "Tous vos scans sont enregistrés dans l'onglet Historique. Vous pouvez filtrer par résultat, renommer et supprimer des scans.",
+    onboardingBack: 'Retour',
+    onboardingNext: 'Suivant',
+    onboardingGetStarted: 'Commencer',
   },
   ar: {
     appName: 'DR Monster',
