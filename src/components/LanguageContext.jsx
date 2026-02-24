@@ -493,6 +493,12 @@ export const translations = {
     missionP2: '我们开发了这个工具来解决这一差距。仅使用智能手机，世界各地的患者和医疗工作者都可以获得负担得起的便携式筛查。',
     missionP3: '糖尿病视网膜病变导致的视力丧失在很大程度上是可以预防的，然而对数百万人来说，早期检测仍然遥不可及。我们的使命是确保地理位置和资源永远不会决定某人是否失去视力。',
     contactDesc: '有问题、反馈或需要支持？我们很乐意听取您的意见。',
+    onboardingWelcomeTitle: '欢迎使用 DR Monster',
+    onboardingWelcomeDesc: '此工具帮助筛查糖尿病视网膜病变。请在下方选择您的语言。',
+    onboardingCaptureTitle: '拍摄或上传',
+    onboardingCaptureDesc: '使用设备摄像头录制视网膜视频并选择帧，或上传现有图像或视频。',
+    onboardingHistoryTitle: '查看历史记录',
+    onboardingHistoryDesc: '所有扫描都保存在历史记录选项卡中。您可以按结果筛选、重命名和删除旧记录。',
   },
   pt: {
     appName: 'DR Monster',
