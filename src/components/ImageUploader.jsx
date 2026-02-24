@@ -8,6 +8,7 @@ import VideoFrameSelector from './VideoFrameSelector';
 import ImageCropper from './ImageCropper';
 
 export default function ImageUploader({ onImageUploaded, isUploading, setIsUploading }) {
+  const { t } = useLanguage();
   const fileInputRef = useRef(null);
   const mediaStreamRef = useRef(null);
   const mediaRecorderRef = useRef(null);
