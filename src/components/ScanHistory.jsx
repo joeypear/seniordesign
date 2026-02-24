@@ -143,6 +143,7 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
           {filteredScans.map((scan, index) => {
         const status = statusConfig[scan.result] || statusConfig.pending;
         const StatusIcon = status.icon;
+        const statusLabel = t(status.labelKey);
 
         return (
           <motion.div
