@@ -111,6 +111,9 @@ export const translations = {
     onboardingCaptureDesc: 'Record a video of the retina using your device camera and select a frame, or upload an existing image or video. For best results, ensure the image is clear and well-lit.',
     onboardingHistoryTitle: 'View Your History',
     onboardingHistoryDesc: 'All your scans are saved in the History tab. You can filter by result, rename scans, and delete old ones anytime.',
+    onboardingBack: 'Back',
+    onboardingNext: 'Next',
+    onboardingGetStarted: 'Get Started',
   },
   es: {
     appName: 'DR Monster',
