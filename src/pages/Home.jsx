@@ -116,7 +116,7 @@ export default function Home() {
             <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/699937ce2dac1b6446668d01/65c76b20f_recoloredcropped.png" alt="DR Monster Logo" className="w-20 h-20" />
           </div>
           <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
-            DR <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-rose-500">Monster</span>
+            DR <span style={{ background: 'linear-gradient(to right, #f97316, #f43f5e)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Monster</span>
           </h1>
           <p className="text-gray-500 dark:text-gray-400 mt-1">{t('appSubtitle')}</p>
         </motion.div>
