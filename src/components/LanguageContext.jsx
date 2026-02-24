@@ -608,6 +608,9 @@ export const translations = {
     onboardingCaptureDesc: 'Grave um vídeo da retina com a câmera do seu dispositivo e selecione um quadro, ou envie uma imagem ou vídeo existente.',
     onboardingHistoryTitle: 'Ver seu Histórico',
     onboardingHistoryDesc: 'Todas as suas varreduras são salvas na aba Histórico. Você pode filtrar, renomear e excluir registros antigos.',
+    onboardingBack: 'Voltar',
+    onboardingNext: 'Próximo',
+    onboardingGetStarted: 'Começar',
   },
   hi: {
     appName: 'DR Monster',
