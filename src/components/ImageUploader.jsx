@@ -203,7 +203,8 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
         <Button
           onClick={() => fileInputRef.current?.click()}
           disabled={isUploading}
-          className="h-32 flex-col gap-3 bg-gradient-to-br from-teal-400 to-emerald-500 hover:from-teal-500 hover:to-emerald-600 text-white rounded-2xl shadow-lg shadow-teal-200 dark:shadow-teal-900/50 transition-all hover:scale-[1.02] hover:shadow-xl dark:hover:shadow-teal-900/70"
+          className="h-32 flex-col gap-3 text-white rounded-2xl shadow-lg shadow-teal-200 dark:shadow-teal-900/50 transition-all hover:scale-[1.02] hover:shadow-xl dark:hover:shadow-teal-900/70"
+          style={{ background: 'linear-gradient(135deg, #4fd1c5 0%, #48bb78 100%)' }}
         >
           <Upload className="w-8 h-8" />
           <span className="font-medium">{t('uploadFile')}</span>
