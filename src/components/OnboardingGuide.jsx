@@ -26,6 +26,7 @@ const steps = [
 ];
 
 export default function OnboardingGuide({ open, onClose }) {
+  const { t, lang, changeLang } = useLanguage();
   const [currentStep, setCurrentStep] = useState(0);
 
   if (!open) return null;
