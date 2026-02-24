@@ -170,7 +170,7 @@ export default function AccountSettings() {
           <SelectContent>
             {Object.entries(languages).map(([code, { label, flag }]) => (
               <SelectItem key={code} value={code}>
-                <img src={flag} alt={code} className="inline w-4 h-3 object-cover rounded-sm mr-2" />{label}
+                <FlagIcon flag={flag} code={code} className="mr-2" />{label}
               </SelectItem>
             ))}
           </SelectContent>
