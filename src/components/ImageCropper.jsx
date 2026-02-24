@@ -97,7 +97,8 @@ export default function ImageCropper({ imageUrl, onCropDone, onSkip }) {
           <Button
             onClick={handleConfirm}
             disabled={isProcessing}
-            className="flex-[2] bg-gradient-to-r from-rose-500 to-orange-400 hover:from-rose-600 hover:to-orange-500 text-white"
+            className="flex-[2] text-white"
+            style={{ background: 'linear-gradient(to right, #f43f5e, #fb923c)' }}
           >
             {isProcessing ? (
               <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
