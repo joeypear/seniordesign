@@ -152,7 +152,7 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
       {isRecording && (
         <div style={{ position: 'absolute', top: 16, left: 16, display: 'flex', alignItems: 'center', gap: 8, background: 'rgba(0,0,0,0.5)', borderRadius: 999, padding: '4px 12px' }}>
           <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#ef4444', animation: 'pulse 1s infinite' }} />
-          <span style={{ color: 'white', fontSize: 12, fontWeight: 500 }}>Recording</span>
+          <span style={{ color: 'white', fontSize: 12, fontWeight: 500 }}>{t('recording')}</span>
         </div>
       )}
       <div style={{ position: 'absolute', bottom: 40, left: 0, right: 0, display: 'flex', justifyContent: 'center', gap: 16, padding: '0 24px' }}>
@@ -168,7 +168,7 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
           style={{ background: isRecording ? 'linear-gradient(135deg, #e53e3e 0%, #c53030 100%)' : 'linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%)', color: 'white', padding: '0 32px' }}
         >
           <Video style={{ width: 16, height: 16, marginRight: 8 }} />
-          {isRecording ? 'Stop Recording' : 'Start Recording'}
+          {isRecording ? t('stopRecording') : t('startRecording')}
         </Button>
       </div>
     </div>,
@@ -197,7 +197,7 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
           style={{ background: 'linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%)' }}
         >
           <Video className="w-8 h-8" />
-          <span className="font-medium">Use Camera</span>
+          <span className="font-medium">{t('useCamera')}</span>
         </Button>
 
         <Button
@@ -206,19 +206,19 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
           className="h-32 flex-col gap-3 bg-gradient-to-br from-teal-400 to-emerald-500 hover:from-teal-500 hover:to-emerald-600 text-white rounded-2xl shadow-lg shadow-teal-200 dark:shadow-teal-900/50 transition-all hover:scale-[1.02] hover:shadow-xl dark:hover:shadow-teal-900/70"
         >
           <Upload className="w-8 h-8" />
-          <span className="font-medium">Upload File</span>
+          <span className="font-medium">{t('uploadFile')}</span>
         </Button>
       </div>
 
       {isUploading && (
         <div className="flex items-center justify-center gap-3 py-4 text-gray-500 dark:text-gray-400">
           <div className="w-5 h-5 border-2 border-orange-400 border-t-transparent rounded-full animate-spin" />
-          <span>Uploading image...</span>
+          <span>{t('uploadingImage')}</span>
         </div>
       )}
 
       <p className="text-xs text-center text-gray-400 dark:text-gray-500">
-        Upload images or videos to select a clear frame for analysis
+        {t('uploadHint')}
       </p>
     </div>
   );
