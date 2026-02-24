@@ -60,7 +60,7 @@ export default function OnboardingGuide({ open, onClose }) {
         exit={{ opacity: 0, scale: 0.9 }}
         className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl max-w-md w-full overflow-hidden"
       >
-        <div className={`bg-gradient-to-r ${step.color} p-6 relative`}>
+        <div className="p-6 relative" style={{ background: `linear-gradient(to right, ${step.color === 'from-teal-500 to-emerald-500' ? '#14b8a6, #10b981' : step.color === 'from-blue-500 to-cyan-500' ? '#3b82f6, #06b6d4' : '#a855f7, #ec4899'})` }}>
           <motion.div
             key={currentStep}
             initial={{ opacity: 0, y: 20 }}
