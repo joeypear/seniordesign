@@ -116,7 +116,7 @@ export default function Home() {
           <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
             DR <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-rose-500">Monster</span>
           </h1>
-          <p className="text-gray-500 dark:text-gray-400 mt-1">Diabetic Retinopathy Screening</p>
+          <p className="text-gray-500 dark:text-gray-400 mt-1">{t('appSubtitle')}</p>
         </motion.div>
 
         {/* Main Content */}
@@ -149,21 +149,21 @@ export default function Home() {
                     className="rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-400 data-[state=active]:to-rose-500 data-[state=active]:text-white data-[state=active]:shadow-md transition-all"
                   >
                     <Eye className="w-4 h-4 mr-2" />
-                    New Scan
+                    {t('newScan')}
                   </TabsTrigger>
                   <TabsTrigger 
                     value="history"
                     className="rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-teal-400 data-[state=active]:to-emerald-500 data-[state=active]:text-white data-[state=active]:shadow-md transition-all"
                   >
                     <History className="w-4 h-4 mr-2" />
-                    History
+                    {t('history')}
                   </TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="scan" className="mt-0">
                   <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-700">
-                    <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-1">Upload Retina Image</h2>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">Use camera or upload from your device</p>
+                    <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-1">{t('uploadTitle')}</h2>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">{t('uploadSubtitle')}</p>
                     <ImageUploader
                       onImageUploaded={handleImageUploaded}
                       isUploading={isUploading}
@@ -174,7 +174,7 @@ export default function Home() {
 
                 <TabsContent value="history" className="mt-0">
                   <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-700">
-                    <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">Scan History</h2>
+                    <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">{t('scanHistory')}</h2>
                     {isLoading ? (
                       <div className="flex justify-center py-12">
                         <div className="w-8 h-8 border-3 border-teal-400 border-t-transparent rounded-full animate-spin" />
@@ -197,7 +197,7 @@ export default function Home() {
         {/* Footer */}
         <div className="text-center mt-8 space-y-3">
           <p className="text-xs text-gray-400 dark:text-gray-500">
-            For screening purposes only. Consult a healthcare professional for diagnosis.
+            {t('footerDisclaimer')}
           </p>
           <div className="flex items-center justify-center gap-2">
             <ModelInfoButton />
