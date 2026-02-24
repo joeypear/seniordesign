@@ -31,6 +31,7 @@ function getCroppedImg(imageSrc, pixelCrop) {
 }
 
 export default function ImageCropper({ imageUrl, onCropDone, onSkip }) {
+  const { t } = useLanguage();
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);

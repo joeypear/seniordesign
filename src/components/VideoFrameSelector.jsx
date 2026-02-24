@@ -1,8 +1,10 @@
 import React, { useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { PlayCircle, PauseCircle, CheckCircle } from 'lucide-react';
+import { useLanguage } from '@/components/LanguageContext';
 
 export default function VideoFrameSelector({ videoFile, onFrameSelected, onCancel }) {
+  const { t } = useLanguage();
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
