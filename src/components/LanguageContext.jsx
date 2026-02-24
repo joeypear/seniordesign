@@ -508,6 +508,9 @@ export const translations = {
     onboardingCaptureDesc: '使用设备摄像头录制视网膜视频并选择帧，或上传现有图像或视频。',
     onboardingHistoryTitle: '查看历史记录',
     onboardingHistoryDesc: '所有扫描都保存在历史记录选项卡中。您可以按结果筛选、重命名和删除旧记录。',
+    onboardingBack: '返回',
+    onboardingNext: '下一步',
+    onboardingGetStarted: '开始',
   },
   pt: {
     appName: 'DR Monster',
