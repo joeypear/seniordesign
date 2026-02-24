@@ -93,11 +93,29 @@ export default function OnboardingGuide({ open, onClose }) {
               transition={{ duration: 0.3 }}
             >
               <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-2">
-                {step.title}
+                {t(step.titleKey)}
               </h3>
               <p className="text-gray-600 dark:text-gray-400">
-                {step.description}
+                {t(step.descKey)}
               </p>
+              {currentStep === 0 && (
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {Object.entries(languages).map(([code, { label, flag }]) => (
+                    <button
+                      key={code}
+                      onClick={() => changeLang(code)}
+                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm border transition-all ${
+                        lang === code
+                          ? 'bg-teal-500 border-teal-500 text-white font-medium'
+                          : 'border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:border-teal-400'
+                      }`}
+                    >
+                      <span>{flag}</span>
+                      <span>{label}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
             </motion.div>
           </AnimatePresence>
 
