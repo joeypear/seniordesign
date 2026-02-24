@@ -34,6 +34,8 @@ export default function Home() {
   const handleCloseOnboarding = () => {
     setShowOnboarding(false);
     localStorage.setItem('onboardingSeen', 'true');
+    // Trigger disclaimer to show after onboarding completes
+    window.dispatchEvent(new CustomEvent('showDisclaimer'));
   };
 
   const { data: scans = [], isLoading } = useQuery({
