@@ -75,6 +75,28 @@ export const translations = {
     recording: 'Recording',
     startRecording: 'Start Recording',
     stopRecording: 'Stop Recording',
+    // Disclaimer
+    importantInfo: 'Important Information',
+    screeningToolOnly: 'Screening Tool Only',
+    screeningToolDesc: 'This tool is designed to detect potential abnormalities and help determine if a patient should seek further medical evaluation. It does not provide a medical diagnosis.',
+    flashSafety: 'Flash Safety',
+    flashSafetyDesc: 'Avoid prolonged flashlight exposure when capturing retina images, as extended bright light can cause discomfort or potential damage to the eye.',
+    dataStorage: 'Data Storage',
+    dataStorageDesc: 'Uploaded images are stored anonymously on secure servers for screening purposes. No personally identifiable information is linked to your scans.',
+    iUnderstand: 'I Understand',
+    // Model Info
+    trainingData: 'Training Data',
+    trainingDataDesc: 'Our model was trained using 6,000 publicly available retinal images, comprising both healthy retinas and retinas with diabetic retinopathy. This diverse dataset ensures robust detection capabilities across various stages and presentations of the condition.',
+    technology: 'Technology',
+    technologyDesc: 'Built with PyTorch, our convolutional neural network (CNN) architecture was specifically designed for medical image analysis. After extensive training and validation, the model achieved an accuracy of 92% in detecting diabetic retinopathy.',
+    privacyData: 'Privacy & Data Usage',
+    privacyDataDesc: 'Your uploaded images are stored securely and anonymously for screening purposes only. We do not use your images to further train or improve the model. Your privacy and data security are our top priorities.',
+    // Mission
+    missionP1: 'Diabetic retinopathy screening remains out of reach for millions of people worldwide. Many communities lack the specialized equipment and trained professionals required for proper eye examinations, leaving preventable vision loss undetected.',
+    missionP2: 'We built this tool to address that gap. Using only a smartphone and our mount, patients and healthcare workers anywhere in the world can access affordable, portable screening without the need for costly infrastructure or specialist referrals.',
+    missionP3: 'Vision loss from diabetic retinopathy is largely preventable, yet for millions, early detection remains out of reach. Our mission is to ensure that geography and resources never determine whether someone loses their sight.',
+    // Contact
+    contactDesc: "Have questions, feedback, or need support? We'd love to hear from you.",
   },
   es: {
     appName: 'DR Monster',
