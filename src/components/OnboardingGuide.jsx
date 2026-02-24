@@ -91,7 +91,7 @@ export default function OnboardingGuide({ open, onClose }) {
               </p>
               {currentStep === 0 && (
                 <div className="mt-4 flex flex-wrap gap-2">
-                  {Object.entries(languages).map(([code, { label, code: abbr }]) => (
+                  {Object.entries(languages).map(([code, { label, flag }]) => (
                     <button
                       key={code}
                       onClick={() => changeLang(code)}
@@ -101,7 +101,7 @@ export default function OnboardingGuide({ open, onClose }) {
                           : 'border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:border-teal-400'
                       }`}
                     >
-                      <span className="text-xs font-bold opacity-70">{abbr}</span>
+                      <img src={flag} alt={code} className="w-4 h-3 object-cover rounded-sm" />
                       <span>{label}</span>
                     </button>
                   ))}
