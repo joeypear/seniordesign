@@ -41,7 +41,7 @@ function LayoutInner({ children }) {
   }, [darkMode]);
 
   return (
-    <div className={darkMode ? 'dark' : ''} dir={isRtl ? 'rtl' : 'ltr'}>
+    <div className={darkMode ? 'dark' : ''} dir={isRtl ? 'rtl' : 'ltr'} style={{ fontFamily: 'inherit' }}>
       <DisclaimerDialog open={showDisclaimer} onOpenChange={handleDisclaimerClose} />
       
       <div className="fixed top-4 right-4 z-50 flex gap-2">
@@ -79,7 +79,7 @@ function LayoutInner({ children }) {
           </SheetTrigger>
           <SheetContent>
             <SheetHeader>
-              <SheetTitle>Account Settings</SheetTitle>
+              <SheetTitle>Account Settings / Language</SheetTitle>
             </SheetHeader>
             <div className="mt-6">
               <AccountSettings />
