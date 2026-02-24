@@ -91,3 +91,11 @@ function LayoutInner({ children }) {
     </div>
   );
 }
+
+export default function Layout({ children }) {
+  return (
+    <LanguageProvider>
+      <LayoutInner>{children}</LayoutInner>
+    </LanguageProvider>
+  );
+}
