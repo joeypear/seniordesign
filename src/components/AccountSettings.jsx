@@ -201,13 +201,13 @@ export default function AccountSettings() {
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogCancel>{t('cancel')}</AlertDialogCancel>
               <AlertDialogAction
                 onClick={handleDeleteAccount}
                 disabled={isDeleting}
                 className="bg-red-600 hover:bg-red-700"
               >
-                {isDeleting ? 'Deleting...' : 'Delete Account'}
+                {isDeleting ? t('deleting') : t('deleteAccount')}
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
