@@ -20,8 +20,10 @@ function LayoutInner({ children }) {
   });
 
   const [showDisclaimer, setShowDisclaimer] = useState(() => {
-    const seen = localStorage.getItem('disclaimerSeen');
-    return !seen;
+    const disclaimerSeen = localStorage.getItem('disclaimerSeen');
+    const onboardingSeen = localStorage.getItem('onboardingSeen');
+    // Only auto-show disclaimer if onboarding has already been completed
+    return !disclaimerSeen && !!onboardingSeen;
   });
 
   const handleDisclaimerClose = (open) => {
