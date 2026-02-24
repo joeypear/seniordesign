@@ -41,7 +41,7 @@ function LayoutInner({ children }) {
   }, [darkMode]);
 
   return (
-    <div className={darkMode ? 'dark' : ''}>
+    <div className={darkMode ? 'dark' : ''} dir={isRtl ? 'rtl' : 'ltr'}>
       <DisclaimerDialog open={showDisclaimer} onOpenChange={handleDisclaimerClose} />
       
       <div className="fixed top-4 right-4 z-50 flex gap-2">
