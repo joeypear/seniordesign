@@ -13,14 +13,14 @@ const steps = [
   },
   {
     icon: Camera,
-    title: 'Capture or Upload',
-    description: 'Record a video of the retina using your device camera and select a frame, or upload an existing image or video. For best results, ensure the image is clear and well-lit.',
+    titleKey: 'onboardingCaptureTitle',
+    descKey: 'onboardingCaptureDesc',
     color: 'from-blue-500 to-cyan-500'
   },
   {
     icon: History,
-    title: 'View Your History',
-    description: 'All your scans are saved in the History tab. You can filter by result, rename scans, and delete old ones anytime.',
+    titleKey: 'onboardingHistoryTitle',
+    descKey: 'onboardingHistoryDesc',
     color: 'from-purple-500 to-pink-500'
   }
 ];
