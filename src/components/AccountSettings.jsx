@@ -195,9 +195,9 @@ export default function AccountSettings() {
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
-              <AlertDialogTitle>Delete your account?</AlertDialogTitle>
+              <AlertDialogTitle>{t('deleteAccountConfirm')}</AlertDialogTitle>
               <AlertDialogDescription>
-                This will permanently delete your account and all associated data including scan history. This action cannot be undone.
+                {t('deleteAccountDesc')}
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
