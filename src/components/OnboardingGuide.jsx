@@ -61,15 +61,6 @@ export default function OnboardingGuide({ open, onClose }) {
         className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl max-w-md w-full overflow-hidden"
       >
         <div className={`bg-gradient-to-r ${step.color} p-6 relative`}>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={handleSkip}
-            className="absolute top-2 right-2 text-white/80 hover:text-white hover:bg-white/20"
-          >
-            <X className="w-5 h-5" />
-          </Button>
-          
           <motion.div
             key={currentStep}
             initial={{ opacity: 0, y: 20 }}

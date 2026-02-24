@@ -51,7 +51,8 @@ export default function DisclaimerDialog({ open, onOpenChange }) {
         <DialogFooter>
           <Button 
             onClick={() => onOpenChange(false)}
-            className="w-full bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-600 hover:to-emerald-600"
+            className="w-full text-white"
+            style={{ background: 'linear-gradient(to right, #14b8a6, #10b981)' }}
           >
             {t('iUnderstand')}
           </Button>
