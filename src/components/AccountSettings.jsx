@@ -190,7 +190,7 @@ export default function AccountSettings() {
               className="w-full justify-start h-12 border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 dark:border-red-900 dark:text-red-400 dark:hover:bg-red-950/30"
             >
               <Trash2 className="w-4 h-4 mr-3" />
-              Delete Account
+              {t('deleteAccount')}
             </Button>
           </AlertDialogTrigger>
           <AlertDialogContent>
