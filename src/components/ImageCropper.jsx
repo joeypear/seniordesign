@@ -69,22 +69,21 @@ export default function ImageCropper({ imageUrl, onCropDone, onSkip }) {
         />
       </div>
 
-      {/* Zoom slider */}
-      <div style={{ padding: '12px 24px', background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', gap: 12 }}>
-        <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: 12 }}>{t('zoom')}</span>
-        <input
-          type="range"
-          min={1}
-          max={3}
-          step={0.05}
-          value={zoom}
-          onChange={(e) => setZoom(Number(e.target.value))}
-          style={{ flex: 1, accentColor: '#FF6B6B' }}
-        />
-      </div>
-
-      {/* Buttons */}
-      <div style={{ padding: '16px 24px 40px', background: 'rgba(0,0,0,0.8)', display: 'flex', gap: 12 }}>
+      {/* Zoom slider + Buttons */}
+      <div style={{ padding: '16px 24px 40px', background: 'rgba(0,0,0,0.8)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, width: '60%', maxWidth: 320 }}>
+          <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: 12, whiteSpace: 'nowrap' }}>{t('zoom')}</span>
+          <input
+            type="range"
+            min={1}
+            max={3}
+            step={0.05}
+            value={zoom}
+            onChange={(e) => setZoom(Number(e.target.value))}
+            style={{ flex: 1, accentColor: '#FF6B6B' }}
+          />
+        </div>
+        <div style={{ display: 'flex', gap: 12, width: '60%', maxWidth: 320 }}>
         <Button
           onClick={onSkip}
           variant="outline"
