@@ -5,7 +5,6 @@ import { User, Mail, Calendar, Shield, LogOut, Trash2, Pencil, Check, X, Globe }
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useLanguage, languages } from '@/components/LanguageContext';
-import FlagIcon from '@/components/FlagIcon';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import {
   AlertDialog,
@@ -84,12 +83,8 @@ export default function AccountSettings() {
       {/* User Info Card */}
       <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950/30 dark:to-pink-950/30 rounded-2xl p-6 border border-purple-100 dark:border-purple-900">
         <div className="flex items-center gap-4 mb-4">
-          <div className="w-12 h-12 rounded-full overflow-hidden flex items-center justify-center text-white text-xl font-bold flex-shrink-0" style={{ background: 'linear-gradient(135deg, #a855f7, #ec4899)' }}>
-            {user?.profile_pic ? (
-              <img src={user.profile_pic} alt="avatar" className="w-full h-full object-cover" />
-            ) : (
-              (user?.username || user?.full_name)?.[0]?.toUpperCase() || user?.email?.[0]?.toUpperCase() || 'U'
-            )}
+          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-400 to-pink-500 flex items-center justify-center text-white text-xl font-bold">
+            {(user?.username || user?.full_name)?.[0]?.toUpperCase() || user?.email?.[0]?.toUpperCase() || 'U'}
           </div>
           <div className="flex-1">
             {isEditingName ? (
@@ -170,7 +165,7 @@ export default function AccountSettings() {
           <SelectContent>
             {Object.entries(languages).map(([code, { label, flag }]) => (
               <SelectItem key={code} value={code}>
-                <FlagIcon flag={flag} code={code} className="mr-2" />{label}
+                <span className="mr-2">{flag}</span>{label}
               </SelectItem>
             ))}
           </SelectContent>

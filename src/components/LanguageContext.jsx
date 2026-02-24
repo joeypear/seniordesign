@@ -1,13 +1,13 @@
 import React, { createContext, useContext, useState } from 'react';
 
 export const languages = {
-  en: { label: 'English', code: 'EN', flag: '🇬🇧' },
-  es: { label: 'Español', code: 'ES', flag: '🇪🇸' },
-  fr: { label: 'Français', code: 'FR', flag: '🇫🇷' },
-  ar: { label: 'العربية', code: 'AR', rtl: true, flag: '🇸🇦' },
-  zh: { label: '中文', code: 'ZH', flag: '🇨🇳' },
-  pt: { label: 'Português', code: 'PT', flag: '🇧🇷' },
-  hi: { label: 'हिन्दी', code: 'HI', flag: '🇮🇳' },
+  en: { label: 'English', flag: '🇬🇧' },
+  es: { label: 'Español', flag: '🇪🇸' },
+  fr: { label: 'Français', flag: '🇫🇷' },
+  ar: { label: 'العربية', flag: '🇸🇦', rtl: true },
+  zh: { label: '中文', flag: '🇨🇳' },
+  pt: { label: 'Português', flag: '🇧🇷' },
+  hi: { label: 'हिन्दी', flag: '🇮🇳' },
 };
 
 export const translations = {
