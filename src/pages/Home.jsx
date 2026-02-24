@@ -155,7 +155,7 @@ export default function Home() {
                   </TabsTrigger>
                   <TabsTrigger 
                     value="history"
-                    className="rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-teal-400 data-[state=active]:to-emerald-500 data-[state=active]:text-white data-[state=active]:shadow-md transition-all"
+                    className="rounded-lg data-[state=active]:text-white data-[state=active]:shadow-md transition-all [&[data-state=active]]:bg-[image:linear-gradient(to_right,#4fd1c5,#48bb78)]"
                   >
                     <History className="w-4 h-4 mr-2" />
                     {t('history')}
