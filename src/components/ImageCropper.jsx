@@ -84,26 +84,26 @@ export default function ImageCropper({ imageUrl, onCropDone, onSkip }) {
           />
         </div>
         <div style={{ display: 'flex', gap: 12, width: '60%', maxWidth: 320 }}>
-        <Button
-          onClick={onSkip}
-          variant="outline"
-          style={{ flex: 1, background: 'rgba(255,255,255,0.1)', borderColor: 'rgba(255,255,255,0.2)', color: 'white' }}
-        >
-          <X style={{ width: 16, height: 16, marginRight: 6 }} />
-          {t('skip')}
-        </Button>
-        <Button
-          onClick={handleConfirm}
-          disabled={isProcessing}
-          style={{ flex: 2, background: 'linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%)', color: 'white' }}
-        >
-          {isProcessing ? (
-            <div style={{ width: 16, height: 16, border: '2px solid white', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 0.8s linear infinite', marginRight: 8 }} />
-          ) : (
-            <Check style={{ width: 16, height: 16, marginRight: 6 }} />
-          )}
-          {isProcessing ? t('processing') : t('useCrop')}
-        </Button>
+          <Button
+            onClick={onSkip}
+            variant="outline"
+            style={{ flex: 1, background: 'rgba(255,255,255,0.1)', borderColor: 'rgba(255,255,255,0.2)', color: 'white' }}
+          >
+            <X style={{ width: 16, height: 16, marginRight: 6 }} />
+            {t('skip')}
+          </Button>
+          <Button
+            onClick={handleConfirm}
+            disabled={isProcessing}
+            style={{ flex: 2, background: 'linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%)', color: 'white' }}
+          >
+            {isProcessing ? (
+              <div style={{ width: 16, height: 16, border: '2px solid white', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 0.8s linear infinite', marginRight: 8 }} />
+            ) : (
+              <Check style={{ width: 16, height: 16, marginRight: 6 }} />
+            )}
+            {isProcessing ? t('processing') : t('useCrop')}
+          </Button>
         </div>
       </div>
     </div>,
