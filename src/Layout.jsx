@@ -18,7 +18,7 @@ function LayoutInner({ children }) {
     const saved = localStorage.getItem('darkMode');
     return saved ? JSON.parse(saved) : false;
   });
-  
+
   const [showDisclaimer, setShowDisclaimer] = useState(() => {
     const seen = localStorage.getItem('disclaimerSeen');
     return !seen;
@@ -41,9 +41,9 @@ function LayoutInner({ children }) {
   }, [darkMode]);
 
   return (
-    <div className={darkMode ? 'dark' : ''} dir={isRtl ? 'rtl' : 'ltr'} style={{ fontFamily: 'inherit' }}>
+    <div className={darkMode ? 'dark' : ''} dir={isRtl ? 'rtl' : 'ltr'}>
       <DisclaimerDialog open={showDisclaimer} onOpenChange={handleDisclaimerClose} />
-      
+
       <div className="fixed top-4 right-4 z-50 flex gap-2">
         <Button
           onClick={() => setShowDisclaimer(true)}
@@ -53,7 +53,7 @@ function LayoutInner({ children }) {
         >
           <Info className="w-5 h-5 text-gray-600 dark:text-gray-300" />
         </Button>
-        
+
         <Button
           onClick={() => setDarkMode(!darkMode)}
           variant="outline"
@@ -66,7 +66,7 @@ function LayoutInner({ children }) {
             <Moon className="w-5 h-5 text-gray-600" />
           )}
         </Button>
-        
+
         <Sheet>
           <SheetTrigger asChild>
             <Button
@@ -79,7 +79,7 @@ function LayoutInner({ children }) {
           </SheetTrigger>
           <SheetContent>
             <SheetHeader>
-              <SheetTitle>Account Settings / Language</SheetTitle>
+              <SheetTitle>Account Settings</SheetTitle>
             </SheetHeader>
             <div className="mt-6">
               <AccountSettings />
