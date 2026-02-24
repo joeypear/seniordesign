@@ -112,7 +112,7 @@ export default function ScanDetailModal({ scan, open, onOpenChange, onUpdateNote
               </div>
             ) : (
               <div className="flex items-center gap-2 group">
-                <span>{scan.name || 'Scan Details'}</span>
+                <span>{scan.name || t('scanDetails')}</span>
                 <button
                   onClick={() => { setEditName(scan.name || ''); setIsEditingName(true); }}
                   className="opacity-0 group-hover:opacity-100 transition-opacity text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"

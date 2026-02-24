@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { Camera, Upload, Video } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { base44 } from '@/api/base44Client';
+import { useLanguage } from '@/components/LanguageContext';
 import VideoFrameSelector from './VideoFrameSelector';
 import ImageCropper from './ImageCropper';
 
