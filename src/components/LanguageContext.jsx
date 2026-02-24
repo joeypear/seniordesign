@@ -105,6 +105,12 @@ export const translations = {
     missionP3: 'Vision loss from diabetic retinopathy is largely preventable, yet for millions, early detection remains out of reach. Our mission is to ensure that geography and resources never determine whether someone loses their sight.',
     // Contact
     contactDesc: "Have questions, feedback, or need support? We'd love to hear from you.",
+    onboardingWelcomeTitle: 'Welcome to DR Monster',
+    onboardingWelcomeDesc: "This tool helps screen for potential diabetic retinopathy by analyzing retina images. Select your language below, then let's walk through how to use it.",
+    onboardingCaptureTitle: 'Capture or Upload',
+    onboardingCaptureDesc: 'Record a video of the retina using your device camera and select a frame, or upload an existing image or video. For best results, ensure the image is clear and well-lit.',
+    onboardingHistoryTitle: 'View Your History',
+    onboardingHistoryDesc: 'All your scans are saved in the History tab. You can filter by result, rename scans, and delete old ones anytime.',
   },
   es: {
     appName: 'DR Monster',
