@@ -52,8 +52,8 @@ export default function ImageCropper({ imageUrl, onCropDone, onSkip }) {
       {/* Header */}
       <div style={{ padding: '16px 20px', display: 'flex', alignItems: 'center', gap: 10, background: 'rgba(0,0,0,0.8)' }}>
         <Crop style={{ color: 'white', width: 18, height: 18 }} />
-        <span style={{ color: 'white', fontWeight: 600, fontSize: 16 }}>Crop Image</span>
-        <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13, marginLeft: 4 }}>Drag to reposition</span>
+        <span style={{ color: 'white', fontWeight: 600, fontSize: 16 }}>{t('cropImage')}</span>
+        <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13, marginLeft: 4 }}>{t('dragToReposition')}</span>
       </div>
 
       {/* Cropper */}
