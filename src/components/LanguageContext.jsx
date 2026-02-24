@@ -1,13 +1,13 @@
 import React, { createContext, useContext, useState } from 'react';
 
 export const languages = {
-  en: { label: 'English', code: 'EN' },
-  es: { label: 'Español', code: 'ES' },
-  fr: { label: 'Français', code: 'FR' },
-  ar: { label: 'العربية', code: 'AR', rtl: true },
-  zh: { label: '中文', code: 'ZH' },
-  pt: { label: 'Português', code: 'PT' },
-  hi: { label: 'हिन्दी', code: 'HI' },
+  en: { label: 'English', code: 'EN', flag: 'https://flagcdn.com/w20/gb.png' },
+  es: { label: 'Español', code: 'ES', flag: 'https://flagcdn.com/w20/es.png' },
+  fr: { label: 'Français', code: 'FR', flag: 'https://flagcdn.com/w20/fr.png' },
+  ar: { label: 'العربية', code: 'AR', rtl: true, flag: 'https://flagcdn.com/w20/sa.png' },
+  zh: { label: '中文', code: 'ZH', flag: 'https://flagcdn.com/w20/cn.png' },
+  pt: { label: 'Português', code: 'PT', flag: 'https://flagcdn.com/w20/br.png' },
+  hi: { label: 'हिन्दी', code: 'HI', flag: 'https://flagcdn.com/w20/in.png' },
 };
 
 export const translations = {
