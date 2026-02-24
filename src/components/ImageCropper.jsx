@@ -104,6 +104,7 @@ export default function ImageCropper({ imageUrl, onCropDone, onSkip }) {
           )}
           {isProcessing ? t('processing') : t('useCrop')}
         </Button>
+        </div>
       </div>
     </div>,
     document.body
