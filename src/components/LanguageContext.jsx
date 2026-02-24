@@ -299,6 +299,12 @@ export const translations = {
     missionP2: "Nous avons créé cet outil pour combler cette lacune. En utilisant uniquement un smartphone et notre support, les patients et les travailleurs de santé partout dans le monde peuvent accéder à un dépistage abordable et portable.",
     missionP3: "La perte de vision due à la rétinopathie diabétique est en grande partie évitable, pourtant pour des millions de personnes, la détection précoce reste hors de portée. Notre mission est de garantir que la géographie et les ressources ne déterminent jamais si quelqu'un perd la vue.",
     contactDesc: "Des questions, des commentaires ou besoin d'aide ? Nous aimerions avoir de vos nouvelles.",
+    onboardingWelcomeTitle: 'Bienvenue sur DR Monster',
+    onboardingWelcomeDesc: 'Cet outil aide à dépister la rétinopathie diabétique. Sélectionnez votre langue ci-dessous.',
+    onboardingCaptureTitle: 'Capturer ou Télécharger',
+    onboardingCaptureDesc: 'Enregistrez une vidéo de la rétine avec votre caméra et sélectionnez une image, ou téléchargez une image ou vidéo existante.',
+    onboardingHistoryTitle: 'Voir votre Historique',
+    onboardingHistoryDesc: "Tous vos scans sont enregistrés dans l'onglet Historique. Vous pouvez filtrer par résultat, renommer et supprimer des scans.",
   },
   ar: {
     appName: 'DR Monster',
