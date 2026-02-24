@@ -134,21 +134,21 @@ export default function OnboardingGuide({ open, onClose }) {
 
           <div className="flex gap-3 mt-6">
             {currentStep > 0 && (
-              <Button
-                variant="outline"
-                onClick={handlePrev}
-                className="flex-1"
-              >
-                <ChevronLeft className="w-4 h-4 mr-1" />
-                Back
-              </Button>
+            <Button
+              variant="outline"
+              onClick={handlePrev}
+              className="flex-1"
+            >
+              <ChevronLeft className="w-4 h-4 mr-1" />
+              {t('onboardingBack')}
+            </Button>
             )}
             <Button
-              onClick={handleNext}
-              className={`flex-1 bg-gradient-to-r ${step.color} hover:opacity-90 text-white`}
+            onClick={handleNext}
+            className={`flex-1 bg-gradient-to-r ${step.color} hover:opacity-90 text-white`}
             >
-              {currentStep === steps.length - 1 ? 'Get Started' : 'Next'}
-              {currentStep < steps.length - 1 && <ChevronRight className="w-4 h-4 ml-1" />}
+            {currentStep === steps.length - 1 ? t('onboardingGetStarted') : t('onboardingNext')}
+            {currentStep < steps.length - 1 && <ChevronRight className="w-4 h-4 ml-1" />}
             </Button>
           </div>
         </div>
