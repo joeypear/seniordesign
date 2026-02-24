@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Camera, History, Eye, ChevronRight, ChevronLeft, X } from 'lucide-react';
+import { Camera, History, Eye, ChevronRight, ChevronLeft } from 'lucide-react';
 import { useLanguage, languages } from '@/components/LanguageContext';
 
 const steps = [
@@ -136,7 +136,8 @@ export default function OnboardingGuide({ open, onClose }) {
             )}
             <Button
             onClick={handleNext}
-            className={`flex-1 bg-gradient-to-r ${step.color} hover:opacity-90 text-white`}
+            className="flex-1 text-white hover:opacity-90"
+            style={{ background: `linear-gradient(to right, ${step.color === 'from-teal-500 to-emerald-500' ? '#14b8a6, #10b981' : step.color === 'from-blue-500 to-cyan-500' ? '#3b82f6, #06b6d4' : '#a855f7, #ec4899'})` }}
             >
             {currentStep === steps.length - 1 ? t('onboardingGetStarted') : t('onboardingNext')}
             {currentStep < steps.length - 1 && <ChevronRight className="w-4 h-4 ml-1" />}
