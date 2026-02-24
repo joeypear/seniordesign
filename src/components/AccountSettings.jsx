@@ -167,9 +167,9 @@ export default function AccountSettings() {
             <SelectValue placeholder={t('selectLanguage')} />
           </SelectTrigger>
           <SelectContent>
-            {Object.entries(languages).map(([code, { label, flag }]) => (
+            {Object.entries(languages).map(([code, { label, code: abbr }]) => (
               <SelectItem key={code} value={code}>
-                <span className="mr-2">{flag}</span>{label}
+                <span className="mr-2 text-xs font-bold text-muted-foreground">{abbr}</span>{label}
               </SelectItem>
             ))}
           </SelectContent>
