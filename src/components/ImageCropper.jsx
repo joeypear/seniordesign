@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import Cropper from 'react-easy-crop';
 import { Button } from '@/components/ui/button';
 import { Crop, Check, X } from 'lucide-react';
+import { useLanguage } from '@/components/LanguageContext';
 
 function getCroppedImg(imageSrc, pixelCrop) {
   return new Promise((resolve) => {
