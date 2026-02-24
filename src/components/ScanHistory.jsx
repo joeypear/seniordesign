@@ -33,21 +33,21 @@ const statusConfig = {
     color: 'text-amber-500 dark:text-amber-400',
     bg: 'bg-amber-50 dark:bg-amber-950/30',
     border: 'border-amber-200 dark:border-amber-800',
-    label: 'Pending'
+    labelKey: 'pending'
   },
   positive: {
     icon: XCircle,
     color: 'text-rose-500 dark:text-rose-400',
     bg: 'bg-rose-50 dark:bg-rose-950/30',
     border: 'border-rose-200 dark:border-rose-800',
-    label: 'Abnormal'
+    labelKey: 'abnormal'
   },
   negative: {
     icon: CheckCircle2,
     color: 'text-emerald-500 dark:text-emerald-400',
     bg: 'bg-emerald-50 dark:bg-emerald-950/30',
     border: 'border-emerald-200 dark:border-emerald-800',
-    label: 'Normal'
+    labelKey: 'normal'
   }
 };
 
