@@ -13,7 +13,7 @@ import {
 import AccountSettings from '@/components/AccountSettings';
 
 function LayoutInner({ children }) {
-  const { isRtl } = useLanguage();
+  const { isRtl, t } = useLanguage();
   const [darkMode, setDarkMode] = useState(() => {
     const saved = localStorage.getItem('darkMode');
     return saved ? JSON.parse(saved) : false;
