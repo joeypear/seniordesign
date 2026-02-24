@@ -47,17 +47,19 @@ export default function ImageCropper({ imageUrl, onCropDone, onSkip }) {
     onCropDone(file);
   };
 
+  const isDark = document.documentElement.classList.contains('dark');
+
   return createPortal(
-    <div style={{ position: 'fixed', inset: 0, zIndex: 9999, background: '#000', display: 'flex', flexDirection: 'column' }}>
+    <div className="fixed inset-0 z-[9999] flex flex-col bg-background">
       {/* Header */}
-      <div style={{ padding: '16px 20px', display: 'flex', alignItems: 'center', gap: 10, background: 'rgba(0,0,0,0.8)' }}>
-        <Crop style={{ color: 'white', width: 18, height: 18 }} />
-        <span style={{ color: 'white', fontWeight: 600, fontSize: 16 }}>{t('cropImage')}</span>
-        <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13, marginLeft: 4 }}>{t('dragToReposition')}</span>
+      <div className="flex items-center gap-2 px-5 py-4 border-b border-border bg-card">
+        <Crop className="w-5 h-5 text-foreground" />
+        <span className="font-semibold text-foreground">{t('cropImage')}</span>
+        <span className="text-sm text-muted-foreground ml-1">{t('dragToReposition')}</span>
       </div>
 
       {/* Cropper */}
-      <div style={{ flex: 1, position: 'relative' }}>
+      <div className="flex-1 relative">
         <Cropper
           image={imageUrl}
           crop={crop}
@@ -70,9 +72,9 @@ export default function ImageCropper({ imageUrl, onCropDone, onSkip }) {
       </div>
 
       {/* Zoom slider + Buttons */}
-      <div style={{ padding: '16px 24px 40px', background: 'rgba(0,0,0,0.8)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, width: '60%', maxWidth: 320 }}>
-          <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: 12, whiteSpace: 'nowrap' }}>{t('zoom')}</span>
+      <div className="flex flex-col items-center gap-3 px-6 py-5 border-t border-border bg-card">
+        <div className="flex items-center gap-3 w-3/5 max-w-xs">
+          <span className="text-xs text-muted-foreground whitespace-nowrap">{t('zoom')}</span>
           <input
             type="range"
             min={1}
@@ -80,27 +82,27 @@ export default function ImageCropper({ imageUrl, onCropDone, onSkip }) {
             step={0.05}
             value={zoom}
             onChange={(e) => setZoom(Number(e.target.value))}
-            style={{ flex: 1, accentColor: '#FF6B6B' }}
+            className="flex-1 accent-rose-500"
           />
         </div>
-        <div style={{ display: 'flex', gap: 12, width: '60%', maxWidth: 320 }}>
+        <div className="flex gap-3 w-3/5 max-w-xs">
           <Button
             onClick={onSkip}
             variant="outline"
-            style={{ flex: 1, background: 'rgba(255,255,255,0.1)', borderColor: 'rgba(255,255,255,0.2)', color: 'white' }}
+            className="flex-1"
           >
-            <X style={{ width: 16, height: 16, marginRight: 6 }} />
+            <X className="w-4 h-4 mr-1" />
             {t('skip')}
           </Button>
           <Button
             onClick={handleConfirm}
             disabled={isProcessing}
-            style={{ flex: 2, background: 'linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%)', color: 'white' }}
+            className="flex-[2] bg-gradient-to-r from-rose-500 to-orange-400 hover:from-rose-600 hover:to-orange-500 text-white"
           >
             {isProcessing ? (
-              <div style={{ width: 16, height: 16, border: '2px solid white', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 0.8s linear infinite', marginRight: 8 }} />
+              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
             ) : (
-              <Check style={{ width: 16, height: 16, marginRight: 6 }} />
+              <Check className="w-4 h-4 mr-1" />
             )}
             {isProcessing ? t('processing') : t('useCrop')}
           </Button>
