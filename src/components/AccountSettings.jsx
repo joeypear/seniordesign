@@ -5,6 +5,7 @@ import { User, Mail, Calendar, Shield, LogOut, Trash2, Pencil, Check, X, Globe }
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useLanguage, languages } from '@/components/LanguageContext';
+import FlagIcon from '@/components/FlagIcon';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import {
   AlertDialog,
