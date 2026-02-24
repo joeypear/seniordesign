@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Camera, History, Eye, ChevronRight, ChevronLeft, X } from 'lucide-react';
+import { useLanguage, languages } from '@/components/LanguageContext';
 
 const steps = [
   {
     icon: Eye,
-    title: 'Welcome to DR Monster',
-    description: 'This tool helps screen for potential diabetic retinopathy by analyzing retina images. Let\'s walk through how to use it.',
+    titleKey: 'onboardingWelcomeTitle',
+    descKey: 'onboardingWelcomeDesc',
     color: 'from-teal-500 to-emerald-500'
   },
   {
