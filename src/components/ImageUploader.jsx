@@ -124,7 +124,7 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
       <ImageCropper
         imageUrl={pendingImageUrl}
         onCropDone={handleCropDone}
-        onSkip={handleCropSkip}
+        onCancel={handleCropCancel}
       />
     );
   }
