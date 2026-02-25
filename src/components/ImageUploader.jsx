@@ -110,10 +110,9 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
     setIsUploading(false);
   };
 
-  const handleCropSkip = () => {
-    const url = pendingImageUrl;
+  const handleCropCancel = () => {
     setPendingImageUrl(null);
-    onImageUploaded(url);
+    if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
   const handleCancelVideo = () => {
