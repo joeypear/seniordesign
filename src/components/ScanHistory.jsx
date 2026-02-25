@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { format } from 'date-fns';
 import { useLanguage } from '@/components/LanguageContext';
-import { CheckCircle2, XCircle, Clock, ChevronRight, Trash2, Edit2, Filter, ArrowUpDown, Loader2, Search } from 'lucide-react';
+import { CheckCircle2, XCircle, Clock, ChevronRight, Trash2, Edit2, Filter, ArrowUpDown, Loader2, Search, Download } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
