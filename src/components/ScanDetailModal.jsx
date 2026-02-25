@@ -59,7 +59,10 @@ export default function ScanDetailModal({ scan, open, onOpenChange, onUpdateNote
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `${scan.name || 'retina-scan'}.jpg`;
+    const title = scan.name || 'retinal-scan';
+    const result = scan.result || 'pending';
+    const date = format(new Date(scan.created_date + 'Z'), 'yyyy-MM-dd');
+    a.download = `${title}_${result}_${date}.jpg`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
