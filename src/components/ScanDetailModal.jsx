@@ -60,7 +60,8 @@ export default function ScanDetailModal({ scan, open, onOpenChange, onUpdateNote
     const a = document.createElement('a');
     a.href = url;
     const title = scan.name || 'retinal-scan';
-    const result = scan.result || 'pending';
+    const resultMap = { positive: 'abnormal', negative: 'normal', pending: 'pending' };
+    const result = resultMap[scan.result] || scan.result || 'pending';
     const date = format(new Date(scan.created_date + 'Z'), 'yyyy-MM-dd');
     const ext = localStorage.getItem('downloadFormat') || 'jpg';
     a.download = `${title}_${result}_${date}.${ext}`;
