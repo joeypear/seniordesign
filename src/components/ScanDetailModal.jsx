@@ -245,6 +245,7 @@ export default function ScanDetailModal({ scan, open, onOpenChange, onUpdateNote
               {t('deleteScan')}
             </Button>
           </div>
+
         </div>
       </DialogContent>
     </Dialog>
