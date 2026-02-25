@@ -162,6 +162,27 @@ export default function AccountSettings() {
         </div>
       </div>
 
+      {/* Download Format */}
+      <div className="bg-gray-50 dark:bg-gray-800/50 rounded-2xl p-4 border border-gray-100 dark:border-gray-700">
+        <div className="flex items-center gap-2 mb-3">
+          <ImageDown className="w-4 h-4 text-gray-500" />
+          <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Download Format</span>
+        </div>
+        <Select
+          value={localStorage.getItem('downloadFormat') || 'jpg'}
+          onValueChange={(val) => { localStorage.setItem('downloadFormat', val); window.dispatchEvent(new Event('downloadFormatChanged')); }}
+        >
+          <SelectTrigger className="w-full bg-white dark:bg-gray-800">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="jpg">JPEG (.jpg)</SelectItem>
+            <SelectItem value="png">PNG (.png)</SelectItem>
+            <SelectItem value="webp">WebP (.webp)</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
       {/* Language Selector */}
       <div className="bg-gray-50 dark:bg-gray-800/50 rounded-2xl p-4 border border-gray-100 dark:border-gray-700">
         <div className="flex items-center gap-2 mb-3">
