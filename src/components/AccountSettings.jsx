@@ -21,6 +21,7 @@ import { format } from 'date-fns';
 
 export default function AccountSettings() {
   const { t, lang, changeLang } = useLanguage();
+  const [downloadFormat, setDownloadFormat] = useState(() => localStorage.getItem('downloadFormat') || 'jpg');
   const [isDeleting, setIsDeleting] = useState(false);
   const [isEditingName, setIsEditingName] = useState(false);
   const [newName, setNewName] = useState('');
