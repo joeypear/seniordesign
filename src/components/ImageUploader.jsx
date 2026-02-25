@@ -154,21 +154,37 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
           <span style={{ color: 'white', fontSize: 12, fontWeight: 500 }}>{t('recording')}</span>
         </div>
       )}
-      <div style={{ position: 'absolute', bottom: 40, left: 0, right: 0, display: 'flex', justifyContent: 'center', gap: 16, padding: '0 24px' }}>
-        <Button
+      <div style={{ position: 'absolute', bottom: 40, left: 0, right: 0, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 32 }}>
+        <button
           onClick={handleCancelCamera}
-          variant="outline"
-          style={{ background: 'rgba(0,0,0,0.5)', borderColor: 'rgba(255,255,255,0.3)', color: 'white' }}
+          style={{ background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.3)', color: 'white', borderRadius: 9999, padding: '8px 20px', fontSize: 14, cursor: 'pointer' }}
         >
           {t('cancel')}
-        </Button>
-        <Button
+        </button>
+        <button
           onClick={isRecording ? handleStopRecording : handleStartRecording}
-          style={{ background: isRecording ? 'linear-gradient(135deg, #e53e3e 0%, #c53030 100%)' : 'linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%)', color: 'white', padding: '0 32px' }}
+          style={{
+            width: 72,
+            height: 72,
+            borderRadius: '50%',
+            border: '4px solid white',
+            background: 'transparent',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            padding: 0,
+          }}
         >
-          <Video style={{ width: 16, height: 16, marginRight: 8 }} />
-          {isRecording ? t('stopRecording') : t('startRecording')}
-        </Button>
+          <div style={{
+            width: isRecording ? 28 : 54,
+            height: isRecording ? 28 : 54,
+            borderRadius: isRecording ? 6 : '50%',
+            background: '#ef4444',
+            transition: 'all 0.2s ease',
+          }} />
+        </button>
+        <div style={{ width: 72 }} />
       </div>
     </div>,
     document.body
