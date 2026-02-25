@@ -60,6 +60,23 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
   const [deletingId, setDeletingId] = useState(null);
   const [renamingId, setRenamingId] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [downloadingId, setDownloadingId] = useState(null);
+
+  const handleDownload = async (scan, e) => {
+    e.stopPropagation();
+    setDownloadingId(scan.id);
+    const response = await fetch(scan.image_url);
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${scan.name || 'retina-scan'}.jpg`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    setDownloadingId(null);
+  };
 
   const handleDelete = async (scanId) => {
     setDeletingId(scanId);
