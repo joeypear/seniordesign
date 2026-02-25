@@ -73,7 +73,8 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
     const title = scan.name || 'retinal-scan';
     const result = scan.result || 'pending';
     const date = format(new Date(scan.created_date + 'Z'), 'yyyy-MM-dd');
-    a.download = `${title}_${result}_${date}.jpg`;
+    const ext = localStorage.getItem('downloadFormat') || 'jpg';
+    a.download = `${title}_${result}_${date}.${ext}`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
