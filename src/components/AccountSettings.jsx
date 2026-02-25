@@ -180,6 +180,7 @@ export default function AccountSettings() {
             <SelectItem value="jpg">JPEG (.jpg)</SelectItem>
             <SelectItem value="png">PNG (.png)</SelectItem>
             <SelectItem value="webp">WebP (.webp)</SelectItem>
+            <SelectItem value="heic">HEIC (.heic)</SelectItem>
           </SelectContent>
         </Select>
       </div>
