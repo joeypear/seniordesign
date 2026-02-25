@@ -58,6 +58,7 @@ export default function ScanDetailModal({ scan, open, onOpenChange, onUpdateNote
   const [isRenamingInModal, setIsRenamingInModal] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
 
   const handleDownload = async () => {
     setIsDownloading(true);
