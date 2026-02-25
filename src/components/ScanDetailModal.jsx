@@ -25,14 +25,14 @@ const statusConfig = {
     labelKey: 'pendingAnalysis',
     descKey: 'pendingDesc',
   },
-  positive: {
+  abnormal: {
     icon: XCircle,
     color: 'text-rose-500 dark:text-rose-400',
     bg: 'bg-rose-100 dark:bg-rose-900/50',
     labelKey: 'abnormalLabel',
     descKey: 'abnormalDesc',
   },
-  negative: {
+  normal: {
     icon: CheckCircle2,
     color: 'text-emerald-500 dark:text-emerald-400',
     bg: 'bg-emerald-100 dark:bg-emerald-900/50',
