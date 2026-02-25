@@ -191,6 +191,19 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
               </p>
 
             </div>
+            <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400"
+                  onClick={(e) => handleDownload(scan, e)}
+                  disabled={downloadingId === scan.id}
+                >
+                  {downloadingId === scan.id ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <Download className="w-4 h-4" />
+                  )}
+                </Button>
             <Dialog open={editingId === scan.id} onOpenChange={(open) => !open && setEditingId(null)}>
               <DialogTrigger asChild>
                 <Button
