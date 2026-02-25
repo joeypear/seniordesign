@@ -50,63 +50,65 @@ export default function ImageCropper({ imageUrl, onCropDone, onSkip }) {
   const isDark = document.documentElement.classList.contains('dark');
 
   return createPortal(
-    <div className="fixed inset-0 z-[9999] flex flex-col bg-background">
-      {/* Header */}
-      <div className="flex items-center gap-2 px-5 py-4 border-b border-border bg-card">
-        <Crop className="w-5 h-5 text-foreground" />
-        <span className="font-semibold text-foreground">{t('cropImage')}</span>
-        <span className="text-sm text-muted-foreground ml-1">{t('dragToReposition')}</span>
-      </div>
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+      <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-md overflow-hidden flex flex-col">
+        {/* Header */}
+        <div className="flex items-center gap-2 px-5 py-4 border-b border-border">
+          <Crop className="w-5 h-5 text-foreground" />
+          <span className="font-semibold text-foreground">{t('cropImage')}</span>
+          <span className="text-sm text-muted-foreground ml-1">{t('dragToReposition')}</span>
+        </div>
 
-      {/* Cropper */}
-      <div className="flex-1 relative">
-        <Cropper
-          image={imageUrl}
-          crop={crop}
-          zoom={zoom}
-          aspect={1}
-          onCropChange={setCrop}
-          onZoomChange={setZoom}
-          onCropComplete={onCropComplete}
-        />
-      </div>
-
-      {/* Zoom slider + Buttons */}
-      <div className="flex flex-col items-center gap-3 px-6 py-5 border-t border-border bg-card">
-        <div className="flex items-center gap-3 w-3/5 max-w-xs">
-          <span className="text-xs text-muted-foreground whitespace-nowrap">{t('zoom')}</span>
-          <input
-            type="range"
-            min={1}
-            max={3}
-            step={0.05}
-            value={zoom}
-            onChange={(e) => setZoom(Number(e.target.value))}
-            className="flex-1 accent-rose-500"
+        {/* Cropper */}
+        <div className="relative w-full" style={{ height: '320px' }}>
+          <Cropper
+            image={imageUrl}
+            crop={crop}
+            zoom={zoom}
+            aspect={1}
+            onCropChange={setCrop}
+            onZoomChange={setZoom}
+            onCropComplete={onCropComplete}
           />
         </div>
-        <div className="flex gap-3 w-3/5 max-w-xs">
-          <Button
-            onClick={onSkip}
-            variant="outline"
-            className="flex-1"
-          >
-            <X className="w-4 h-4 mr-1" />
-            {t('skip')}
-          </Button>
-          <Button
-            onClick={handleConfirm}
-            disabled={isProcessing}
-            className="flex-[2] text-white"
-            style={{ background: 'linear-gradient(to right, #f43f5e, #fb923c)' }}
-          >
-            {isProcessing ? (
-              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
-            ) : (
-              <Check className="w-4 h-4 mr-1" />
-            )}
-            {isProcessing ? t('processing') : t('useCrop')}
-          </Button>
+
+        {/* Zoom slider + Buttons */}
+        <div className="flex flex-col items-center gap-3 px-6 py-5 border-t border-border">
+          <div className="flex items-center gap-3 w-full max-w-xs">
+            <span className="text-xs text-muted-foreground whitespace-nowrap">{t('zoom')}</span>
+            <input
+              type="range"
+              min={1}
+              max={3}
+              step={0.05}
+              value={zoom}
+              onChange={(e) => setZoom(Number(e.target.value))}
+              className="flex-1 accent-rose-500"
+            />
+          </div>
+          <div className="flex gap-3 w-full max-w-xs">
+            <Button
+              onClick={onSkip}
+              variant="outline"
+              className="flex-1"
+            >
+              <X className="w-4 h-4 mr-1" />
+              {t('skip')}
+            </Button>
+            <Button
+              onClick={handleConfirm}
+              disabled={isProcessing}
+              className="flex-[2] text-white"
+              style={{ background: 'linear-gradient(to right, #f43f5e, #fb923c)' }}
+            >
+              {isProcessing ? (
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
+              ) : (
+                <Check className="w-4 h-4 mr-1" />
+              )}
+              {isProcessing ? t('processing') : t('useCrop')}
+            </Button>
+          </div>
         </div>
       </div>
     </div>,
