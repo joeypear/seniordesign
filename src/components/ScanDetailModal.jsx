@@ -88,6 +88,73 @@ export default function ScanDetailModal({ scan, open, onOpenChange, onUpdateNote
     }
   }, [scan]);
 
+  const handleExport = async (format) => {
+    setIsExporting(true);
+    const title = scan.name || 'retinal-scan';
+    const result = scan.result || 'pending';
+    const date = format(new Date(scan.created_date + 'Z'), 'yyyy-MM-dd');
+    const filename = `${title}_${result}_${date}`;
+
+    if (format === 'pdf') {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.src = scan.image_url;
+      await new Promise(resolve => { img.onload = resolve; });
+      const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const margin = 15;
+      const contentWidth = pageWidth - margin * 2;
+
+      pdf.setFontSize(18);
+      pdf.setFont('helvetica', 'bold');
+      pdf.text('DR Monster – Retinal Scan Report', margin, 20);
+
+      pdf.setFontSize(11);
+      pdf.setFont('helvetica', 'normal');
+      pdf.text(`Scan Name: ${scan.name || 'Untitled'}`, margin, 32);
+      pdf.text(`Date: ${format(new Date(scan.created_date + 'Z'), 'MMMM d, yyyy')}`, margin, 40);
+      pdf.text(`Result: ${result.charAt(0).toUpperCase() + result.slice(1)}`, margin, 48);
+      if (scan.confidence != null && result !== 'pending') {
+        pdf.text(`Confidence: ${scan.confidence}%`, margin, 56);
+      }
+      if (scan.notes) {
+        pdf.text(`Notes: ${scan.notes}`, margin, 64);
+      }
+
+      const imgAspect = img.naturalWidth / img.naturalHeight;
+      const imgWidth = contentWidth;
+      const imgHeight = imgWidth / imgAspect;
+      const yOffset = scan.notes ? 72 : 64;
+      pdf.addImage(img, 'JPEG', margin, yOffset, imgWidth, Math.min(imgHeight, 120));
+
+      pdf.setFontSize(9);
+      pdf.setTextColor(120);
+      pdf.text('For screening purposes only. Consult a healthcare professional for diagnosis.', margin, 290);
+      pdf.save(`${filename}.pdf`);
+    } else {
+      // CSV
+      const rows = [
+        ['Field', 'Value'],
+        ['Scan Name', scan.name || 'Untitled'],
+        ['Date', format(new Date(scan.created_date + 'Z'), 'yyyy-MM-dd HH:mm')],
+        ['Result', result],
+        ['Confidence (%)', scan.confidence ?? ''],
+        ['Notes', scan.notes || ''],
+      ];
+      const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\n');
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${filename}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+    setIsExporting(false);
+  };
+
   const handleDelete = async () => {
     setIsDeleting(true);
     await onDeleteScan?.(scan.id);
