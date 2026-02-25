@@ -35,14 +35,14 @@ const statusConfig = {
     border: 'border-amber-200 dark:border-amber-800',
     labelKey: 'pending'
   },
-  positive: {
+  abnormal: {
     icon: XCircle,
     color: 'text-rose-500 dark:text-rose-400',
     bg: 'bg-rose-50 dark:bg-rose-950/30',
     border: 'border-rose-200 dark:border-rose-800',
     labelKey: 'abnormal'
   },
-  negative: {
+  normal: {
     icon: CheckCircle2,
     color: 'text-emerald-500 dark:text-emerald-400',
     bg: 'bg-emerald-50 dark:bg-emerald-950/30',
