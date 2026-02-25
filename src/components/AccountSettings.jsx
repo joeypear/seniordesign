@@ -170,8 +170,8 @@ export default function AccountSettings() {
           <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Download Format</span>
         </div>
         <Select
-          value={localStorage.getItem('downloadFormat') || 'jpg'}
-          onValueChange={(val) => { localStorage.setItem('downloadFormat', val); window.dispatchEvent(new Event('downloadFormatChanged')); }}
+          value={downloadFormat}
+          onValueChange={(val) => { setDownloadFormat(val); localStorage.setItem('downloadFormat', val); }}
         >
           <SelectTrigger className="w-full bg-white dark:bg-gray-800">
             <SelectValue />
