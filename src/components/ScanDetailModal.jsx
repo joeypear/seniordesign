@@ -231,7 +231,7 @@ export default function ScanDetailModal({ scan, open, onOpenChange, onUpdateNote
               {isDownloading ? t('processing') : 'Save Image'}
             </Button>
             <Button
-              variant="ghost"
+              variant="outline"
               size="sm"
               onClick={handleDelete}
               disabled={isDeleting}
