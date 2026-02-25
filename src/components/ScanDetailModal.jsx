@@ -50,6 +50,22 @@ export default function ScanDetailModal({ scan, open, onOpenChange, onUpdateNote
   const [editName, setEditName] = useState('');
   const [isRenamingInModal, setIsRenamingInModal] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
+
+  const handleDownload = async () => {
+    setIsDownloading(true);
+    const response = await fetch(scan.image_url);
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${scan.name || 'retina-scan'}.jpg`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    setIsDownloading(false);
+  };
 
   useEffect(() => {
     if (scan) {
