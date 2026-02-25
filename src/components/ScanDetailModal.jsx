@@ -235,7 +235,7 @@ export default function ScanDetailModal({ scan, open, onOpenChange, onUpdateNote
               size="sm"
               onClick={handleDelete}
               disabled={isDeleting}
-              className="text-rose-500 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-900/20 flex-1"
+              className="flex-1 text-rose-500 hover:text-rose-600 border border-rose-200 dark:border-rose-800 hover:bg-rose-50 dark:hover:bg-rose-900/20"
             >
               {isDeleting ? (
                 <Loader2 className="w-4 h-4 mr-2 animate-spin" />
