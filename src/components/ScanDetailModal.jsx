@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { format } from 'date-fns';
 import { useLanguage } from '@/components/LanguageContext';
-import { CheckCircle2, XCircle, Clock, Calendar, Percent, Loader2, HelpCircle, Pencil, Check, X, Trash2, Download } from 'lucide-react';
+import { CheckCircle2, XCircle, Clock, Calendar, Percent, Loader2, HelpCircle, Pencil, Check, X, Trash2, Download, FileDown, ChevronDown } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -16,6 +16,13 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import jsPDF from 'jspdf';
 
 const statusConfig = {
   pending: {
