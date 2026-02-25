@@ -88,12 +88,12 @@ export default function ImageCropper({ imageUrl, onCropDone, onCancel }) {
           </div>
           <div className="flex gap-3 w-full max-w-xs">
             <Button
-              onClick={onSkip}
+              onClick={onCancel}
               variant="outline"
               className="flex-1"
             >
               <X className="w-4 h-4 mr-1" />
-              {t('skip')}
+              {t('cancel')}
             </Button>
             <Button
               onClick={handleConfirm}
