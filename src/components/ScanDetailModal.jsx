@@ -214,8 +214,22 @@ export default function ScanDetailModal({ scan, open, onOpenChange, onUpdateNote
             )}
           </div>
 
-          {/* Delete */}
-          <div className="pt-2 border-t border-gray-100 dark:border-gray-700">
+          {/* Download & Delete */}
+          <div className="pt-2 border-t border-gray-100 dark:border-gray-700 flex gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleDownload}
+              disabled={isDownloading}
+              className="flex-1 text-gray-600 dark:text-gray-300"
+            >
+              {isDownloading ? (
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              ) : (
+                <Download className="w-4 h-4 mr-2" />
+              )}
+              {isDownloading ? t('processing') : 'Save Image'}
+            </Button>
             <Button
               variant="ghost"
               size="sm"
