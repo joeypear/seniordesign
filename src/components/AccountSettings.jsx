@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { User, Mail, Calendar, Shield, LogOut, Trash2, Pencil, Check, X, Globe } from 'lucide-react';
+import { User, Mail, Calendar, Shield, LogOut, Trash2, Pencil, Check, X, Globe, ImageDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useLanguage, languages } from '@/components/LanguageContext';
