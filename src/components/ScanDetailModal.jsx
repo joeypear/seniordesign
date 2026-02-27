@@ -313,10 +313,10 @@ export default function ScanDetailModal({ scan, open, onOpenChange, onUpdateNote
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={() => handleExport('pdf')}>
+                <DropdownMenuItem onSelect={() => handleExport('pdf')}>
                   Export as PDF
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => handleExport('csv')}>
+                <DropdownMenuItem onSelect={() => handleExport('csv')}>
                   Export as CSV
                 </DropdownMenuItem>
               </DropdownMenuContent>
