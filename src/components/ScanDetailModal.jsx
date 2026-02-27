@@ -88,14 +88,14 @@ export default function ScanDetailModal({ scan, open, onOpenChange, onUpdateNote
     }
   }, [scan]);
 
-  const handleExport = async (format) => {
+  const handleExport = async (exportFormat) => {
     setIsExporting(true);
     const title = scan.name || 'retinal-scan';
     const result = scan.result || 'pending';
     const date = format(new Date(scan.created_date + 'Z'), 'yyyy-MM-dd');
     const filename = `${title}_${result}_${date}`;
 
-    if (format === 'pdf') {
+    if (exportFormat === 'pdf') {
       const img = new Image();
       img.crossOrigin = 'anonymous';
       img.src = scan.image_url;
