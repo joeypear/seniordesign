@@ -136,7 +136,7 @@ export default function ScanDetailModal({ scan, open, onOpenChange, onUpdateNote
       const rows = [
         ['Field', 'Value'],
         ['Scan Name', scan.name || 'Untitled'],
-        ['Date', format(new Date(scan.created_date + 'Z'), 'yyyy-MM-dd HH:mm')],
+        ['Date', date],
         ['Result', result],
         ['Confidence (%)', scan.confidence ?? ''],
         ['Notes', scan.notes || ''],
