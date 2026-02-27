@@ -125,7 +125,7 @@ export default function ScanDetailModal({ scan, open, onOpenChange, onUpdateNote
       const imgWidth = contentWidth;
       const imgHeight = imgWidth / imgAspect;
       const yOffset = scan.notes ? 72 : 64;
-      pdf.addImage(img, 'JPEG', margin, yOffset, imgWidth, Math.min(imgHeight, 120));
+      pdf.addImage(img, 'JPEG', margin, yOffset, imgWidth, imgHeight);
 
       pdf.setFontSize(9);
       pdf.setTextColor(120);
