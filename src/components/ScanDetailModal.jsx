@@ -113,6 +113,7 @@ export default function ScanDetailModal({ scan, open, onOpenChange, onUpdateNote
       pdf.setFont('helvetica', 'normal');
       pdf.text(`Scan Name: ${scan.name || 'Untitled'}`, margin, 32);
       pdf.text(`Date: ${format(new Date(scan.created_date + 'Z'), 'MMMM d, yyyy')}`, margin, 40);
+
       pdf.text(`Result: ${result.charAt(0).toUpperCase() + result.slice(1)}`, margin, 48);
       if (scan.confidence != null && result !== 'pending') {
         pdf.text(`Confidence: ${scan.confidence}%`, margin, 56);
