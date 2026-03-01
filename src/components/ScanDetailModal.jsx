@@ -114,17 +114,14 @@ export default function ScanDetailModal({ scan, open, onOpenChange, onUpdateNote
       pdf.text(`Scan Name: ${scan.name || 'Untitled'}`, margin, 32);
       pdf.text(`Date: ${format(new Date(scan.created_date + 'Z'), 'MMMM d, yyyy')}`, margin, 40);
       pdf.text(`Result: ${result.charAt(0).toUpperCase() + result.slice(1)}`, margin, 48);
-      if (scan.confidence != null && result !== 'pending') {
-        pdf.text(`Confidence: ${scan.confidence}%`, margin, 56);
-      }
       if (scan.notes) {
-        pdf.text(`Notes: ${scan.notes}`, margin, 64);
+        pdf.text(`Notes: ${scan.notes}`, margin, 56);
       }
 
       const imgAspect = img.naturalWidth / img.naturalHeight;
       const imgWidth = contentWidth;
       const imgHeight = imgWidth / imgAspect;
-      const yOffset = scan.notes ? 72 : 64;
+      const yOffset = scan.notes ? 64 : 56;
       pdf.addImage(img, 'JPEG', margin, yOffset, imgWidth, imgHeight);
 
       pdf.setFontSize(9);
