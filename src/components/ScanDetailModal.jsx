@@ -371,7 +371,7 @@ export default function ScanDetailModal({ scan, open, onOpenChange, onUpdateNote
                   Export as CSV
                 </DropdownMenuItem>
                 <DropdownMenuItem onSelect={() => handleExport('fhir')}>
-                  Export as HL7 FHIR
+                  Export as FHIR
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
