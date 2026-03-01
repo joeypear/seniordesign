@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { format } from 'date-fns';
 import { useLanguage } from '@/components/LanguageContext';
-import { CheckCircle2, XCircle, Clock, Calendar, Percent, Loader2, HelpCircle, Pencil, Check, X, Trash2, Download, FileDown, ChevronDown } from 'lucide-react';
+import { CheckCircle2, XCircle, Clock, Calendar, Loader2, HelpCircle, Pencil, Check, X, Trash2, Download, FileDown, ChevronDown } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
