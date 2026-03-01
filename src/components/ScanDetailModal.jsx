@@ -175,6 +175,13 @@ export default function ScanDetailModal({ scan, open, onOpenChange, onUpdateNote
         ],
         ...(notes ? { extension: [{ url: 'http://drmonster.app/fhir/StructureDefinition/scan-notes', valueString: notes }] } : {}),
         ...(scan.name ? { identifier: [{ value: scan.name }] } : {}),
+        presentedForm: [
+          {
+            contentType: 'image/jpeg',
+            url: scan.image_url,
+            title: 'Retinal scan image',
+          },
+        ],
       };
       const blob = new Blob([JSON.stringify(fhirReport, null, 2)], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
