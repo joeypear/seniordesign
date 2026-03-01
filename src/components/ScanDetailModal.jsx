@@ -234,11 +234,7 @@ export default function ScanDetailModal({ scan, open, onOpenChange, onUpdateNote
             <StatusIcon className={`w-8 h-8 ${status.color}`} />
             <div className="flex-1">
               <p className={`font-semibold ${status.color}`}>{t(status.labelKey)}</p>
-              {scan.result !== 'pending' && scan.confidence != null && (
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  {t('confidence')}: {scan.confidence}%
-                </p>
-              )}
+  
             </div>
             <Popover>
               <PopoverTrigger asChild>
