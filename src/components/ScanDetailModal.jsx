@@ -173,7 +173,7 @@ export default function ScanDetailModal({ scan, open, onOpenChange, onUpdateNote
             ],
           },
         ],
-        ...(notes ? { extension: [{ url: 'http://drmonster.app/fhir/StructureDefinition/scan-notes', valueString: notes }] } : {}),
+        ...(notes ? { note: [{ text: notes }] } : {}),
         ...(scan.name ? { identifier: [{ value: scan.name }] } : {}),
         presentedForm: [
           {
