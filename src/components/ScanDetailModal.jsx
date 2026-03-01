@@ -135,7 +135,6 @@ export default function ScanDetailModal({ scan, open, onOpenChange, onUpdateNote
         ['Scan Name', scan.name || 'Untitled'],
         ['Date', date],
         ['Result', result],
-        ['Confidence (%)', scan.confidence ?? ''],
         ['Notes', scan.notes || ''],
       ];
       const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\n');
