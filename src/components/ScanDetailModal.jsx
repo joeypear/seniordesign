@@ -255,12 +255,7 @@ export default function ScanDetailModal({ scan, open, onOpenChange, onUpdateNote
               <span>{t('scannedOn')} {format(new Date(scan.created_date + 'Z'), 'MMMM d, yyyy • h:mm a')}</span>
             </div>
 
-            {scan.confidence != null && scan.result !== 'pending' && (
-              <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                <Percent className="w-4 h-4" />
-                <span>{t('confidenceScore')}: {scan.confidence}%</span>
-              </div>
-            )}
+
           </div>
 
           {/* Notes */}
