@@ -314,7 +314,7 @@ export default function ScanDetailModal({ scan, open, onOpenChange, onUpdateNote
               size="sm"
               onClick={handleDownload}
               disabled={isDownloading}
-              className="flex-1 text-gray-600 dark:text-gray-300"
+              className="flex-1 text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800 hover:bg-emerald-50 dark:hover:bg-emerald-900/20"
             >
               {isDownloading ? (
                 <Loader2 className="w-4 h-4 mr-2 animate-spin" />
