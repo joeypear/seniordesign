@@ -129,6 +129,62 @@ export default function ScanDetailModal({ scan, open, onOpenChange, onUpdateNote
       pdf.setTextColor(120);
       pdf.text('For screening purposes only. Consult a healthcare professional for diagnosis.', margin, 290);
       pdf.save(`${filename}.pdf`);
+    } else if (exportFormat === 'fhir') {
+      const fhirReport = {
+        resourceType: 'DiagnosticReport',
+        id: scan.id,
+        status: scan.result === 'pending' ? 'registered' : 'final',
+        category: [
+          {
+            coding: [
+              {
+                system: 'http://terminology.hl7.org/CodeSystem/v2-0074',
+                code: 'RAD',
+                display: 'Radiology',
+              },
+            ],
+          },
+        ],
+        code: {
+          coding: [
+            {
+              system: 'http://loinc.org',
+              code: '71237-0',
+              display: 'Diabetic retinopathy study',
+            },
+          ],
+          text: 'Diabetic Retinopathy Screening',
+        },
+        effectiveDateTime: new Date(scan.created_date + 'Z').toISOString(),
+        issued: new Date(scan.created_date + 'Z').toISOString(),
+        conclusion: scan.result === 'normal'
+          ? 'No signs of diabetic retinopathy detected.'
+          : scan.result === 'abnormal'
+          ? 'Potential signs of diabetic retinopathy detected. Further evaluation recommended.'
+          : 'Analysis pending.',
+        conclusionCode: [
+          {
+            coding: [
+              {
+                system: 'http://snomed.info/sct',
+                code: scan.result === 'normal' ? '38103003' : scan.result === 'abnormal' ? '4855003' : '261665006',
+                display: scan.result === 'normal' ? 'Normal' : scan.result === 'abnormal' ? 'Diabetic retinopathy' : 'Unknown',
+              },
+            ],
+          },
+        ],
+        ...(notes ? { extension: [{ url: 'http://drmonster.app/fhir/StructureDefinition/scan-notes', valueString: notes }] } : {}),
+        ...(scan.name ? { identifier: [{ value: scan.name }] } : {}),
+      };
+      const blob = new Blob([JSON.stringify(fhirReport, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${filename}_fhir.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
     } else {
       // CSV
       const rows = [
