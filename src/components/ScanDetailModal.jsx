@@ -363,6 +363,9 @@ export default function ScanDetailModal({ scan, open, onOpenChange, onUpdateNote
                 <DropdownMenuItem onSelect={() => handleExport('csv')}>
                   Export as CSV
                 </DropdownMenuItem>
+                <DropdownMenuItem onSelect={() => handleExport('fhir')}>
+                  Export as HL7 FHIR
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
 
