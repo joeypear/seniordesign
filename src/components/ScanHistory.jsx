@@ -263,7 +263,7 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="text-gray-400 hover:text-red-600 dark:hover:text-red-400"
+                  className="text-gray-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-transparent"
                   onClick={(e) => e.stopPropagation()}
                   disabled={deletingId === scan.id}
                 >
