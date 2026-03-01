@@ -113,7 +113,7 @@ export default function Home() {
           className="text-center mb-8"
         >
           <div className="flex justify-center mb-3">
-            <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/699f3a159c6c9f68128f785e/ab0c90250_slightly_transformed.jpg" alt="DR Monster Logo" className="w-20 h-20 rounded-full" />
+            <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/699f3a159c6c9f68128f785e/b55df7ef4_slightly_transformed.png" alt="DR Monster Logo" className="w-20 h-20" />
           </div>
           <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
             DR <span style={{ background: 'linear-gradient(to right, #f97316, #f43f5e)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Monster</span>
