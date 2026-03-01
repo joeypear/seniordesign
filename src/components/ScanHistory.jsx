@@ -198,7 +198,7 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
             <Button
                   variant="ghost"
                   size="icon"
-                  className="text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400"
+                  className="text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-transparent"
                   onClick={(e) => handleDownload(scan, e)}
                   disabled={downloadingId === scan.id}
                 >
