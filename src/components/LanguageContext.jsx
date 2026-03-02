@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState } from 'react';
 
 export const languages = {
   en: { label: 'English', flag: 'https://flagcdn.com/w40/gb.png' },
+  de: { label: 'Deutsch', flag: 'https://flagcdn.com/w40/de.png' },
   es: { label: 'Español', flag: 'https://flagcdn.com/w40/es.png' },
   fr: { label: 'Français', flag: 'https://flagcdn.com/w40/fr.png' },
   ar: { label: 'العربية', flag: 'https://flagcdn.com/w40/sa.png', rtl: true },
