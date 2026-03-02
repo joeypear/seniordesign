@@ -22,20 +22,14 @@ import { format } from 'date-fns';
 export default function AccountSettings() {
   const { t, lang, changeLang } = useLanguage();
   const [downloadFormat, setDownloadFormat] = useState(() => localStorage.getItem('downloadFormat') || 'jpg');
-  const [darkMode, setDarkMode] = useState(() => {
-    const saved = localStorage.getItem('darkMode');
-    return saved ? JSON.parse(saved) : false;
-  });
+  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'system');
 
-  const toggleDarkMode = () => {
-    const next = !darkMode;
-    setDarkMode(next);
-    localStorage.setItem('darkMode', JSON.stringify(next));
-    if (next) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
+  const applyTheme = (value) => {
+    setTheme(value);
+    localStorage.setItem('theme', value);
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const isDark = value === 'dark' || (value === 'system' && prefersDark);
+    document.documentElement.classList.toggle('dark', isDark);
   };
   const [isDeleting, setIsDeleting] = useState(false);
   const [isEditingName, setIsEditingName] = useState(false);
