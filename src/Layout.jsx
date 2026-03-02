@@ -50,19 +50,6 @@ function LayoutInner({ children }) {
         </Button>
 
         <Button
-          onClick={() => setDarkMode(!darkMode)}
-          variant="outline"
-          size="icon"
-          className="rounded-full shadow-lg bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700"
-        >
-          {darkMode ? (
-            <Sun className="w-5 h-5 text-yellow-500" />
-          ) : (
-            <Moon className="w-5 h-5 text-gray-600" />
-          )}
-        </Button>
-
-        <Button
           onClick={() => setShowSettings(true)}
           variant="outline"
           size="icon"
