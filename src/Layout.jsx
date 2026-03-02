@@ -18,6 +18,8 @@ function LayoutInner({ children }) {
     return saved ? JSON.parse(saved) : false;
   });
 
+  const [showSettings, setShowSettings] = useState(false);
+
   const [showDisclaimer, setShowDisclaimer] = useState(() => {
     const disclaimerSeen = localStorage.getItem('disclaimerSeen');
     const onboardingSeen = localStorage.getItem('onboardingSeen');
