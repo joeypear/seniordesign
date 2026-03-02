@@ -36,10 +36,10 @@ export default function ContactUsButton() {
             <div className="flex items-center gap-3 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
               <Mail className="w-5 h-5 text-orange-500" />
               <a 
-                href="mailto:placeholder@gmail.com" 
+                href="mailto:screening.diabeticretinopathy@gmail.com" 
                 className="text-orange-500 hover:text-orange-600 dark:text-orange-400 dark:hover:text-orange-500 font-medium transition-colors"
               >
-                placeholder@gmail.com
+                screening.diabeticretinopathy@gmail.com
               </a>
             </div>
           </div>
