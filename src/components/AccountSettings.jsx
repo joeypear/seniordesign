@@ -173,37 +173,52 @@ export default function AccountSettings() {
       </div>
 
       {/* Appearance */}
-      <div className="bg-gray-50 dark:bg-gray-800/50 rounded-2xl p-4 border border-gray-100 dark:border-gray-700">
-        <div className="flex items-center justify-between gap-4">
-          <div>
-            <div className="flex items-center gap-2 mb-0.5">
+      {(() => {
+        const themeOptions = ['light', 'system', 'dark'];
+        const themeIndex = themeOptions.indexOf(theme);
+        const sliderValue = themeIndex === -1 ? 1 : themeIndex;
+        return (
+          <div className="bg-gray-50 dark:bg-gray-800/50 rounded-2xl p-4 border border-gray-100 dark:border-gray-700">
+            <div className="flex items-center gap-2 mb-3">
               <Moon className="w-4 h-4 text-gray-500" />
               <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Overall appearance</span>
             </div>
-            <p className="text-xs text-gray-400 dark:text-gray-500">Applies to dialogs and menus</p>
+            <div className="relative">
+              <div className="flex justify-between mb-1.5">
+                {[
+                  { value: 'light', icon: <Sun className="w-3.5 h-3.5" />, label: 'Light' },
+                  { value: 'system', icon: <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>, label: 'System' },
+                  { value: 'dark', icon: <Moon className="w-3.5 h-3.5" />, label: 'Dark' },
+                ].map(({ value, icon, label }, i) => (
+                  <button
+                    key={value}
+                    onClick={() => applyTheme(value)}
+                    className={`flex flex-col items-center gap-1 text-xs transition-all ${
+                      theme === value ? 'text-purple-600 dark:text-purple-400 font-semibold' : 'text-gray-400 dark:text-gray-500'
+                    }`}
+                    style={{ width: '33.33%' }}
+                  >
+                    {icon}
+                    {label}
+                  </button>
+                ))}
+              </div>
+              <input
+                type="range"
+                min={0}
+                max={2}
+                step={1}
+                value={sliderValue}
+                onChange={(e) => applyTheme(themeOptions[Number(e.target.value)])}
+                className="w-full h-2 rounded-full appearance-none cursor-pointer accent-purple-500"
+                style={{
+                  background: `linear-gradient(to right, #a855f7 ${sliderValue * 50}%, #e5e7eb ${sliderValue * 50}%)`
+                }}
+              />
+            </div>
           </div>
-          <div className="flex items-center gap-1 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-1 shrink-0">
-            {[
-              { value: 'system', icon: <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>, label: 'System' },
-              { value: 'light', icon: <Sun className="w-3.5 h-3.5" />, label: 'Light' },
-              { value: 'dark', icon: <Moon className="w-3.5 h-3.5" />, label: 'Dark' },
-            ].map(({ value, icon, label }) => (
-              <button
-                key={value}
-                onClick={() => applyTheme(value)}
-                className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium transition-all ${
-                  theme === value
-                    ? 'bg-gray-100 dark:bg-gray-600 text-gray-900 dark:text-gray-100 shadow-sm'
-                    : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
-                }`}
-              >
-                {icon}
-                {label}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
+        );
+      })()}
 
       {/* Download Format */}
       <div className="bg-gray-50 dark:bg-gray-800/50 rounded-2xl p-4 border border-gray-100 dark:border-gray-700">
