@@ -76,25 +76,25 @@ function LayoutInner({ children }) {
           )}
         </Button>
 
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button
-              variant="outline"
-              size="icon"
-              className="rounded-full shadow-lg bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700"
-            >
-              <User className="w-5 h-5 text-gray-600 dark:text-gray-300" />
-            </Button>
-          </SheetTrigger>
-          <SheetContent>
-            <SheetHeader>
-              <SheetTitle>{t('accountSettings')}</SheetTitle>
-            </SheetHeader>
-            <div className="mt-6">
+        <Button
+          onClick={() => setShowSettings(true)}
+          variant="outline"
+          size="icon"
+          className="rounded-full shadow-lg bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700"
+        >
+          <User className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+        </Button>
+
+        <Dialog open={showSettings} onOpenChange={setShowSettings}>
+          <DialogContent className="max-w-lg w-full max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>{t('accountSettings')}</DialogTitle>
+            </DialogHeader>
+            <div className="mt-2">
               <AccountSettings />
             </div>
-          </SheetContent>
-        </Sheet>
+          </DialogContent>
+        </Dialog>
       </div>
       {children}
     </div>
