@@ -35,15 +35,6 @@ function LayoutInner({ children }) {
     return () => window.removeEventListener('showDisclaimer', handler);
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem('darkMode', JSON.stringify(darkMode));
-    if (darkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [darkMode]);
-
   return (
     <div className={darkMode ? 'dark' : ''} dir={isRtl ? 'rtl' : 'ltr'}>
       <DisclaimerDialog open={showDisclaimer} onOpenChange={handleDisclaimerClose} />
