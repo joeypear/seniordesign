@@ -256,7 +256,8 @@ const styles = `
     font-size: 13px !important;
     height: 36px !important;
     border-radius: 8px !important;
-    min-width: 160px;
+    min-width: 120px;
+    max-width: 160px;
   }
 
   /* Danger zone */
