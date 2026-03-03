@@ -47,7 +47,7 @@ const styles = `
     --as-seg-selected-shadow: 0 1px 6px rgba(0,0,0,0.4);
   }
   .as-root * { transition: var(--as-transition); box-sizing: border-box; }
-  .as-root { background: var(--as-bg); border-radius: 16px; padding: 0; overflow: hidden; }
+  .as-root { background: transparent; border-radius: 0; padding: 0; overflow: visible; }
   
   .as-body { padding: 20px; display: flex; flex-direction: column; gap: 24px; }
 
