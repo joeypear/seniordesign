@@ -188,7 +188,7 @@ export default function AccountSettings() {
                     </button>
                   </div>
                 )}
-                <div className="flex items-center gap-2 text-sm" style={{ color: '#8B8FA8' }}>
+                <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-[#8B8FA8]">
                   <Mail className="w-3.5 h-3.5 shrink-0" />
                   <span className="truncate">{user?.email}</span>
                 </div>
