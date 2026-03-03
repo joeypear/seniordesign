@@ -278,6 +278,7 @@ const styles = `
     cursor: pointer;
     transition: background 150ms ease, border-color 150ms ease, color 150ms ease;
     text-align: left;
+    box-sizing: border-box;
   }
   .as-action-btn:hover { background: var(--as-card-hover); }
   .as-action-btn.danger {
