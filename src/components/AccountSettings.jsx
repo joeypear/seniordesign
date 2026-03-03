@@ -28,10 +28,7 @@ function SectionHeader({ label }) {
 
 function SettingCard({ icon: Icon, iconColor = '#a78bfa', children }) {
   return (
-    <div
-      className="rounded-xl overflow-hidden flex"
-      style={{ background: '#22263A', border: '1px solid rgba(255,255,255,0.06)' }}
-    >
+    <div className="rounded-xl overflow-hidden flex bg-gray-50 dark:bg-[#22263A] border border-gray-200 dark:border-white/[0.06]">
       <div className="w-1 shrink-0 rounded-l-xl" style={{ background: iconColor }} />
       <div className="flex-1 p-4">
         {children}
