@@ -164,7 +164,7 @@ const styles = `
     display: inline-flex;
     align-items: center;
     gap: 5px;
-    margin-top: 12px;
+    margin-top: 6px;
     font-size: 11px;
     color: var(--as-text-secondary);
     background: var(--as-bg);
