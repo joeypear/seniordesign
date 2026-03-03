@@ -130,10 +130,7 @@ export default function AccountSettings() {
           <SectionHeader label="Profile" />
           <div
             className="rounded-xl p-5 relative overflow-hidden"
-            style={{
-              background: 'linear-gradient(135deg, #2C3150 0%, #22263A 100%)',
-              border: '1px solid rgba(167,139,250,0.2)',
-            }}
+            className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-[#2C3150] dark:to-[#22263A] border border-purple-100 dark:border-purple-500/20"
           >
             {/* Subtle glow */}
             <div className="absolute top-0 left-0 w-32 h-32 rounded-full pointer-events-none"
