@@ -223,10 +223,11 @@ export default function AccountSettings() {
                       onClick={() => applyTheme(value)}
                       className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-150"
                       style={{
-                        background: theme === value ? '#2C3150' : 'transparent',
-                        color: theme === value ? '#a78bfa' : '#8B8FA8',
-                        boxShadow: theme === value ? '0 1px 3px rgba(0,0,0,0.3)' : 'none',
+                        background: theme === value ? 'var(--theme-active-bg, white)' : 'transparent',
+                        color: theme === value ? '#a78bfa' : undefined,
+                        boxShadow: theme === value ? '0 1px 3px rgba(0,0,0,0.15)' : 'none',
                       }}
+                      className={theme !== value ? 'text-gray-400 dark:text-[#8B8FA8]' : ''}
                     >
                       {icon}
                       <span className="hidden sm:inline">{label}</span>
