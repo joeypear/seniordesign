@@ -124,7 +124,7 @@ export default function AccountSettings() {
   ];
 
   return (
-    <div style={{ background: '#1A1D2E', minHeight: '100%', color: '#e2e8f0' }} className="rounded-xl">
+    <div className="rounded-xl bg-white dark:bg-[#1A1D2E] text-gray-800 dark:text-[#e2e8f0]">
       {/* Content */}
       <div className="p-6 space-y-6">
 
