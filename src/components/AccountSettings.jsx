@@ -194,8 +194,7 @@ export default function AccountSettings() {
                 </div>
                 {joinedDate && (
                   <div className="mt-2">
-                    <span className="text-xs px-2 py-0.5 rounded-full"
-                      style={{ background: 'rgba(255,255,255,0.06)', color: '#8B8FA8', border: '1px solid rgba(255,255,255,0.08)' }}>
+                    <span className="text-xs px-2 py-0.5 rounded-full bg-gray-100 dark:bg-white/[0.06] text-gray-500 dark:text-[#8B8FA8] border border-gray-200 dark:border-white/[0.08]">
                       {t('joined')} {joinedDate}
                     </span>
                   </div>
