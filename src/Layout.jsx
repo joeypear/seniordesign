@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { User, Info } from 'lucide-react';
 import DisclaimerDialog from '@/components/DisclaimerDialog';
 import { Button } from '@/components/ui/button';
