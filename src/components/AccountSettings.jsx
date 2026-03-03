@@ -306,7 +306,7 @@ const styles = `
     align-items: center;
     gap: 10px;
     width: 100%;
-    padding: 12px 16px;
+    padding: 9px 14px;
     border-radius: 10px;
     border: 1px solid var(--as-border);
     background: var(--as-card);
