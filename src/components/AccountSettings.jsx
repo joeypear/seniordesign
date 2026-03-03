@@ -198,6 +198,7 @@ const styles = `
     gap: 12px;
     border-left: 3px solid var(--as-accent);
     transition: background 150ms ease, var(--as-transition);
+    width: 100%;
   }
   .as-setting-card:hover { background: var(--as-card-hover); }
   .as-setting-label {
