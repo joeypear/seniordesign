@@ -11,9 +11,30 @@ import {
 } from '@/components/ui/dialog';
 import AccountSettings from '@/components/AccountSettings';
 
+function applyThemeGlobally(value) {
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const isDark = value === 'dark' || (value === 'system' && prefersDark);
+  document.documentElement.classList.toggle('dark', isDark);
+  document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+}
+
 function LayoutInner({ children }) {
   const { isRtl, t } = useLanguage();
   const [showSettings, setShowSettings] = useState(false);
+
+  // Apply theme on mount and listen for OS-level changes
+  useEffect(() => {
+    const saved = localStorage.getItem('theme') || 'system';
+    applyThemeGlobally(saved);
+
+    const mq = window.matchMedia('(prefers-color-scheme: dark)');
+    const handler = () => {
+      const current = localStorage.getItem('theme') || 'system';
+      if (current === 'system') applyThemeGlobally('system');
+    };
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
 
   const [showDisclaimer, setShowDisclaimer] = useState(() => {
     const disclaimerSeen = localStorage.getItem('disclaimerSeen');
