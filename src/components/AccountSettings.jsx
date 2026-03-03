@@ -246,13 +246,12 @@ export default function AccountSettings() {
                   value={downloadFormat}
                   onValueChange={(val) => { setDownloadFormat(val); localStorage.setItem('downloadFormat', val); }}
                 >
-                  <SelectTrigger className="w-32 h-8 text-xs shrink-0"
-                    style={{ background: '#1A1D2E', border: '1px solid rgba(255,255,255,0.1)', color: '#e2e8f0' }}>
+                  <SelectTrigger className="w-32 h-8 text-xs shrink-0 bg-gray-100 dark:bg-[#1A1D2E] border-gray-200 dark:border-white/10 text-gray-800 dark:text-[#e2e8f0]">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent style={{ background: '#22263A', border: '1px solid rgba(255,255,255,0.1)' }}>
+                  <SelectContent>
                     {['jpg', 'png', 'webp', 'heic'].map(fmt => (
-                      <SelectItem key={fmt} value={fmt} className="text-xs text-white focus:bg-white/10">
+                      <SelectItem key={fmt} value={fmt} className="text-xs">
                         {fmt.toUpperCase()} (.{fmt})
                       </SelectItem>
                     ))}
