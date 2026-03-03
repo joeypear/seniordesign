@@ -499,7 +499,7 @@ export default function AccountSettings() {
             {/* — PREFERENCES — */}
             <div>
               <div className="as-section-label">Preferences</div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '7px' }}>
 
                 {/* Appearance */}
                 <div className="as-setting-card">
