@@ -216,8 +216,7 @@ export default function AccountSettings() {
                   <p className="text-sm font-medium text-white">Appearance</p>
                   <p className="text-xs mt-0.5" style={{ color: '#8B8FA8' }}>Applies to dialogs and menus</p>
                 </div>
-                <div className="flex items-center gap-0.5 p-1 rounded-lg shrink-0"
-                  style={{ background: '#1A1D2E', border: '1px solid rgba(255,255,255,0.08)' }}>
+                <div className="flex items-center gap-0.5 p-1 rounded-lg shrink-0 bg-gray-100 dark:bg-[#1A1D2E] border border-gray-200 dark:border-white/[0.08]">
                   {themeOptions.map(({ value, icon, label }) => (
                     <button
                       key={value}
