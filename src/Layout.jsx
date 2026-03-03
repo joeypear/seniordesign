@@ -84,7 +84,7 @@ function LayoutInner({ children }) {
             <DialogHeader>
               <DialogTitle>{t('accountSettings')}</DialogTitle>
             </DialogHeader>
-            <div className="mt-2">
+            <div className="mt-1">
               <AccountSettings />
             </div>
           </DialogContent>
