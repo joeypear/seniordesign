@@ -80,7 +80,7 @@ function LayoutInner({ children }) {
         </Button>
 
         <Dialog open={showSettings} onOpenChange={setShowSettings}>
-          <DialogContent className="max-w-lg w-full max-h-[90vh] overflow-y-auto">
+          <DialogContent className="max-w-lg w-full max-h-[90vh] overflow-y-auto [&::-webkit-scrollbar]:w-[6px] [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-[#2C3150] [&::-webkit-scrollbar-thumb]:rounded-full">
             <DialogHeader>
               <DialogTitle>{t('accountSettings')}</DialogTitle>
             </DialogHeader>
