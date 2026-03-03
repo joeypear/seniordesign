@@ -59,6 +59,7 @@ const styles = `
     padding: 20px;
     position: relative;
     overflow: hidden;
+    width: 100%;
   }
   .as-profile-card::before {
     content: '';
