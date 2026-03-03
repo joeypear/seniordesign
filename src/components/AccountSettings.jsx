@@ -268,13 +268,12 @@ export default function AccountSettings() {
                   <p className="text-xs mt-0.5" style={{ color: '#8B8FA8' }}>Interface display language</p>
                 </div>
                 <Select value={lang} onValueChange={changeLang}>
-                  <SelectTrigger className="w-36 h-8 text-xs shrink-0"
-                    style={{ background: '#1A1D2E', border: '1px solid rgba(255,255,255,0.1)', color: '#e2e8f0' }}>
+                  <SelectTrigger className="w-36 h-8 text-xs shrink-0 bg-gray-100 dark:bg-[#1A1D2E] border-gray-200 dark:border-white/10 text-gray-800 dark:text-[#e2e8f0]">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent style={{ background: '#22263A', border: '1px solid rgba(255,255,255,0.1)' }}>
+                  <SelectContent>
                     {Object.entries(languages).map(([code, { label, flag }]) => (
-                      <SelectItem key={code} value={code} className="text-xs text-white focus:bg-white/10">
+                      <SelectItem key={code} value={code} className="text-xs">
                         <span className="flex items-center gap-2">
                           <img src={flag} alt={label} className="w-5 h-3.5 object-cover rounded-sm" />
                           {label}
