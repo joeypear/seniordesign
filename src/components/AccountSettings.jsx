@@ -18,6 +18,44 @@ import {
 } from '@/components/ui/alert-dialog';
 
 const styles = `
+  /* Dialog scrollbar */
+  .as-dialog-scroll {
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+    transition: scrollbar-color 300ms ease;
+  }
+  .as-dialog-scroll:hover,
+  .as-dialog-scroll:focus-within {
+    scrollbar-color: #d1d5db transparent;
+  }
+  .dark .as-dialog-scroll:hover,
+  .dark .as-dialog-scroll:focus-within {
+    scrollbar-color: #2C3150 #1A1D2E;
+  }
+  .as-dialog-scroll::-webkit-scrollbar {
+    width: 6px;
+  }
+  .as-dialog-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .as-dialog-scroll::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 9999px;
+    transition: background 300ms ease;
+  }
+  .as-dialog-scroll:hover::-webkit-scrollbar-thumb,
+  .as-dialog-scroll:focus-within::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+  }
+  .dark .as-dialog-scroll:hover::-webkit-scrollbar-thumb,
+  .dark .as-dialog-scroll:focus-within::-webkit-scrollbar-thumb {
+    background: #2C3150;
+  }
+  .dark .as-dialog-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
   .as-root {
     --as-bg: #F0F2FA;
     --as-card: #FFFFFF;
