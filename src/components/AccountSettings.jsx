@@ -239,8 +239,8 @@ export default function AccountSettings() {
             <SettingCard icon={ImageDown} iconColor="#34d399">
               <div className="flex items-center justify-between gap-4">
                 <div>
-                  <p className="text-sm font-medium text-white">Download Format</p>
-                  <p className="text-xs mt-0.5" style={{ color: '#8B8FA8' }}>Default image export format</p>
+                  <p className="text-sm font-medium text-gray-800 dark:text-white">Download Format</p>
+                  <p className="text-xs mt-0.5 text-gray-400 dark:text-[#8B8FA8]">Default image export format</p>
                 </div>
                 <Select
                   value={downloadFormat}
