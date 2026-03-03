@@ -20,7 +20,7 @@ import {
 
 function SectionHeader({ label }) {
   return (
-    <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: '#8B8FA8' }}>
+    <p className="text-xs font-semibold uppercase tracking-widest mb-3 text-gray-400 dark:text-[#8B8FA8]">
       {label}
     </p>
   );
