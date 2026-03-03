@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { Mail, Shield, LogOut, Trash2, Pencil, Check, X, Globe, ImageDown, Moon, Sun, Monitor, Camera } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Mail, LogOut, Trash2, Pencil, Check, X, Globe, ImageDown, Moon, Sun, Monitor, Camera } from 'lucide-react';
 import { useLanguage, languages } from '@/components/LanguageContext';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import {
@@ -18,24 +16,33 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 
+/* ── helpers ── */
+function applyDataTheme(value) {
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const isDark = value === 'dark' || (value === 'system' && prefersDark);
+  document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+  // keep .dark class in sync for shadcn components
+  document.documentElement.classList.toggle('dark', isDark);
+}
+
 function SectionHeader({ label }) {
   return (
-    <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: '#8B8FA8' }}>
+    <p className="as-themed text-xs font-semibold uppercase tracking-widest mb-3"
+      style={{ color: 'var(--as-section-header)' }}>
       {label}
     </p>
   );
 }
 
-function SettingCard({ icon: Icon, iconColor = '#a78bfa', children }) {
+function SettingCard({ accentColor = 'var(--as-accent)', children }) {
   return (
-    <div
-      className="rounded-xl overflow-hidden flex"
-      style={{ background: '#22263A', border: '1px solid rgba(255,255,255,0.06)' }}
-    >
-      <div className="w-1 shrink-0 rounded-l-xl" style={{ background: iconColor }} />
-      <div className="flex-1 p-4">
-        {children}
-      </div>
+    <div className="as-themed rounded-xl overflow-hidden flex"
+      style={{
+        background: 'var(--as-card)',
+        border: '1px solid var(--as-border)',
+      }}>
+      <div className="w-1 shrink-0" style={{ background: accentColor }} />
+      <div className="flex-1 p-4">{children}</div>
     </div>
   );
 }
@@ -49,14 +56,42 @@ export default function AccountSettings() {
   const [newName, setNewName] = useState('');
   const [isSavingName, setIsSavingName] = useState(false);
   const queryClient = useQueryClient();
+  const mediaListenerRef = useRef(null);
 
-  const applyTheme = (value) => {
+  // Apply theme and manage system listener
+  const handleThemeChange = (value) => {
     setTheme(value);
     localStorage.setItem('theme', value);
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const isDark = value === 'dark' || (value === 'system' && prefersDark);
-    document.documentElement.classList.toggle('dark', isDark);
+    applyDataTheme(value);
+
+    // Clean up previous system listener
+    if (mediaListenerRef.current) {
+      window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change', mediaListenerRef.current);
+      mediaListenerRef.current = null;
+    }
+
+    if (value === 'system') {
+      const listener = () => applyDataTheme('system');
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', listener);
+      mediaListenerRef.current = listener;
+    }
   };
+
+  // On mount: apply saved theme and set up system listener if needed
+  useEffect(() => {
+    const saved = localStorage.getItem('theme') || 'system';
+    applyDataTheme(saved);
+    if (saved === 'system') {
+      const listener = () => applyDataTheme('system');
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', listener);
+      mediaListenerRef.current = listener;
+    }
+    return () => {
+      if (mediaListenerRef.current) {
+        window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change', mediaListenerRef.current);
+      }
+    };
+  }, []);
 
   const { data: user, isLoading } = useQuery({
     queryKey: ['currentUser'],
@@ -75,30 +110,23 @@ export default function AccountSettings() {
       await base44.auth.updateMe({ username: newName.trim() });
       queryClient.invalidateQueries({ queryKey: ['currentUser'] });
       setIsEditingName(false);
-    } catch (error) {
+    } catch {
       alert('Unable to update name. Please try again.');
     }
     setIsSavingName(false);
   };
 
-  const handleCancelEdit = () => {
-    setIsEditingName(false);
-    setNewName('');
-  };
+  const handleCancelEdit = () => { setIsEditingName(false); setNewName(''); };
 
   const handleDeleteAccount = async () => {
     setIsDeleting(true);
     try {
       await base44.entities.User.delete(user.id);
       await base44.auth.logout();
-    } catch (error) {
+    } catch {
       alert('Unable to delete account. Please contact support.');
       setIsDeleting(false);
     }
-  };
-
-  const handleLogout = () => {
-    base44.auth.logout();
   };
 
   const joinedDate = user?.created_date
@@ -111,8 +139,9 @@ export default function AccountSettings() {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center py-12">
-        <div className="w-8 h-8 border-2 border-purple-400 border-t-transparent rounded-full animate-spin" />
+      <div className="flex justify-center py-12" style={{ background: 'var(--as-bg)' }}>
+        <div className="w-8 h-8 border-2 border-t-transparent rounded-full animate-spin"
+          style={{ borderColor: 'var(--as-accent)', borderTopColor: 'transparent' }} />
       </div>
     );
   }
@@ -124,34 +153,29 @@ export default function AccountSettings() {
   ];
 
   return (
-    <div style={{ background: '#1A1D2E', minHeight: '100%', color: '#e2e8f0' }} className="rounded-xl">
-      {/* Content */}
+    <div className="as-themed rounded-xl" style={{ background: 'var(--as-bg)', color: 'var(--as-text-primary)' }}>
       <div className="p-6 space-y-6">
 
-        {/* Profile Section */}
+        {/* ── Profile ── */}
         <div>
           <SectionHeader label="Profile" />
-          <div
-            className="rounded-xl p-5 relative overflow-hidden"
+          <div className="as-themed rounded-xl p-5 relative overflow-hidden"
             style={{
-              background: 'linear-gradient(135deg, #2C3150 0%, #22263A 100%)',
-              border: '1px solid rgba(167,139,250,0.2)',
-            }}
-          >
-            {/* Subtle glow */}
+              background: `linear-gradient(135deg, var(--as-profile-gradient-start) 0%, var(--as-profile-gradient-end) 100%)`,
+              border: '1px solid var(--as-profile-border)',
+            }}>
+            {/* Glow */}
             <div className="absolute top-0 left-0 w-32 h-32 rounded-full pointer-events-none"
-              style={{ background: 'radial-gradient(circle, rgba(167,139,250,0.12) 0%, transparent 70%)', transform: 'translate(-30%, -30%)' }} />
+              style={{ background: `radial-gradient(circle, var(--as-glow) 0%, transparent 70%)`, transform: 'translate(-30%,-30%)' }} />
 
             <div className="flex items-center gap-4">
               {/* Avatar */}
               <div className="relative group shrink-0">
-                <div
-                  className="w-16 h-16 rounded-full flex items-center justify-center text-white text-2xl font-bold overflow-hidden"
-                  style={{ background: 'linear-gradient(135deg, #a78bfa, #ec4899)' }}
-                >
-                  {user?.profile_picture || user?.avatar_url ? (
-                    <img src={user.profile_picture || user.avatar_url} alt="profile" className="w-full h-full object-cover" />
-                  ) : initials}
+                <div className="w-16 h-16 rounded-full flex items-center justify-center text-white text-2xl font-bold overflow-hidden"
+                  style={{ background: 'linear-gradient(135deg, #a78bfa, #ec4899)' }}>
+                  {user?.profile_picture || user?.avatar_url
+                    ? <img src={user.profile_picture || user.avatar_url} alt="profile" className="w-full h-full object-cover" />
+                    : initials}
                 </div>
                 <div className="absolute inset-0 rounded-full bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer">
                   <Camera className="w-5 h-5 text-white" />
@@ -162,47 +186,59 @@ export default function AccountSettings() {
               <div className="flex-1 min-w-0">
                 {isEditingName ? (
                   <div className="flex items-center gap-2 mb-1">
-                    <Input
+                    <input
                       value={newName}
-                      onChange={(e) => setNewName(e.target.value)}
+                      onChange={e => setNewName(e.target.value)}
                       placeholder="Enter your name"
-                      className="h-8 text-sm bg-white/10 border-white/20 text-white placeholder:text-white/40"
                       autoFocus
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') handleSaveName();
-                        if (e.key === 'Escape') handleCancelEdit();
+                      className="as-themed flex-1 h-8 px-2 rounded-md text-sm outline-none"
+                      style={{
+                        background: 'var(--as-input-bg)',
+                        border: '1px solid var(--as-input-border)',
+                        color: 'var(--as-text-primary)',
                       }}
+                      onKeyDown={e => { if (e.key === 'Enter') handleSaveName(); if (e.key === 'Escape') handleCancelEdit(); }}
                     />
                     <button onClick={handleSaveName} disabled={isSavingName || !newName.trim()}
-                      className="p-1.5 rounded-md text-green-400 hover:bg-green-400/10 transition-colors">
+                      className="p-1.5 rounded-md transition-colors" style={{ color: '#34d399' }}>
                       <Check className="w-4 h-4" />
                     </button>
                     <button onClick={handleCancelEdit}
-                      className="p-1.5 rounded-md text-gray-400 hover:bg-white/10 transition-colors">
+                      className="p-1.5 rounded-md transition-colors" style={{ color: 'var(--as-text-muted)' }}>
                       <X className="w-4 h-4" />
                     </button>
                   </div>
                 ) : (
-                  <div className="flex items-center gap-2 mb-0.5">
-                    <span className="text-base font-semibold text-white truncate">{displayName}</span>
-                    <span className="text-xs px-2 py-0.5 rounded-full capitalize shrink-0"
-                      style={{ background: 'rgba(167,139,250,0.2)', color: '#a78bfa', border: '1px solid rgba(167,139,250,0.3)' }}>
+                  <div className="flex items-center gap-2 mb-0.5 flex-wrap">
+                    <span className="text-base font-semibold truncate" style={{ color: 'var(--as-text-primary)' }}>{displayName}</span>
+                    <span className="as-themed text-xs px-2 py-0.5 rounded-full capitalize shrink-0"
+                      style={{
+                        background: 'var(--as-badge-bg)',
+                        color: 'var(--as-badge-color)',
+                        border: '1px solid var(--as-badge-border)',
+                      }}>
                       {user?.role || 'user'}
                     </span>
-                    <button onClick={handleEditName}
-                      className="p-1 rounded text-white/30 hover:text-white/70 transition-colors shrink-0">
+                    <button onClick={handleEditName} className="p-1 rounded transition-colors"
+                      style={{ color: 'var(--as-text-muted)' }}>
                       <Pencil className="w-3 h-3" />
                     </button>
                   </div>
                 )}
-                <div className="flex items-center gap-2 text-sm" style={{ color: '#8B8FA8' }}>
+
+                <div className="flex items-center gap-2 text-sm" style={{ color: 'var(--as-text-muted)' }}>
                   <Mail className="w-3.5 h-3.5 shrink-0" />
                   <span className="truncate">{user?.email}</span>
                 </div>
+
                 {joinedDate && (
                   <div className="mt-2">
-                    <span className="text-xs px-2 py-0.5 rounded-full"
-                      style={{ background: 'rgba(255,255,255,0.06)', color: '#8B8FA8', border: '1px solid rgba(255,255,255,0.08)' }}>
+                    <span className="as-themed text-xs px-2 py-0.5 rounded-full"
+                      style={{
+                        background: 'var(--as-pill-bg)',
+                        color: 'var(--as-text-muted)',
+                        border: '1px solid var(--as-pill-border)',
+                      }}>
                       {t('joined')} {joinedDate}
                     </span>
                   </div>
@@ -212,29 +248,29 @@ export default function AccountSettings() {
           </div>
         </div>
 
-        {/* Preferences Section */}
+        {/* ── Preferences ── */}
         <div>
           <SectionHeader label="Preferences" />
           <div className="space-y-3">
 
             {/* Appearance */}
-            <SettingCard icon={Moon} iconColor="#a78bfa">
+            <SettingCard accentColor="var(--as-accent)">
               <div className="flex items-center justify-between gap-4">
                 <div>
-                  <p className="text-sm font-medium text-white">Appearance</p>
-                  <p className="text-xs mt-0.5" style={{ color: '#8B8FA8' }}>Applies to dialogs and menus</p>
+                  <p className="text-sm font-medium" style={{ color: 'var(--as-text-primary)' }}>Appearance</p>
+                  <p className="text-xs mt-0.5" style={{ color: 'var(--as-text-muted)' }}>Applies to dialogs and menus</p>
                 </div>
-                <div className="flex items-center gap-0.5 p-1 rounded-lg shrink-0"
-                  style={{ background: '#1A1D2E', border: '1px solid rgba(255,255,255,0.08)' }}>
+                <div className="as-themed flex items-center gap-0.5 p-1 rounded-lg shrink-0"
+                  style={{ background: 'var(--as-segment-bg)', border: '1px solid var(--as-border)' }}>
                   {themeOptions.map(({ value, icon, label }) => (
                     <button
                       key={value}
-                      onClick={() => applyTheme(value)}
-                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-150"
+                      onClick={() => handleThemeChange(value)}
+                      className="as-themed flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium"
                       style={{
-                        background: theme === value ? '#2C3150' : 'transparent',
-                        color: theme === value ? '#a78bfa' : '#8B8FA8',
-                        boxShadow: theme === value ? '0 1px 3px rgba(0,0,0,0.3)' : 'none',
+                        background: theme === value ? 'var(--as-segment-selected)' : 'transparent',
+                        color: theme === value ? 'var(--as-accent)' : 'var(--as-text-muted)',
+                        boxShadow: theme === value ? 'var(--as-segment-selected-shadow)' : 'none',
                       }}
                     >
                       {icon}
@@ -246,23 +282,20 @@ export default function AccountSettings() {
             </SettingCard>
 
             {/* Download Format */}
-            <SettingCard icon={ImageDown} iconColor="#34d399">
+            <SettingCard accentColor="var(--as-left-bar-green, #34d399)">
               <div className="flex items-center justify-between gap-4">
                 <div>
-                  <p className="text-sm font-medium text-white">Download Format</p>
-                  <p className="text-xs mt-0.5" style={{ color: '#8B8FA8' }}>Default image export format</p>
+                  <p className="text-sm font-medium" style={{ color: 'var(--as-text-primary)' }}>Download Format</p>
+                  <p className="text-xs mt-0.5" style={{ color: 'var(--as-text-muted)' }}>Default image export format</p>
                 </div>
-                <Select
-                  value={downloadFormat}
-                  onValueChange={(val) => { setDownloadFormat(val); localStorage.setItem('downloadFormat', val); }}
-                >
-                  <SelectTrigger className="w-32 h-8 text-xs shrink-0"
-                    style={{ background: '#1A1D2E', border: '1px solid rgba(255,255,255,0.1)', color: '#e2e8f0' }}>
+                <Select value={downloadFormat} onValueChange={val => { setDownloadFormat(val); localStorage.setItem('downloadFormat', val); }}>
+                  <SelectTrigger className="as-themed w-32 h-8 text-xs shrink-0"
+                    style={{ background: 'var(--as-select-bg)', border: '1px solid var(--as-select-border)', color: 'var(--as-text-primary)' }}>
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent style={{ background: '#22263A', border: '1px solid rgba(255,255,255,0.1)' }}>
+                  <SelectContent style={{ background: 'var(--as-select-content-bg)', border: '1px solid var(--as-border)' }}>
                     {['jpg', 'png', 'webp', 'heic'].map(fmt => (
-                      <SelectItem key={fmt} value={fmt} className="text-xs text-white focus:bg-white/10">
+                      <SelectItem key={fmt} value={fmt} className="text-xs" style={{ color: 'var(--as-text-primary)' }}>
                         {fmt.toUpperCase()} (.{fmt})
                       </SelectItem>
                     ))}
@@ -272,20 +305,20 @@ export default function AccountSettings() {
             </SettingCard>
 
             {/* Language */}
-            <SettingCard icon={Globe} iconColor="#60a5fa">
+            <SettingCard accentColor="var(--as-left-bar-blue, #60a5fa)">
               <div className="flex items-center justify-between gap-4">
                 <div>
-                  <p className="text-sm font-medium text-white">{t('language')}</p>
-                  <p className="text-xs mt-0.5" style={{ color: '#8B8FA8' }}>Interface display language</p>
+                  <p className="text-sm font-medium" style={{ color: 'var(--as-text-primary)' }}>{t('language')}</p>
+                  <p className="text-xs mt-0.5" style={{ color: 'var(--as-text-muted)' }}>Interface display language</p>
                 </div>
                 <Select value={lang} onValueChange={changeLang}>
-                  <SelectTrigger className="w-36 h-8 text-xs shrink-0"
-                    style={{ background: '#1A1D2E', border: '1px solid rgba(255,255,255,0.1)', color: '#e2e8f0' }}>
+                  <SelectTrigger className="as-themed w-36 h-8 text-xs shrink-0"
+                    style={{ background: 'var(--as-select-bg)', border: '1px solid var(--as-select-border)', color: 'var(--as-text-primary)' }}>
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent style={{ background: '#22263A', border: '1px solid rgba(255,255,255,0.1)' }}>
+                  <SelectContent style={{ background: 'var(--as-select-content-bg)', border: '1px solid var(--as-border)' }}>
                     {Object.entries(languages).map(([code, { label, flag }]) => (
-                      <SelectItem key={code} value={code} className="text-xs text-white focus:bg-white/10">
+                      <SelectItem key={code} value={code} className="text-xs" style={{ color: 'var(--as-text-primary)' }}>
                         <span className="flex items-center gap-2">
                           <img src={flag} alt={label} className="w-5 h-3.5 object-cover rounded-sm" />
                           {label}
@@ -299,40 +332,34 @@ export default function AccountSettings() {
           </div>
         </div>
 
-        {/* Danger Zone */}
+        {/* ── Account ── */}
         <div>
           <SectionHeader label="Account" />
           <div className="space-y-2">
-            <button
-              onClick={handleLogout}
-              className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-150 text-left"
+            <ThemedButton
+              onClick={() => base44.auth.logout()}
               style={{
-                background: 'transparent',
-                border: '1px solid rgba(255,255,255,0.1)',
-                color: '#e2e8f0',
+                border: '1px solid var(--as-logout-border)',
+                color: 'var(--as-logout-text)',
+                '--hover-bg': 'var(--as-logout-hover-bg)',
               }}
-              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; }}
-              onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
             >
-              <LogOut className="w-4 h-4 shrink-0" style={{ color: '#8B8FA8' }} />
+              <LogOut className="w-4 h-4 shrink-0" style={{ color: 'var(--as-icon-muted)' }} />
               {t('logOut')}
-            </button>
+            </ThemedButton>
 
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <button
-                  className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-150 text-left"
+                <ThemedButton
                   style={{
-                    background: 'transparent',
-                    border: '1px solid rgba(239,68,68,0.25)',
-                    color: '#f87171',
+                    border: '1px solid var(--as-delete-border)',
+                    color: 'var(--as-delete-text)',
+                    '--hover-bg': 'var(--as-delete-hover-bg)',
                   }}
-                  onMouseEnter={e => { e.currentTarget.style.background = 'rgba(239,68,68,0.08)'; }}
-                  onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
                 >
                   <Trash2 className="w-4 h-4 shrink-0" />
                   {t('deleteAccount')}
-                </button>
+                </ThemedButton>
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
@@ -341,11 +368,7 @@ export default function AccountSettings() {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>{t('cancel')}</AlertDialogCancel>
-                  <AlertDialogAction
-                    onClick={handleDeleteAccount}
-                    disabled={isDeleting}
-                    className="bg-red-600 hover:bg-red-700"
-                  >
+                  <AlertDialogAction onClick={handleDeleteAccount} disabled={isDeleting} className="bg-red-600 hover:bg-red-700">
                     {isDeleting ? t('deleting') : t('deleteAccount')}
                   </AlertDialogAction>
                 </AlertDialogFooter>
@@ -356,5 +379,26 @@ export default function AccountSettings() {
 
       </div>
     </div>
+  );
+}
+
+// Small helper button with hover state via inline onMouseEnter/Leave
+function ThemedButton({ children, onClick, style = {} }) {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <button
+      onClick={onClick}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      className="as-themed w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-left"
+      style={{
+        background: hovered ? style['--hover-bg'] || 'transparent' : 'transparent',
+        border: style.border,
+        color: style.color,
+        transition: 'background-color 150ms ease, color 150ms ease, border-color 150ms ease',
+      }}
+    >
+      {children}
+    </button>
   );
 }
