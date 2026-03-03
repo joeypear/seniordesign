@@ -222,12 +222,10 @@ export default function AccountSettings() {
                       key={value}
                       onClick={() => applyTheme(value)}
                       className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-150"
-                      style={{
-                        background: theme === value ? 'var(--theme-active-bg, white)' : 'transparent',
-                        color: theme === value ? '#a78bfa' : undefined,
-                        boxShadow: theme === value ? '0 1px 3px rgba(0,0,0,0.15)' : 'none',
-                      }}
-                      className={theme !== value ? 'text-gray-400 dark:text-[#8B8FA8]' : ''}
+                      className={`transition-all duration-150 ${theme === value
+                        ? 'bg-white dark:bg-[#2C3150] text-purple-600 dark:text-purple-400 shadow-sm'
+                        : 'text-gray-400 dark:text-[#8B8FA8] hover:text-gray-600 dark:hover:text-gray-200'
+                      }`}
                     >
                       {icon}
                       <span className="hidden sm:inline">{label}</span>
