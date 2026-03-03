@@ -264,8 +264,8 @@ export default function AccountSettings() {
             <SettingCard icon={Globe} iconColor="#60a5fa">
               <div className="flex items-center justify-between gap-4">
                 <div>
-                  <p className="text-sm font-medium text-white">{t('language')}</p>
-                  <p className="text-xs mt-0.5" style={{ color: '#8B8FA8' }}>Interface display language</p>
+                  <p className="text-sm font-medium text-gray-800 dark:text-white">{t('language')}</p>
+                  <p className="text-xs mt-0.5 text-gray-400 dark:text-[#8B8FA8]">Interface display language</p>
                 </div>
                 <Select value={lang} onValueChange={changeLang}>
                   <SelectTrigger className="w-36 h-8 text-xs shrink-0 bg-gray-100 dark:bg-[#1A1D2E] border-gray-200 dark:border-white/10 text-gray-800 dark:text-[#e2e8f0]">
