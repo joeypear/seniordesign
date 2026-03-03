@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { Mail, Shield, LogOut, Trash2, Pencil, Check, X, Globe, ImageDown, Moon, Sun, Monitor, Camera } from 'lucide-react';
+import { User, Mail, Calendar, Shield, LogOut, Trash2, Pencil, Check, X, Globe, ImageDown, Moon, Sun } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useLanguage, languages } from '@/components/LanguageContext';
@@ -17,35 +17,12 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-
-function SectionHeader({ label }) {
-  return (
-    <p className="text-xs font-semibold uppercase tracking-widest mb-3 text-gray-400 dark:text-[#8B8FA8]">
-      {label}
-    </p>
-  );
-}
-
-function SettingCard({ icon: Icon, iconColor = '#a78bfa', children }) {
-  return (
-    <div className="rounded-xl overflow-hidden flex bg-gray-50 dark:bg-[#22263A] border border-gray-200 dark:border-white/[0.06]">
-      <div className="w-1 shrink-0 rounded-l-xl" style={{ background: iconColor }} />
-      <div className="flex-1 p-4">
-        {children}
-      </div>
-    </div>
-  );
-}
+import { format } from 'date-fns';
 
 export default function AccountSettings() {
   const { t, lang, changeLang } = useLanguage();
   const [downloadFormat, setDownloadFormat] = useState(() => localStorage.getItem('downloadFormat') || 'jpg');
   const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'system');
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [isEditingName, setIsEditingName] = useState(false);
-  const [newName, setNewName] = useState('');
-  const [isSavingName, setIsSavingName] = useState(false);
-  const queryClient = useQueryClient();
 
   const applyTheme = (value) => {
     setTheme(value);
@@ -54,6 +31,11 @@ export default function AccountSettings() {
     const isDark = value === 'dark' || (value === 'system' && prefersDark);
     document.documentElement.classList.toggle('dark', isDark);
   };
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isEditingName, setIsEditingName] = useState(false);
+  const [newName, setNewName] = useState('');
+  const [isSavingName, setIsSavingName] = useState(false);
+  const queryClient = useQueryClient();
 
   const { data: user, isLoading } = useQuery({
     queryKey: ['currentUser'],
@@ -98,236 +80,216 @@ export default function AccountSettings() {
     base44.auth.logout();
   };
 
-  const joinedDate = user?.created_date
-    ? new Date(user.created_date.endsWith('Z') ? user.created_date : user.created_date + 'Z')
-        .toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })
-    : null;
-
-  const displayName = user?.username || user?.full_name || 'User';
-  const initials = displayName?.[0]?.toUpperCase() || user?.email?.[0]?.toUpperCase() || 'U';
-
   if (isLoading) {
     return (
       <div className="flex justify-center py-12">
-        <div className="w-8 h-8 border-2 border-purple-400 border-t-transparent rounded-full animate-spin" />
+        <div className="w-8 h-8 border-3 border-purple-400 border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
 
-  const themeOptions = [
-    { value: 'system', icon: <Monitor className="w-3.5 h-3.5" />, label: 'System' },
-    { value: 'light', icon: <Sun className="w-3.5 h-3.5" />, label: 'Light' },
-    { value: 'dark', icon: <Moon className="w-3.5 h-3.5" />, label: 'Dark' },
-  ];
-
   return (
-    <div className="rounded-xl bg-white dark:bg-[#1A1D2E] text-gray-800 dark:text-[#e2e8f0]">
-      {/* Content */}
-      <div className="p-6 space-y-6">
-
-        {/* Profile Section */}
-        <div>
-          <SectionHeader label="Profile" />
-          <div
-            className="rounded-xl p-5 relative overflow-hidden"
-            className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-[#2C3150] dark:to-[#22263A] border border-purple-100 dark:border-purple-500/20"
-          >
-            {/* Subtle glow */}
-            <div className="absolute top-0 left-0 w-32 h-32 rounded-full pointer-events-none"
-              style={{ background: 'radial-gradient(circle, rgba(167,139,250,0.12) 0%, transparent 70%)', transform: 'translate(-30%, -30%)' }} />
-
-            <div className="flex items-center gap-4">
-              {/* Avatar */}
-              <div className="relative group shrink-0">
-                <div
-                  className="w-16 h-16 rounded-full flex items-center justify-center text-white text-2xl font-bold overflow-hidden"
-                  style={{ background: 'linear-gradient(135deg, #a78bfa, #ec4899)' }}
+    <div className="space-y-6">
+      {/* User Info Card */}
+      <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950/30 dark:to-pink-950/30 rounded-2xl p-6 border border-purple-100 dark:border-purple-900">
+        <div className="flex items-center gap-4 mb-4">
+          <div className="w-12 h-12 rounded-full flex items-center justify-center text-white text-xl font-bold overflow-hidden" style={{ background: 'linear-gradient(to bottom right, #c084fc, #ec4899)' }}>
+            {user?.profile_picture || user?.avatar_url ? (
+              <img
+                src={user.profile_picture || user.avatar_url}
+                alt="profile"
+                className="w-full h-full object-cover"
+                onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }}
+              />
+            ) : null}
+            <span style={{ display: (user?.profile_picture || user?.avatar_url) ? 'none' : 'flex' }}>
+              {(user?.username || user?.full_name)?.[0]?.toUpperCase() || user?.email?.[0]?.toUpperCase() || 'U'}
+            </span>
+          </div>
+          <div className="flex-1">
+            {isEditingName ? (
+              <div className="flex items-center gap-2">
+                <Input
+                  value={newName}
+                  onChange={(e) => setNewName(e.target.value)}
+                  placeholder="Enter your name"
+                  className="h-9 text-sm"
+                  autoFocus
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') handleSaveName();
+                    if (e.key === 'Escape') handleCancelEdit();
+                  }}
+                />
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  onClick={handleSaveName}
+                  disabled={isSavingName || !newName.trim()}
+                  className="h-8 w-8 text-green-600 hover:text-green-700 hover:bg-green-50"
                 >
-                  {user?.profile_picture || user?.avatar_url ? (
-                    <img src={user.profile_picture || user.avatar_url} alt="profile" className="w-full h-full object-cover" />
-                  ) : initials}
-                </div>
-                <div className="absolute inset-0 rounded-full bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer">
-                  <Camera className="w-5 h-5 text-white" />
-                </div>
+                  <Check className="w-4 h-4" />
+                </Button>
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  onClick={handleCancelEdit}
+                  className="h-8 w-8 text-gray-500 hover:text-gray-700 hover:bg-gray-100"
+                >
+                  <X className="w-4 h-4" />
+                </Button>
               </div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100">
+                  {user?.username || user?.full_name || 'User'}
+                </h3>
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  onClick={handleEditName}
+                  className="h-7 w-7 text-gray-400 hover:text-gray-600"
+                >
+                  <Pencil className="w-3.5 h-3.5" />
+                </Button>
+              </div>
+            )}
+          </div>
+        </div>
 
-              {/* Info */}
-              <div className="flex-1 min-w-0">
-                {isEditingName ? (
-                  <div className="flex items-center gap-2 mb-1">
-                    <Input
-                      value={newName}
-                      onChange={(e) => setNewName(e.target.value)}
-                      placeholder="Enter your name"
-                      className="h-8 text-sm bg-white/10 border-white/20 text-white placeholder:text-white/40"
-                      autoFocus
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') handleSaveName();
-                        if (e.key === 'Escape') handleCancelEdit();
-                      }}
-                    />
-                    <button onClick={handleSaveName} disabled={isSavingName || !newName.trim()}
-                      className="p-1.5 rounded-md text-green-400 hover:bg-green-400/10 transition-colors">
-                      <Check className="w-4 h-4" />
-                    </button>
-                    <button onClick={handleCancelEdit}
-                      className="p-1.5 rounded-md text-gray-400 hover:bg-white/10 transition-colors">
-                      <X className="w-4 h-4" />
-                    </button>
-                  </div>
-                ) : (
-                  <div className="flex items-center gap-2 mb-0.5">
-                    <span className="text-base font-semibold text-gray-900 dark:text-white truncate">{displayName}</span>
-                    <span className="text-xs px-2 py-0.5 rounded-full capitalize shrink-0 bg-purple-100 dark:bg-purple-500/20 text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-500/30">
-                      {user?.role || 'user'}
-                    </span>
-                    <button onClick={handleEditName}
-                      className="p-1 rounded text-white/30 hover:text-white/70 transition-colors shrink-0">
-                      <Pencil className="w-3 h-3" />
-                    </button>
-                  </div>
-                )}
-                <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-[#8B8FA8]">
-                  <Mail className="w-3.5 h-3.5 shrink-0" />
-                  <span className="truncate">{user?.email}</span>
-                </div>
-                {joinedDate && (
-                  <div className="mt-2">
-                    <span className="text-xs px-2 py-0.5 rounded-full bg-gray-100 dark:bg-white/[0.06] text-gray-500 dark:text-[#8B8FA8] border border-gray-200 dark:border-white/[0.08]">
-                      {t('joined')} {joinedDate}
-                    </span>
-                  </div>
-                )}
-              </div>
+        <div className="space-y-3">
+          <div className="flex items-center gap-3 text-sm text-gray-600 dark:text-gray-400">
+            <Mail className="w-4 h-4" />
+            <span>{user?.email}</span>
+          </div>
+          <div className="flex items-center gap-3 text-sm text-gray-600 dark:text-gray-400">
+            <Shield className="w-4 h-4" />
+            <span className="capitalize">{user?.role || 'user'}</span>
+          </div>
+          <div className="flex items-center gap-3 text-sm text-gray-600 dark:text-gray-400">
+            <Calendar className="w-4 h-4" />
+            <span>{t('joined')} {user?.created_date ? new Date(user.created_date.endsWith('Z') ? user.created_date : user.created_date + 'Z').toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }) : ''}</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Appearance */}
+      <div className="bg-gray-50 dark:bg-gray-800/50 rounded-2xl p-4 border border-gray-100 dark:border-gray-700">
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            <div className="flex items-center gap-2 mb-0.5">
+              <Moon className="w-4 h-4 text-gray-500" />
+              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Overall appearance</span>
             </div>
+            <p className="text-xs text-gray-400 dark:text-gray-500">Applies to dialogs and menus</p>
+          </div>
+          <div className="flex items-center gap-1 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-1 shrink-0">
+            {[
+              { value: 'system', icon: <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>, label: 'System' },
+              { value: 'light', icon: <Sun className="w-3.5 h-3.5" />, label: 'Light' },
+              { value: 'dark', icon: <Moon className="w-3.5 h-3.5" />, label: 'Dark' },
+            ].map(({ value, icon, label }) => (
+              <button
+                key={value}
+                onClick={() => applyTheme(value)}
+                className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium transition-all ${
+                  theme === value
+                    ? 'bg-gray-100 dark:bg-gray-600 text-gray-900 dark:text-gray-100 shadow-sm'
+                    : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
+                }`}
+              >
+                {icon}
+                {label}
+              </button>
+            ))}
           </div>
         </div>
+      </div>
 
-        {/* Preferences Section */}
-        <div>
-          <SectionHeader label="Preferences" />
-          <div className="space-y-3">
-
-            {/* Appearance */}
-            <SettingCard icon={Moon} iconColor="#a78bfa">
-              <div className="flex items-center justify-between gap-4">
-                <div>
-                  <p className="text-sm font-medium text-gray-800 dark:text-white">Appearance</p>
-                  <p className="text-xs mt-0.5 text-gray-400 dark:text-[#8B8FA8]">Applies to dialogs and menus</p>
-                </div>
-                <div className="flex items-center gap-0.5 p-1 rounded-lg shrink-0 bg-gray-100 dark:bg-[#1A1D2E] border border-gray-200 dark:border-white/[0.08]">
-                  {themeOptions.map(({ value, icon, label }) => (
-                    <button
-                      key={value}
-                      onClick={() => applyTheme(value)}
-                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-150"
-                      className={`transition-all duration-150 ${theme === value
-                        ? 'bg-white dark:bg-[#2C3150] text-purple-600 dark:text-purple-400 shadow-sm'
-                        : 'text-gray-400 dark:text-[#8B8FA8] hover:text-gray-600 dark:hover:text-gray-200'
-                      }`}
-                    >
-                      {icon}
-                      <span className="hidden sm:inline">{label}</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </SettingCard>
-
-            {/* Download Format */}
-            <SettingCard icon={ImageDown} iconColor="#34d399">
-              <div className="flex items-center justify-between gap-4">
-                <div>
-                  <p className="text-sm font-medium text-gray-800 dark:text-white">Download Format</p>
-                  <p className="text-xs mt-0.5 text-gray-400 dark:text-[#8B8FA8]">Default image export format</p>
-                </div>
-                <Select
-                  value={downloadFormat}
-                  onValueChange={(val) => { setDownloadFormat(val); localStorage.setItem('downloadFormat', val); }}
-                >
-                  <SelectTrigger className="w-32 h-8 text-xs shrink-0 bg-gray-100 dark:bg-[#1A1D2E] border-gray-200 dark:border-white/10 text-gray-800 dark:text-[#e2e8f0]">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {['jpg', 'png', 'webp', 'heic'].map(fmt => (
-                      <SelectItem key={fmt} value={fmt} className="text-xs">
-                        {fmt.toUpperCase()} (.{fmt})
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            </SettingCard>
-
-            {/* Language */}
-            <SettingCard icon={Globe} iconColor="#60a5fa">
-              <div className="flex items-center justify-between gap-4">
-                <div>
-                  <p className="text-sm font-medium text-gray-800 dark:text-white">{t('language')}</p>
-                  <p className="text-xs mt-0.5 text-gray-400 dark:text-[#8B8FA8]">Interface display language</p>
-                </div>
-                <Select value={lang} onValueChange={changeLang}>
-                  <SelectTrigger className="w-36 h-8 text-xs shrink-0 bg-gray-100 dark:bg-[#1A1D2E] border-gray-200 dark:border-white/10 text-gray-800 dark:text-[#e2e8f0]">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {Object.entries(languages).map(([code, { label, flag }]) => (
-                      <SelectItem key={code} value={code} className="text-xs">
-                        <span className="flex items-center gap-2">
-                          <img src={flag} alt={label} className="w-5 h-3.5 object-cover rounded-sm" />
-                          {label}
-                        </span>
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            </SettingCard>
-          </div>
+      {/* Download Format */}
+      <div className="bg-gray-50 dark:bg-gray-800/50 rounded-2xl p-4 border border-gray-100 dark:border-gray-700">
+        <div className="flex items-center gap-2 mb-3">
+          <ImageDown className="w-4 h-4 text-gray-500" />
+          <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Download Format</span>
         </div>
+        <Select
+          value={downloadFormat}
+          onValueChange={(val) => { setDownloadFormat(val); localStorage.setItem('downloadFormat', val); }}
+        >
+          <SelectTrigger className="w-full bg-white dark:bg-gray-800">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="jpg">JPEG (.jpg)</SelectItem>
+            <SelectItem value="png">PNG (.png)</SelectItem>
+            <SelectItem value="webp">WebP (.webp)</SelectItem>
+            <SelectItem value="heic">HEIC (.heic)</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
 
-        {/* Danger Zone */}
-        <div>
-          <SectionHeader label="Account" />
-          <div className="space-y-2">
-            <button
-              onClick={handleLogout}
-              className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-150 text-left border border-gray-200 dark:border-white/10 text-gray-700 dark:text-[#e2e8f0] hover:bg-gray-50 dark:hover:bg-white/5"
+      {/* Language Selector */}
+      <div className="bg-gray-50 dark:bg-gray-800/50 rounded-2xl p-4 border border-gray-100 dark:border-gray-700">
+        <div className="flex items-center gap-2 mb-3">
+          <Globe className="w-4 h-4 text-gray-500" />
+          <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{t('language')}</span>
+        </div>
+        <Select value={lang} onValueChange={changeLang}>
+          <SelectTrigger className="w-full bg-white dark:bg-gray-800">
+            <SelectValue placeholder={t('selectLanguage')} />
+          </SelectTrigger>
+          <SelectContent>
+            {Object.entries(languages).map(([code, { label, flag }]) => (
+              <SelectItem key={code} value={code}>
+                <span className="flex items-center gap-2">
+                  <img src={flag} alt={label} className="w-5 h-3.5 object-cover rounded-sm inline-block" />
+                  {label}
+                </span>
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
+      {/* Actions */}
+      <div className="space-y-3">
+        <Button
+          onClick={handleLogout}
+          variant="outline"
+          className="w-full justify-start h-12 border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800"
+        >
+          <LogOut className="w-4 h-4 mr-3" />
+          {t('logOut')}
+        </Button>
+
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button
+              variant="outline"
+              className="w-full justify-start h-12 border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 dark:border-red-900 dark:text-red-400 dark:hover:bg-red-950/30"
             >
-              <LogOut className="w-4 h-4 shrink-0 text-gray-400 dark:text-[#8B8FA8]" />
-              {t('logOut')}
-            </button>
-
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <button
-                  className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-150 text-left border border-red-200 dark:border-red-500/25 text-red-500 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/8"
-                >
-                  <Trash2 className="w-4 h-4 shrink-0" />
-                  {t('deleteAccount')}
-                </button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>{t('deleteAccountConfirm')}</AlertDialogTitle>
-                  <AlertDialogDescription>{t('deleteAccountDesc')}</AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>{t('cancel')}</AlertDialogCancel>
-                  <AlertDialogAction
-                    onClick={handleDeleteAccount}
-                    disabled={isDeleting}
-                    className="bg-red-600 hover:bg-red-700"
-                  >
-                    {isDeleting ? t('deleting') : t('deleteAccount')}
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-          </div>
-        </div>
-
+              <Trash2 className="w-4 h-4 mr-3" />
+              {t('deleteAccount')}
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>{t('deleteAccountConfirm')}</AlertDialogTitle>
+              <AlertDialogDescription>
+                {t('deleteAccountDesc')}
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>{t('cancel')}</AlertDialogCancel>
+              <AlertDialogAction
+                onClick={handleDeleteAccount}
+                disabled={isDeleting}
+                className="bg-red-600 hover:bg-red-700"
+              >
+                {isDeleting ? t('deleting') : t('deleteAccount')}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </div>
   );
