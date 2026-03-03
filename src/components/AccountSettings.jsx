@@ -178,9 +178,8 @@ export default function AccountSettings() {
                   </div>
                 ) : (
                   <div className="flex items-center gap-2 mb-0.5">
-                    <span className="text-base font-semibold text-white truncate">{displayName}</span>
-                    <span className="text-xs px-2 py-0.5 rounded-full capitalize shrink-0"
-                      style={{ background: 'rgba(167,139,250,0.2)', color: '#a78bfa', border: '1px solid rgba(167,139,250,0.3)' }}>
+                    <span className="text-base font-semibold text-gray-900 dark:text-white truncate">{displayName}</span>
+                    <span className="text-xs px-2 py-0.5 rounded-full capitalize shrink-0 bg-purple-100 dark:bg-purple-500/20 text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-500/30">
                       {user?.role || 'user'}
                     </span>
                     <button onClick={handleEditName}
