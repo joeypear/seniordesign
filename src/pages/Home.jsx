@@ -163,7 +163,7 @@ export default function Home() {
                 </TabsList>
 
                 <TabsContent value="scan" className="mt-0">
-                  <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-700">
+                  <div className="bg-white/80 dark:bg-[#22263A] backdrop-blur rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-[#2E3350]">
                     <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-1">{t('uploadTitle')}</h2>
                     <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">{t('uploadSubtitle')}</p>
                     <ImageUploader
