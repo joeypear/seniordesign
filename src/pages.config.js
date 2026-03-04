@@ -47,18 +47,16 @@
  *
  * The mainPage value must match a key in the PAGES object exactly.
  */
-import Home from './pages/Home';
 import ScanDetail from './pages/ScanDetail';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
-    "Home": Home,
     "ScanDetail": ScanDetail,
 }
 
 export const pagesConfig = {
-    mainPage: "Home",
+    mainPage: "ScanDetail",
     Pages: PAGES,
     Layout: __Layout,
 };
