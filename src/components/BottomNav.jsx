@@ -40,9 +40,9 @@ export default function BottomNav({ activeTab, onTabChange }) {
             >
               {isActive && (
                 <motion.div
-                  layoutId="bottom-nav-indicator"
+                  initial={{ opacity: 0, scaleX: 0 }}
+                  animate={{ opacity: 1, scaleX: 1 }}
                   className={`absolute top-0 left-1/2 -translate-x-1/2 h-0.5 w-10 rounded-full bg-gradient-to-r ${tab.activeGradient}`}
-                  transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                 />
               )}
               <Icon
