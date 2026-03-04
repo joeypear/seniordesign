@@ -128,10 +128,13 @@ const styles = `
     cursor: pointer;
   }
   .as-avatar-wrap {
+    width: 64px;
+    height: 64px;
     border-radius: 50%;
     border: 3px solid transparent;
     transition: border-color 150ms ease;
     cursor: pointer;
+    flex-shrink: 0;
   }
   .as-avatar-wrap:hover { border-color: var(--as-accent); }
   .as-avatar img { width: 100%; height: 100%; object-fit: cover; }
