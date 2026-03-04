@@ -128,7 +128,7 @@ const styles = `
     transition: border-color 150ms ease, var(--as-transition);
     cursor: pointer;
   }
-  .as-avatar:hover { border-color: var(--as-accent); outline: 3px solid var(--as-accent); outline-offset: 2px; border-color: transparent; }
+  .as-avatar:hover { border-color: var(--as-accent); }
   .as-avatar img { width: 100%; height: 100%; object-fit: cover; }
   .as-profile-row { display: flex; align-items: flex-start; gap: 16px; }
   .as-profile-info { flex: 1; min-width: 0; }
