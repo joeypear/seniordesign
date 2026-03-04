@@ -95,7 +95,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-[100dvh] bg-gradient-to-b from-orange-50 via-white to-teal-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+    <div className="min-h-[100dvh] bg-gradient-to-b from-orange-50 via-white to-teal-50 dark:from-[#13152A] dark:via-[#1A1D2E] dark:to-[#13152A]">
       <OnboardingGuide open={showOnboarding} onClose={handleCloseOnboarding} />
       <ScanDetailModal 
         scan={selectedScan} 
