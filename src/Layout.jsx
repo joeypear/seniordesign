@@ -105,7 +105,7 @@ export default function Layout({ children }) {
           --foreground: 0 0% 98% !important;
           --card: 231 27% 18% !important;          /* #22263A  card */
           --card-foreground: 0 0% 98% !important;
-          --popover: 233 27% 15% !important;       /* #1A1D2E  modal/popover */
+          --popover: 230 30% 11% !important;       /* #131620  modal/popover - darker */
           --popover-foreground: 0 0% 98% !important;
           --secondary: 232 28% 25% !important;     /* #2C3150  hover/active */
           --secondary-foreground: 0 0% 98% !important;
