@@ -124,11 +124,16 @@ const styles = `
     font-weight: 700;
     color: #fff;
     overflow: hidden;
-    border: 3px solid transparent;
-    transition: border-color 150ms ease, var(--as-transition);
+    transition: var(--as-transition);
     cursor: pointer;
   }
-  .as-avatar:hover { border-color: var(--as-accent); }
+  .as-avatar-wrap {
+    border-radius: 50%;
+    border: 3px solid transparent;
+    transition: border-color 150ms ease;
+    cursor: pointer;
+  }
+  .as-avatar-wrap:hover { border-color: var(--as-accent); }
   .as-avatar img { width: 100%; height: 100%; object-fit: cover; }
   .as-profile-row { display: flex; align-items: flex-start; gap: 16px; }
   .as-profile-info { flex: 1; min-width: 0; }
