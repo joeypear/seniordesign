@@ -101,7 +101,7 @@ export default function Layout({ children }) {
       <style>{`
         /* ── Deep purple-dark token overrides ── */
         .dark {
-          --background: 236 40% 9% !important;    /* #11121F  page bg */
+          --background: 228 34% 14% !important;   /* #161B2E  page bg */
           --foreground: 0 0% 98% !important;
           --card: 231 27% 18% !important;          /* #22263A  card */
           --card-foreground: 0 0% 98% !important;
@@ -123,7 +123,7 @@ export default function Layout({ children }) {
         /* Ensure the document body uses the page-bg token */
         .dark body,
         .dark #root {
-          background-color: #11121F !important;
+          background-color: #161B2E !important;
         }
 
         /* shadcn dialog / sheet overlaid surfaces */
