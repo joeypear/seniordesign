@@ -101,7 +101,7 @@ export default function Layout({ children }) {
       <style>{`
         /* ── Deep purple-dark token overrides ── */
         .dark {
-          --background: 236 37% 12% !important;   /* #13152A  page bg */
+          --background: 236 40% 9% !important;    /* #11121F  page bg */
           --foreground: 0 0% 98% !important;
           --card: 231 27% 18% !important;          /* #22263A  card */
           --card-foreground: 0 0% 98% !important;
