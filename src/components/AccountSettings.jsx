@@ -516,7 +516,7 @@ export default function AccountSettings() {
                 <div className="as-setting-card">
                   <div className="as-setting-left">
                     <div className="as-setting-label">
-                      <Moon size={14} />
+                      <Moon size={16} />
                       Appearance
                     </div>
                   </div>
