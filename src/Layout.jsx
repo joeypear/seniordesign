@@ -98,6 +98,41 @@ function LayoutInner({ children }) {
 export default function Layout({ children }) {
   return (
     <LanguageProvider>
+      <style>{`
+        /* ── Deep purple-dark token overrides ── */
+        .dark {
+          --background: 236 37% 12% !important;   /* #13152A  page bg */
+          --foreground: 0 0% 98% !important;
+          --card: 231 27% 18% !important;          /* #22263A  card */
+          --card-foreground: 0 0% 98% !important;
+          --popover: 233 27% 15% !important;       /* #1A1D2E  modal/popover */
+          --popover-foreground: 0 0% 98% !important;
+          --secondary: 232 28% 25% !important;     /* #2C3150  hover/active */
+          --secondary-foreground: 0 0% 98% !important;
+          --muted: 232 28% 25% !important;
+          --muted-foreground: 0 0% 63.9% !important;
+          --accent: 232 28% 25% !important;
+          --accent-foreground: 0 0% 98% !important;
+          --border: 232 26% 22% !important;
+          --input: 232 26% 22% !important;
+          --sidebar-background: 233 27% 15% !important;
+          --sidebar-accent: 232 28% 25% !important;
+          --sidebar-border: 232 26% 22% !important;
+        }
+
+        /* Ensure the document body uses the page-bg token */
+        .dark body,
+        .dark #root {
+          background-color: #13152A !important;
+        }
+
+        /* shadcn dialog / sheet overlaid surfaces */
+        .dark [data-radix-popper-content-wrapper],
+        .dark [role="dialog"],
+        .dark [cmdk-root] {
+          background-color: #1A1D2E;
+        }
+      `}</style>
       <LayoutInner>{children}</LayoutInner>
     </LanguageProvider>
   );
