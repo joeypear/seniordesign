@@ -241,7 +241,7 @@ const styles = `
     background: var(--as-card);
     border: 1px solid var(--as-border);
     border-radius: 12px;
-    padding: 10px 14px;
+    padding: 14px 16px;
     display: flex;
     align-items: center;
     justify-content: space-between;
