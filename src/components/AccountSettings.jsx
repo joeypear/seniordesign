@@ -569,7 +569,6 @@ export default function AccountSettings() {
                       <Globe size={14} />
                       {t('language')}
                     </div>
-                    <div className="as-setting-helper">Interface display language</div>
                   </div>
                   <div className="as-setting-right">
                     <Select value={lang} onValueChange={changeLang}>
