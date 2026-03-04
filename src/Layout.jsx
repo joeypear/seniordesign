@@ -123,7 +123,7 @@ export default function Layout({ children }) {
         /* Ensure the document body uses the page-bg token */
         .dark body,
         .dark #root {
-          background-color: #13152A !important;
+          background-color: #11121F !important;
         }
 
         /* shadcn dialog / sheet overlaid surfaces */
