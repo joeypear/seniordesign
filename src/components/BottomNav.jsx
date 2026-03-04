@@ -36,15 +36,19 @@ export default function BottomNav({ activeTab, onTabChange }) {
             <button
               key={tab.key}
               onClick={() => onTabChange(tab.key)}
-              className="flex-1 flex flex-col items-center gap-1 py-3 relative transition-all duration-200"
+              className="flex-1 flex flex-col items-center gap-1 pt-1 pb-3 transition-all duration-200"
             >
-              {isActive && (
-                <motion.div
-                  initial={{ opacity: 0, scaleX: 0 }}
-                  animate={{ opacity: 1, scaleX: 1 }}
-                  className={`absolute top-0 left-1/2 -translate-x-1/2 h-0.5 w-10 rounded-full bg-gradient-to-r ${tab.activeGradient}`}
-                />
-              )}
+              <div className="w-10 flex justify-center mb-1">
+                {isActive ? (
+                  <motion.div
+                    initial={{ opacity: 0, scaleX: 0 }}
+                    animate={{ opacity: 1, scaleX: 1 }}
+                    className={`h-0.5 w-full rounded-full bg-gradient-to-r ${tab.activeGradient}`}
+                  />
+                ) : (
+                  <div className="h-0.5" />
+                )}
+              </div>
               <Icon
                 className={`w-5 h-5 transition-all duration-200 ${
                   isActive ? tab.activeColor : 'text-gray-400 dark:text-gray-600'
