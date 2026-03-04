@@ -277,12 +277,13 @@ const styles = `
     border-radius: 8px;
     padding: 3px;
     gap: 2px;
+    flex-shrink: 0;
   }
   .as-seg-btn {
     display: flex;
     align-items: center;
     gap: 5px;
-    padding: 5px 10px;
+    padding: 5px 8px;
     border-radius: 6px;
     border: none;
     cursor: pointer;
