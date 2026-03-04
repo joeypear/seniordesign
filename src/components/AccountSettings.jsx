@@ -543,7 +543,6 @@ export default function AccountSettings() {
                       <ImageDown size={14} />
                       Download Format
                     </div>
-                    <div className="as-setting-helper">Format used when saving images</div>
                   </div>
                   <div className="as-setting-right">
                     <Select
