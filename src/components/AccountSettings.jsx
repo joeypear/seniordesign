@@ -311,7 +311,7 @@ const styles = `
   }
 
   /* Danger zone */
-  .as-danger-section { display: flex; flex-direction: column; gap: 7px; }
+  .as-danger-section { display: flex; flex-direction: column; gap: 10px; }
   .as-action-btn {
     display: flex;
     align-items: center;
