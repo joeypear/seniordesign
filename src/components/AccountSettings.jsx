@@ -252,15 +252,15 @@ const styles = `
   }
   .as-setting-card:hover { background: var(--as-card-hover); }
   .as-setting-label {
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 500;
     color: var(--as-text-primary);
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-bottom: 2px;
+    gap: 9px;
+    margin-bottom: 0;
   }
-  .as-setting-label svg { color: var(--as-accent); }
+  .as-setting-label svg { color: var(--as-accent); width: 16px; height: 16px; }
   .as-setting-helper {
     font-size: 11px;
     font-weight: 300;
