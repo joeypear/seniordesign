@@ -566,7 +566,7 @@ export default function AccountSettings() {
                 <div className="as-setting-card">
                   <div className="as-setting-left">
                     <div className="as-setting-label">
-                      <Globe size={14} />
+                      <Globe size={16} />
                       {t('language')}
                     </div>
                   </div>
