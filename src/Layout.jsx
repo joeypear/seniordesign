@@ -130,7 +130,7 @@ export default function Layout({ children }) {
         .dark [data-radix-popper-content-wrapper],
         .dark [role="dialog"],
         .dark [cmdk-root] {
-          background-color: #1A1D2E;
+          background-color: #0F1118;
         }
       `}</style>
       <LayoutInner>{children}</LayoutInner>
