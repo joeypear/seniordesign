@@ -123,32 +123,38 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
     <div className="space-y-4">
       <style>{`
         .sh-scroll-list {
-          scrollbar-width: thin;
-          scrollbar-color: transparent transparent;
-          transition: scrollbar-color 300ms ease;
+          scrollbar-width: none;
         }
-        .sh-scroll-list:hover,
-        .sh-scroll-list:focus-within {
-          scrollbar-color: #d1d5db transparent;
+        .sh-scroll-list::-webkit-scrollbar {
+          display: none;
         }
-        .dark .sh-scroll-list:hover,
-        .dark .sh-scroll-list:focus-within {
-          scrollbar-color: #2C3150 transparent;
-        }
-        .sh-scroll-list::-webkit-scrollbar { width: 6px; }
-        .sh-scroll-list::-webkit-scrollbar-track { background: transparent; }
-        .sh-scroll-list::-webkit-scrollbar-thumb {
-          background: transparent;
-          border-radius: 9999px;
-          transition: background 300ms ease;
-        }
-        .sh-scroll-list:hover::-webkit-scrollbar-thumb,
-        .sh-scroll-list:focus-within::-webkit-scrollbar-thumb {
-          background: #d1d5db;
-        }
-        .dark .sh-scroll-list:hover::-webkit-scrollbar-thumb,
-        .dark .sh-scroll-list:focus-within::-webkit-scrollbar-thumb {
-          background: #2C3150;
+        @media (hover: hover) {
+          .sh-scroll-list {
+            scrollbar-width: thin;
+            scrollbar-color: transparent transparent;
+            transition: scrollbar-color 300ms ease;
+          }
+          .sh-scroll-list:hover {
+            scrollbar-color: #d1d5db transparent;
+          }
+          .dark .sh-scroll-list:hover {
+            scrollbar-color: #4B5563 transparent;
+          }
+          .sh-scroll-list::-webkit-scrollbar {
+            display: block;
+            width: 4px;
+          }
+          .sh-scroll-list::-webkit-scrollbar-track { background: transparent; }
+          .sh-scroll-list::-webkit-scrollbar-thumb {
+            background: transparent;
+            border-radius: 9999px;
+          }
+          .sh-scroll-list:hover::-webkit-scrollbar-thumb {
+            background: #d1d5db;
+          }
+          .dark .sh-scroll-list:hover::-webkit-scrollbar-thumb {
+            background: #4B5563;
+          }
         }
       `}</style>
       <div className="flex gap-2 items-center">
