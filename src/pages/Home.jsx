@@ -145,7 +145,7 @@ export default function Home() {
               exit={{ opacity: 0 }}
             >
               <Tabs defaultValue="scan" className="w-full">
-                <TabsList className="grid w-full grid-cols-2 mb-6 bg-white/80 dark:bg-gray-800/80 backdrop-blur rounded-xl p-1 shadow-sm">
+                <TabsList className="grid w-full grid-cols-2 mb-6 bg-white/80 dark:bg-[#22263A] backdrop-blur rounded-xl p-1 shadow-sm">
                   <TabsTrigger 
                     value="scan" 
                     className="rounded-lg data-[state=active]:text-white data-[state=active]:shadow-md transition-all [&[data-state=active]]:bg-[image:linear-gradient(to_right,#fb923c,#f43f5e)]"
