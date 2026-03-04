@@ -9,14 +9,8 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import {
-  Popover, PopoverContent, PopoverTrigger,
-} from '@/components/ui/popover';
-import {
-  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { base44 } from '@/api/base44Client';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { motion } from 'framer-motion';
 import jsPDF from 'jspdf';
 
@@ -26,28 +20,17 @@ const statusConfig = {
   normal: { icon: CheckCircle2, color: 'text-emerald-500 dark:text-emerald-400', bg: 'bg-emerald-100 dark:bg-emerald-900/50', labelKey: 'normalLabel', descKey: 'normalDesc' },
 };
 
-export default function ScanDetail() {
+export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateNotes, onRenameScan, onDeleteScan }) {
   const { t } = useLanguage();
-  const queryClient = useQueryClient();
-  const params = new URLSearchParams(window.location.search);
-  const scanId = params.get('id');
-
   const [notes, setNotes] = useState('');
   const [savedNotes, setSavedNotes] = useState('');
   const [isSaving, setIsSaving] = useState(false);
   const [isEditingName, setIsEditingName] = useState(false);
   const [editName, setEditName] = useState('');
-  const [isRenamingInModal, setIsRenamingInModal] = useState(false);
+  const [isRenaming, setIsRenaming] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
-
-  const { data: scans = [] } = useQuery({
-    queryKey: ['scans'],
-    queryFn: () => base44.entities.Scan.list('-created_date', 50),
-  });
-
-  const scan = scans.find(s => s.id === scanId);
 
   useEffect(() => {
     if (scan) {
@@ -55,47 +38,36 @@ export default function ScanDetail() {
       setSavedNotes(scan.notes || '');
       setEditName(scan.name || '');
     }
-  }, [scan]);
+  }, [scan?.id]);
 
-  const updateNotesMutation = useMutation({
-    mutationFn: ({ scanId, notes }) => base44.entities.Scan.update(scanId, { notes }),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['scans'] }),
-  });
+  if (scansLoading || !scan) {
+    return (
+      <div className="min-h-[100dvh] bg-gradient-to-b from-orange-50 via-white to-teal-50 dark:from-[#161B2E] dark:via-[#161B2E] dark:to-[#161B2E] flex items-center justify-center">
+        <div className="w-8 h-8 border-2 border-teal-400 border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
 
-  const renameScanMutation = useMutation({
-    mutationFn: ({ scanId, name }) => base44.entities.Scan.update(scanId, { name }),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['scans'] }),
-  });
-
-  const deleteScanMutation = useMutation({
-    mutationFn: (scanId) => base44.entities.Scan.delete(scanId),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['scans'] });
-      handleBack();
-    },
-  });
-
-  const handleBack = () => {
-    window.history.back();
-  };
+  const status = statusConfig[scan.result] || statusConfig.pending;
+  const StatusIcon = status.icon;
 
   const handleSaveNotes = async () => {
     setIsSaving(true);
-    await updateNotesMutation.mutateAsync({ scanId: scan.id, notes });
+    await onUpdateNotes(scan.id, notes);
     setSavedNotes(notes);
     setIsSaving(false);
   };
 
   const handleRename = async () => {
-    setIsRenamingInModal(true);
-    await renameScanMutation.mutateAsync({ scanId: scan.id, name: editName });
-    setIsRenamingInModal(false);
+    setIsRenaming(true);
+    await onRenameScan(scan.id, editName);
+    setIsRenaming(false);
     setIsEditingName(false);
   };
 
   const handleDelete = async () => {
     setIsDeleting(true);
-    await deleteScanMutation.mutateAsync(scan.id);
+    await onDeleteScan(scan.id);
   };
 
   const handleDownload = async () => {
@@ -110,9 +82,7 @@ export default function ScanDetail() {
     const date = format(new Date(scan.created_date + 'Z'), 'yyyy-MM-dd');
     const ext = localStorage.getItem('downloadFormat') || 'jpg';
     a.download = `${title}_${result}_${date}.${ext}`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
     URL.revokeObjectURL(url);
     setIsDownloading(false);
   };
@@ -179,40 +149,27 @@ export default function ScanDetail() {
     setIsExporting(false);
   };
 
-  if (!scan) {
-    return (
-      <div className="min-h-[100dvh] bg-gradient-to-b from-orange-50 via-white to-teal-50 dark:from-[#161B2E] dark:via-[#161B2E] dark:to-[#161B2E] flex items-center justify-center">
-        <div className="w-8 h-8 border-2 border-teal-400 border-t-transparent rounded-full animate-spin" />
-      </div>
-    );
-  }
-
-  const status = statusConfig[scan.result] || statusConfig.pending;
-  const StatusIcon = status.icon;
-
   return (
     <motion.div
-      initial={{ opacity: 0, x: 32 }}
+      initial={{ opacity: 0, x: 40 }}
       animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: 32 }}
-      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+      exit={{ opacity: 0, x: 40 }}
+      transition={{ type: 'spring', stiffness: 320, damping: 32 }}
       className="min-h-[100dvh] bg-gradient-to-b from-orange-50 via-white to-teal-50 dark:from-[#161B2E] dark:via-[#161B2E] dark:to-[#161B2E]"
     >
       {/* Top bar */}
-      <div
-        className="sticky top-0 z-30 bg-white/80 dark:bg-[#1A1D2E]/90 backdrop-blur-md border-b border-gray-100 dark:border-[#2E3350] flex items-center gap-3 px-4 py-3"
-        style={{ paddingTop: 'calc(env(safe-area-inset-top) + 12px)' }}
-      >
+      <div className="sticky top-0 z-30 bg-white/85 dark:bg-[#1A1D2E]/90 backdrop-blur-md border-b border-gray-100 dark:border-[#2E3350] flex items-center gap-3 px-4 py-3">
         <button
-          onClick={handleBack}
-          className="flex items-center gap-1 text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
+          onClick={onBack}
+          className="flex items-center gap-1 text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors shrink-0"
         >
           <ArrowLeft className="w-5 h-5" />
           <span className="text-sm font-medium">{t('history')}</span>
         </button>
-        <div className="flex-1 min-w-0">
+
+        <div className="flex-1 min-w-0 flex justify-center">
           {isEditingName ? (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 w-full">
               <Input
                 value={editName}
                 onChange={(e) => setEditName(e.target.value)}
@@ -220,29 +177,32 @@ export default function ScanDetail() {
                 className="h-7 text-sm"
                 autoFocus
               />
-              <Button size="icon" variant="ghost" className="h-7 w-7 text-green-600" onClick={handleRename} disabled={isRenamingInModal}>
-                {isRenamingInModal ? <Loader2 className="w-3 h-3 animate-spin" /> : <Check className="w-3 h-3" />}
+              <Button size="icon" variant="ghost" className="h-7 w-7 text-green-600 shrink-0" onClick={handleRename} disabled={isRenaming}>
+                {isRenaming ? <Loader2 className="w-3 h-3 animate-spin" /> : <Check className="w-3 h-3" />}
               </Button>
-              <Button size="icon" variant="ghost" className="h-7 w-7 text-gray-400" onClick={() => setIsEditingName(false)}>
+              <Button size="icon" variant="ghost" className="h-7 w-7 text-gray-400 shrink-0" onClick={() => setIsEditingName(false)}>
                 <X className="w-3 h-3" />
               </Button>
             </div>
           ) : (
             <button
               onClick={() => { setEditName(scan.name || ''); setIsEditingName(true); }}
-              className="flex items-center gap-2 group"
+              className="flex items-center gap-1.5 group max-w-full"
             >
               <h1 className="text-sm font-semibold text-gray-800 dark:text-gray-100 truncate">
                 {scan.name || t('scanDetails')}
               </h1>
-              <Pencil className="w-3 h-3 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+              <Pencil className="w-3 h-3 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
             </button>
           )}
         </div>
+
+        {/* Spacer to balance back button */}
+        <div className="w-16 shrink-0" />
       </div>
 
-      {/* Content */}
-      <div className="max-w-lg mx-auto px-4 py-6 space-y-4 pb-24">
+      {/* Scrollable content */}
+      <div className="max-w-lg mx-auto px-4 py-6 space-y-4 pb-10">
         {/* Image */}
         <div className="rounded-2xl overflow-hidden bg-gray-100 dark:bg-gray-800 shadow-sm">
           <img src={scan.image_url} alt="Retina scan" className="w-full h-auto max-h-72 object-contain" />
