@@ -308,8 +308,9 @@ const styles = `
     font-size: 13px !important;
     height: 36px !important;
     border-radius: 8px !important;
-    min-width: 120px;
-    max-width: 160px;
+    min-width: 100px;
+    max-width: 100%;
+    flex-shrink: 0;
   }
 
   /* Danger zone */
