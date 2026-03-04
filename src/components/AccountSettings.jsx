@@ -519,7 +519,6 @@ export default function AccountSettings() {
                       <Moon size={14} />
                       Appearance
                     </div>
-                    <div className="as-setting-helper">Controls light or dark theme</div>
                   </div>
                   <div className="as-setting-right">
                     <div className="as-seg">
