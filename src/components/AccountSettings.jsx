@@ -540,7 +540,7 @@ export default function AccountSettings() {
                 <div className="as-setting-card">
                   <div className="as-setting-left">
                     <div className="as-setting-label">
-                      <ImageDown size={14} />
+                      <ImageDown size={16} />
                       Download Format
                     </div>
                   </div>
