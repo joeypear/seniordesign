@@ -1,0 +1,38 @@
+/* ── Global mobile-ready CSS ── */
+
+/* Disable overscroll bounce on iOS/Android */
+html, body {
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Safe area insets for notches and home indicators */
+body {
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+/* Disable text selection on UI chrome elements */
+button,
+[role="tab"],
+[role="tablist"],
+nav,
+label,
+.no-select {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Prevent callout on long-press (iOS) */
+button, a, img {
+  -webkit-touch-callout: none;
+}
+
+/* Tap highlight */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
