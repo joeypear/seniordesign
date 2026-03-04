@@ -94,7 +94,7 @@ const styles = `
     background: var(--as-card);
     border: 1px solid var(--as-border);
     border-radius: 14px;
-    padding: 14px 16px;
+    padding: 18px 20px;
     position: relative;
     overflow: hidden;
     width: 100%;
