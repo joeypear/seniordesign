@@ -240,33 +240,36 @@ const styles = `
     background: var(--as-card);
     border: 1px solid var(--as-border);
     border-radius: 12px;
-    padding: 14px 16px;
+    padding: 12px 14px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 12px;
+    gap: 10px;
     border-left: 3px solid var(--as-accent);
     transition: background 150ms ease, var(--as-transition);
     width: 100%;
-    flex-wrap: wrap;
+    min-height: 56px;
+    flex-wrap: nowrap;
+    overflow: hidden;
   }
   .as-setting-card:hover { background: var(--as-card-hover); }
   .as-setting-label {
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 500;
     color: var(--as-text-primary);
     display: flex;
     align-items: center;
-    gap: 9px;
+    gap: 8px;
     margin-bottom: 0;
+    white-space: nowrap;
   }
-  .as-setting-label svg { color: var(--as-accent); width: 16px; height: 16px; }
+  .as-setting-label svg { color: var(--as-accent); width: 15px; height: 15px; flex-shrink: 0; }
   .as-setting-helper {
     font-size: 11px;
     font-weight: 300;
     color: var(--as-text-secondary);
   }
-  .as-setting-left { flex: 1; min-width: 0; }
+  .as-setting-left { flex: 1; min-width: 0; overflow: hidden; }
   .as-setting-right { flex-shrink: 0; }
 
   /* Segmented control */
