@@ -347,6 +347,90 @@ const styles = `
     animation: as-spin 0.7s linear infinite;
   }
   @keyframes as-spin { to { transform: rotate(360deg); } }
+
+  /* Native select for mobile */
+  .as-native-select {
+    display: none;
+  }
+
+  /* ── Mobile overrides (≤ 480px) ── */
+  @media (max-width: 480px) {
+    .as-root {
+      width: 100%;
+      max-width: 100vw;
+      overflow-x: hidden;
+      box-sizing: border-box;
+    }
+
+    .as-body {
+      width: 100%;
+      box-sizing: border-box;
+      overflow-x: hidden;
+    }
+
+    /* Stack setting cards vertically */
+    .as-setting-card {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
+    }
+    .as-setting-left,
+    .as-setting-right {
+      width: 100%;
+      flex-shrink: unset;
+      flex: unset;
+    }
+    .as-select-trigger {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: unset !important;
+      box-sizing: border-box !important;
+    }
+
+    /* Hide segmented toggle, show native select */
+    .as-seg { display: none; }
+    .as-native-select {
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      height: 36px;
+      padding: 0 10px;
+      border-radius: 8px;
+      border: 1px solid var(--as-border);
+      background: var(--as-bg);
+      color: var(--as-text-primary);
+      font-size: 13px;
+      outline: none;
+      appearance: auto;
+    }
+
+    /* Profile info text overflow */
+    .as-profile-info {
+      overflow: hidden;
+      word-break: break-word;
+      min-width: 0;
+    }
+    .as-name {
+      white-space: normal;
+      word-break: break-word;
+    }
+    .as-email {
+      white-space: normal;
+      word-break: break-all;
+    }
+
+    /* Name row: name on its own line, badge+edit below */
+    .as-name-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+    }
+    .as-name-row-sub {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+  }
 `;
 
 function applyThemeToDOM(value) {
