@@ -85,9 +85,9 @@ const styles = `
     --as-seg-selected-shadow: 0 1px 6px rgba(0,0,0,0.4);
   }
   .as-root * { transition: var(--as-transition); box-sizing: border-box; }
-  .as-root { background: transparent; border-radius: 0; padding: 0; overflow: visible; }
+  .as-root { background: transparent; border-radius: 0; padding: 0; overflow: hidden; width: 100%; max-width: 100%; }
   
-  .as-body { padding: 4px 0 8px; display: flex; flex-direction: column; gap: 20px; width: 100%; }
+  .as-body { padding: 4px 0 8px; display: flex; flex-direction: column; gap: 20px; width: 100%; overflow-x: hidden; }
 
   /* Profile Card */
   .as-profile-card {
