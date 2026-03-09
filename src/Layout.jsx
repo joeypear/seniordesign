@@ -80,7 +80,7 @@ function LayoutInner({ children }) {
         </Button>
 
         <Dialog open={showSettings} onOpenChange={setShowSettings}>
-          <DialogContent className="max-w-lg w-[calc(100vw-2rem)] max-h-[90vh] overflow-y-auto as-dialog-scroll">
+          <DialogContent className="max-w-lg w-[calc(100vw-2rem)] sm:w-full max-h-[90vh] overflow-y-auto as-dialog-scroll sm:rounded-lg rounded-t-2xl rounded-b-none sm:bottom-auto fixed sm:static bottom-0 left-0 right-0 mx-auto">
             <DialogHeader>
               <DialogTitle>{t('accountSettings')}</DialogTitle>
             </DialogHeader>
