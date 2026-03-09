@@ -145,9 +145,9 @@ function LayoutInner({ children }) {
             .as-settings-desktop-header { display: none !important; }
             /* Show mobile header */
             .as-settings-mobile-header { display: flex !important; }
-            /* Indent content so it doesn't go under the sticky bar */
+            /* Remove default DialogContent padding on mobile (AccountSettings handles its own) */
             .as-settings-dialog > div:last-child {
-              padding: 0 16px 24px;
+              padding: 0;
             }
           }
           @media (min-width: 481px) {
