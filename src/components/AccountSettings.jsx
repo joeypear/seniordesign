@@ -278,23 +278,25 @@ const styles = `
     background: var(--as-seg-bg);
     border-radius: 8px;
     padding: 3px;
-    gap: 2px;
+    gap: 1px;
     flex-shrink: 0;
+    overflow: visible;
   }
   .as-seg-btn {
     display: flex;
     align-items: center;
-    gap: 5px;
-    padding: 5px 8px;
+    gap: 4px;
+    padding: 4px 8px;
     border-radius: 6px;
     border: none;
     cursor: pointer;
-    font-size: 12px;
+    font-size: 11.5px;
     font-weight: 500;
     background: transparent;
     color: var(--as-text-secondary);
     transition: background 150ms ease, color 150ms ease, box-shadow 150ms ease;
     white-space: nowrap;
+    flex-shrink: 0;
   }
   .as-seg-btn.active {
     background: var(--as-seg-selected);
