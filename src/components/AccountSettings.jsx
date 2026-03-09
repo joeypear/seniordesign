@@ -94,10 +94,11 @@ const styles = `
     background: var(--as-card);
     border: 1px solid var(--as-border);
     border-radius: 14px;
-    padding: 18px 20px;
+    padding: 16px;
     position: relative;
     overflow: hidden;
     width: 100%;
+    box-sizing: border-box;
   }
   .as-profile-card::before {
     content: '';
