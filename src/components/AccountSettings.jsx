@@ -627,9 +627,15 @@ export default function AccountSettings() {
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="system">System</SelectItem>
-                          <SelectItem value="light">Light</SelectItem>
-                          <SelectItem value="dark">Dark</SelectItem>
+                          <SelectItem value="system">
+                            <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><Monitor size={13} />System</span>
+                          </SelectItem>
+                          <SelectItem value="light">
+                            <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><Sun size={13} />Light</span>
+                          </SelectItem>
+                          <SelectItem value="dark">
+                            <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><Moon size={13} />Dark</span>
+                          </SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
