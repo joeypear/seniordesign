@@ -106,21 +106,15 @@ const styles = `
     background: linear-gradient(135deg, rgba(124,92,252,0.06) 0%, rgba(236,72,153,0.04) 100%);
     pointer-events: none;
   }
-  .as-avatar-wrap {
-    position: relative;
-    width: 64px;
-    height: 64px;
-    flex-shrink: 0;
-  }
   .as-avatar {
-    width: 64px;
-    height: 64px;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
     background: var(--as-avatar-gradient);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 700;
     color: #fff;
     overflow: hidden;
@@ -128,8 +122,8 @@ const styles = `
     cursor: pointer;
   }
   .as-avatar-wrap {
-    width: 70px;
-    height: 70px;
+    width: 62px;
+    height: 62px;
     border-radius: 50%;
     border: 3px solid transparent;
     transition: border-color 150ms ease;
@@ -141,17 +135,19 @@ const styles = `
   }
   .as-avatar-wrap:hover { border-color: var(--as-accent); }
   .as-avatar img { width: 100%; height: 100%; object-fit: cover; }
-  .as-profile-row { display: flex; align-items: flex-start; gap: 16px; }
+  .as-profile-row { display: flex; align-items: center; gap: 14px; }
   .as-profile-info { flex: 1; min-width: 0; }
-  .as-name-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .as-name-row { display: flex; align-items: center; gap: 6px; flex-wrap: nowrap; overflow: hidden; }
   .as-name {
-    font-size: 17px;
+    font-size: 16px;
     font-weight: 600;
     color: var(--as-text-primary);
     margin: 0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    min-width: 0;
+    flex-shrink: 1;
   }
   .as-role-badge {
     font-size: 11px;
