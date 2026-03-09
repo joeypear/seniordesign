@@ -280,24 +280,26 @@ const styles = `
     border-radius: 8px;
     padding: 3px;
     gap: 1px;
-    flex-shrink: 0;
-    overflow: visible;
+    max-width: 100%;
+    overflow: hidden;
   }
   .as-seg-btn {
     display: flex;
     align-items: center;
-    gap: 4px;
-    padding: 4px 8px;
+    justify-content: center;
+    gap: 3px;
+    padding: 4px 6px;
     border-radius: 6px;
     border: none;
     cursor: pointer;
-    font-size: 11.5px;
+    font-size: 11px;
     font-weight: 500;
     background: transparent;
     color: var(--as-text-secondary);
     transition: background 150ms ease, color 150ms ease, box-shadow 150ms ease;
     white-space: nowrap;
-    flex-shrink: 0;
+    flex: 1;
+    min-width: 0;
   }
   .as-seg-btn.active {
     background: var(--as-seg-selected);
