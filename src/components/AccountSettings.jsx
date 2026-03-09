@@ -620,6 +620,15 @@ export default function AccountSettings() {
                         </button>
                       ))}
                     </div>
+                    <select
+                      className="as-native-select"
+                      value={theme}
+                      onChange={(e) => handleTheme(e.target.value)}
+                    >
+                      <option value="system">System</option>
+                      <option value="light">Light</option>
+                      <option value="dark">Dark</option>
+                    </select>
                   </div>
                 </div>
 
