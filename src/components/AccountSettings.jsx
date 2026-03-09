@@ -312,8 +312,8 @@ const styles = `
     font-size: 13px !important;
     height: 36px !important;
     border-radius: 8px !important;
-    min-width: 100px;
-    max-width: 100%;
+    min-width: 110px;
+    max-width: 160px;
     flex-shrink: 0;
   }
 
