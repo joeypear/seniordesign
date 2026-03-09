@@ -271,7 +271,7 @@ const styles = `
     color: var(--as-text-secondary);
   }
   .as-setting-left { flex: 1; min-width: 0; overflow: hidden; }
-  .as-setting-right { flex-shrink: 0; }
+  .as-setting-right { flex-shrink: 0; max-width: 100%; }
 
   /* Segmented control */
   .as-seg {
