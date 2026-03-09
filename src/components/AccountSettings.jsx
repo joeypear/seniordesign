@@ -294,6 +294,10 @@ const styles = `
     transition: background 150ms ease, color 150ms ease, box-shadow 150ms ease;
     white-space: nowrap;
   }
+  .as-seg-btn:hover:not(.active) {
+    background: var(--as-card-hover);
+    color: var(--as-text-primary);
+  }
   .as-seg-btn.active {
     background: var(--as-seg-selected);
     color: var(--as-text-primary);
