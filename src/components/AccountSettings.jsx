@@ -315,8 +315,9 @@ const styles = `
     font-size: 13px !important;
     height: 36px !important;
     border-radius: 8px !important;
-    min-width: 110px;
-    max-width: 160px;
+    width: auto !important;
+    max-width: 100% !important;
+    min-width: unset !important;
     flex-shrink: 0;
   }
 
