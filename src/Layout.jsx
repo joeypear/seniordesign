@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { User, Info } from 'lucide-react';
+import { User, Info, ChevronLeft } from 'lucide-react';
 import DisclaimerDialog from '@/components/DisclaimerDialog';
 import { Button } from '@/components/ui/button';
 import { LanguageProvider, useLanguage } from '@/components/LanguageContext';
