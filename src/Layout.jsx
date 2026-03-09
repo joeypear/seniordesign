@@ -161,9 +161,10 @@ function LayoutInner({ children }) {
             display: none;
             align-items: center;
             justify-content: space-between;
-            padding: 12px 16px;
+            height: 56px;
+            padding: 0 20px;
             background: hsl(var(--popover));
-            border-bottom: 1px solid hsl(var(--border));
+            border-bottom: 1.5px solid hsl(var(--border) / 0.8);
           }
           .as-settings-back-btn {
             display: flex;
