@@ -80,15 +80,113 @@ function LayoutInner({ children }) {
         </Button>
 
         <Dialog open={showSettings} onOpenChange={setShowSettings}>
-          <DialogContent className="max-w-lg w-[calc(100vw-2rem)] max-h-[90vh] overflow-y-auto as-dialog-scroll">
-            <DialogHeader>
+          <DialogContent className="max-w-lg w-[calc(100vw-2rem)] max-h-[90vh] overflow-y-auto as-dialog-scroll as-settings-dialog">
+            {/* Desktop header (hidden on mobile) */}
+            <DialogHeader className="as-settings-desktop-header">
               <DialogTitle>{t('accountSettings')}</DialogTitle>
             </DialogHeader>
+            {/* Mobile sticky header (hidden on desktop) */}
+            <div className="as-settings-mobile-header">
+              <button
+                className="as-settings-back-btn"
+                onClick={() => setShowSettings(false)}
+                aria-label="Back"
+              >
+                <ChevronLeft size={22} />
+              </button>
+              <span className="as-settings-mobile-title">{t('accountSettings')}</span>
+              <span style={{ width: 36 }} />
+            </div>
             <div className="mt-1">
               <AccountSettings />
             </div>
           </DialogContent>
         </Dialog>
+        <style>{`
+          @media (max-width: 480px) {
+            /* Full-screen modal */
+            .as-settings-dialog {
+              position: fixed !important;
+              top: 0 !important;
+              left: 0 !important;
+              width: 100vw !important;
+              max-width: 100vw !important;
+              height: 100dvh !important;
+              max-height: 100dvh !important;
+              margin: 0 !important;
+              border-radius: 0 !important;
+              box-shadow: none !important;
+              border: none !important;
+              overflow-y: auto !important;
+              overflow-x: hidden !important;
+              translate: none !important;
+              transform: none !important;
+              padding: 0 !important;
+            }
+            /* Kill the transform that Radix applies */
+            .as-settings-dialog[data-state="open"],
+            .as-settings-dialog[data-state="closed"] {
+              left: 0 !important;
+              top: 0 !important;
+              transform: none !important;
+              translate: none !important;
+            }
+            /* Remove overlay dimming */
+            [data-radix-dialog-overlay] {
+              background: transparent !important;
+              backdrop-filter: none !important;
+            }
+            /* Hide the default × close button */
+            .as-settings-dialog > button[data-radix-dialog-close],
+            .as-settings-dialog > .absolute.right-4 {
+              display: none !important;
+            }
+            /* Hide desktop DialogHeader */
+            .as-settings-desktop-header { display: none !important; }
+            /* Show mobile header */
+            .as-settings-mobile-header { display: flex !important; }
+            /* Indent content so it doesn't go under the sticky bar */
+            .as-settings-dialog > div:last-child {
+              padding: 0 16px 24px;
+            }
+          }
+          @media (min-width: 481px) {
+            .as-settings-mobile-header { display: none !important; }
+          }
+          /* Sticky mobile header bar */
+          .as-settings-mobile-header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: hsl(var(--popover));
+            border-bottom: 1px solid hsl(var(--border));
+          }
+          .as-settings-back-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: hsl(var(--foreground));
+            padding: 4px;
+            border-radius: 8px;
+            width: 36px;
+            height: 36px;
+          }
+          .as-settings-back-btn:hover {
+            background: hsl(var(--accent));
+          }
+          .as-settings-mobile-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: hsl(var(--foreground));
+          }
+        `}</style>
       </div>
       {children}
     </div>
