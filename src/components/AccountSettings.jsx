@@ -626,15 +626,18 @@ export default function AccountSettings() {
                         </button>
                       ))}
                     </div>
-                    <select
-                      className="as-native-select"
-                      value={theme}
-                      onChange={(e) => handleTheme(e.target.value)}
-                    >
-                      <option value="system">System</option>
-                      <option value="light">Light</option>
-                      <option value="dark">Dark</option>
-                    </select>
+                    <div className="as-native-select">
+                      <Select value={theme} onValueChange={handleTheme}>
+                        <SelectTrigger className="as-select-trigger">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="system">System</SelectItem>
+                          <SelectItem value="light">Light</SelectItem>
+                          <SelectItem value="dark">Dark</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </div>
                 </div>
 
