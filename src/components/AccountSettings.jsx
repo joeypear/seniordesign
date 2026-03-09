@@ -359,76 +359,110 @@ const styles = `
 
   /* ── Mobile overrides (≤ 480px) ── */
   @media (max-width: 480px) {
-    .as-root {
-      width: 100%;
-      max-width: 100vw;
-      overflow-x: hidden;
-      box-sizing: border-box;
-    }
+  .as-root {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+    box-sizing: border-box;
+  }
 
-    .as-body {
-      width: 100%;
-      box-sizing: border-box;
-      overflow-x: hidden;
-    }
+  .as-body {
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    padding: 20px 16px 32px;
+    gap: 0;
+  }
 
-    /* Keep cards as single row, just constrain the right side */
-    .as-setting-card {
-      flex-wrap: nowrap;
-      align-items: center;
-    }
-    .as-setting-right {
-      flex-shrink: 0;
-      max-width: 55%;
-    }
-    .as-select-trigger {
-      max-width: 100% !important;
-      min-width: unset !important;
-      width: auto !important;
-      box-sizing: border-box !important;
-    }
-    .as-native-select {
-      max-width: 100%;
-    }
+  /* Section labels */
+  .as-section-label {
+    margin-top: 24px;
+    margin-bottom: 10px;
+    letter-spacing: 0.08em;
+  }
+  .as-body > div:first-child .as-section-label {
+    margin-top: 0;
+  }
 
-    /* Hide segmented toggle, show native select */
-    .as-seg { display: none; }
-    .as-native-select {
-      display: block;
-      width: 100%;
-      box-sizing: border-box;
-    }
-    .as-native-select .as-select-trigger {
-      width: 100% !important;
-      box-sizing: border-box !important;
-    }
+  /* Profile card */
+  .as-profile-card {
+    padding: 16px;
+    margin-bottom: 8px;
+  }
 
-    /* Profile info text overflow */
-    .as-profile-info {
-      overflow: hidden;
-      word-break: break-word;
-      min-width: 0;
-    }
-    .as-name {
-      white-space: normal;
-      word-break: break-word;
-    }
-    .as-email {
-      white-space: normal;
-      word-break: break-all;
-    }
+  /* Keep preference cards as single row, constrain right side */
+  .as-setting-card {
+    flex-wrap: nowrap;
+    align-items: center;
+    min-height: 60px;
+    padding: 0 16px;
+  }
+  .as-setting-right {
+    flex-shrink: 0;
+    max-width: 55%;
+  }
+  .as-select-trigger {
+    max-width: 100% !important;
+    min-width: unset !important;
+    width: auto !important;
+    box-sizing: border-box !important;
+  }
+  .as-native-select {
+    max-width: 100%;
+  }
 
-    /* Name row: name on its own line, badge+edit below */
-    .as-name-row {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 4px;
-    }
-    .as-name-row-sub {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
+  /* Gap between preference cards */
+  .as-body > div:nth-child(2) > div > div {
+    gap: 10px;
+  }
+
+  /* Hide segmented toggle, show native select */
+  .as-seg { display: none; }
+  .as-native-select {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .as-native-select .as-select-trigger {
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Action buttons */
+  .as-action-btn {
+    min-height: 60px;
+    padding: 0 16px;
+  }
+  .as-danger-section {
+    gap: 8px;
+  }
+
+  /* Profile info text overflow */
+  .as-profile-info {
+    overflow: hidden;
+    word-break: break-word;
+    min-width: 0;
+  }
+  .as-name {
+    white-space: normal;
+    word-break: break-word;
+  }
+  .as-email {
+    white-space: normal;
+    word-break: break-all;
+  }
+
+  /* Name row: name on its own line, badge+edit below */
+  .as-name-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  .as-name-row-sub {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
   }
 `;
 
