@@ -397,15 +397,10 @@ const styles = `
       display: block;
       width: 100%;
       box-sizing: border-box;
-      height: 36px;
-      padding: 0 10px;
-      border-radius: 8px;
-      border: 1px solid var(--as-border);
-      background: var(--as-bg);
-      color: var(--as-text-primary);
-      font-size: 13px;
-      outline: none;
-      appearance: auto;
+    }
+    .as-native-select .as-select-trigger {
+      width: 100% !important;
+      box-sizing: border-box !important;
     }
 
     /* Profile info text overflow */
