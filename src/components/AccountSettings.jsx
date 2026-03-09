@@ -152,12 +152,14 @@ const styles = `
   .as-role-badge {
     font-size: 11px;
     font-weight: 500;
-    padding: 2px 8px;
+    padding: 2px 7px;
     border-radius: 20px;
     background: rgba(124,92,252,0.12);
     color: var(--as-accent);
     text-transform: capitalize;
     border: 1px solid rgba(124,92,252,0.2);
+    white-space: nowrap;
+    flex-shrink: 0;
   }
   .as-email {
     font-size: 13px;
