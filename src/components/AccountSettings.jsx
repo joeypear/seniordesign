@@ -248,8 +248,9 @@ const styles = `
     border-left: 3px solid var(--as-accent);
     transition: background 150ms ease, var(--as-transition);
     width: 100%;
+    box-sizing: border-box;
     min-height: 56px;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     overflow: hidden;
   }
   .as-setting-card:hover { background: var(--as-card-hover); }
