@@ -368,23 +368,23 @@ const styles = `
       overflow-x: hidden;
     }
 
-    /* Stack setting cards vertically */
+    /* Keep cards as single row, just constrain the right side */
     .as-setting-card {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 6px;
+      flex-wrap: nowrap;
+      align-items: center;
     }
-    .as-setting-left,
     .as-setting-right {
-      width: 100%;
-      flex-shrink: unset;
-      flex: unset;
+      flex-shrink: 0;
+      max-width: 55%;
     }
     .as-select-trigger {
-      width: 100% !important;
       max-width: 100% !important;
       min-width: unset !important;
+      width: auto !important;
       box-sizing: border-box !important;
+    }
+    .as-native-select {
+      max-width: 100%;
     }
 
     /* Hide segmented toggle, show native select */
