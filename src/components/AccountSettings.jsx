@@ -135,9 +135,9 @@ const styles = `
   }
   .as-avatar-wrap:hover { border-color: var(--as-accent); }
   .as-avatar img { width: 100%; height: 100%; object-fit: cover; }
-  .as-profile-row { display: flex; align-items: center; gap: 14px; }
-  .as-profile-info { flex: 1; min-width: 0; }
-  .as-name-row { display: flex; align-items: center; gap: 6px; flex-wrap: nowrap; overflow: hidden; }
+  .as-profile-row { display: flex; align-items: center; gap: 14px; width: 100%; overflow: hidden; }
+  .as-profile-info { flex: 1; min-width: 0; overflow: hidden; width: 100%; }
+  .as-name-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; width: 100%; }
   .as-name {
     font-size: 16px;
     font-weight: 600;
