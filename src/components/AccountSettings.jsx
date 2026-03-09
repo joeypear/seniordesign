@@ -230,7 +230,8 @@ const styles = `
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--as-text-label);
-    margin-bottom: 10px;
+    margin-top: 4px;
+    margin-bottom: 8px;
     padding-left: 2px;
   }
 
