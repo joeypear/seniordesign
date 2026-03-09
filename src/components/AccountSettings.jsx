@@ -87,7 +87,7 @@ const styles = `
   .as-root * { transition: var(--as-transition); box-sizing: border-box; }
   .as-root { background: transparent; border-radius: 0; padding: 0; overflow: visible; }
   
-  .as-body { padding: 4px 0 8px; display: flex; flex-direction: column; gap: 24px; width: 100%; }
+  .as-body { padding: 4px 0 8px; display: flex; flex-direction: column; gap: 20px; width: 100%; }
 
   /* Profile Card */
   .as-profile-card {
