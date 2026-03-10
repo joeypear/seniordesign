@@ -25,7 +25,7 @@ export default function ContactUsButton() {
       </Button>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-md popup-modal">
           <DialogHeader>
             <DialogTitle className="text-xl">{t('contactUs')}</DialogTitle>
           </DialogHeader>

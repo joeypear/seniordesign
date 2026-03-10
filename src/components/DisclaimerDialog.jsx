@@ -14,7 +14,7 @@ export default function DisclaimerDialog({ open, onOpenChange }) {
   const { t } = useLanguage();
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md [&>button]:hidden">
+      <DialogContent className="max-w-md [&>button]:hidden popup-modal">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-xl">
             <AlertTriangle className="w-5 h-5 text-amber-500" />
@@ -51,7 +51,7 @@ export default function DisclaimerDialog({ open, onOpenChange }) {
         <DialogFooter>
           <Button 
             onClick={() => onOpenChange(false)}
-            className="w-full text-white"
+            className="w-full text-white dialog-full-btn"
             style={{ background: 'linear-gradient(to right, #14b8a6, #10b981)' }}
           >
             {t('iUnderstand')}

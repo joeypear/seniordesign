@@ -24,7 +24,7 @@ export default function ModelInfoButton() {
       </Button>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-md popup-modal">
           <DialogHeader>
             <DialogTitle className="text-xl">{t('aboutModel')}</DialogTitle>
           </DialogHeader>

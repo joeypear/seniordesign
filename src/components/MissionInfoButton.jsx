@@ -24,7 +24,7 @@ export default function MissionInfoButton() {
       </Button>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-md popup-modal">
           <DialogHeader>
             <DialogTitle className="text-xl">{t('ourMission')}</DialogTitle>
           </DialogHeader>
