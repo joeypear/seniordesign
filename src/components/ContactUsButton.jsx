@@ -55,7 +55,7 @@ export default function ContactUsButton() {
                 href="mailto:screening.diabeticretinopathy@gmail.com" 
                 className="text-orange-500 hover:text-orange-600 dark:text-orange-400 dark:hover:text-orange-500 font-medium transition-colors text-sm truncate block"
               >
-                screening.diabeticretinopathy@gmail.com
+                Our Email
               </a>
             </div>
           </div>
