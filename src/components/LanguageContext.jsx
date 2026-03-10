@@ -95,7 +95,7 @@ export const translations = {
     useThisFrame: 'Use This Frame',
     // Model Info
     trainingData: 'Training Data',
-    trainingDataDesc: 'Our model was trained using 6,000 publicly available retinal images, comprising both healthy retinas and retinas with diabetic retinopathy. This diverse dataset ensures robust detection capabilities across various stages and presentations of the condition.',
+    trainingDataDesc: 'Our model was trained using 41,000 publicly available retinal images, comprising both healthy retinas and retinas with diabetic retinopathy. This diverse dataset ensures robust detection capabilities across various stages and presentations of the condition.',
     technology: 'Technology',
     technologyDesc: 'Built with PyTorch, our convolutional neural network (CNN) architecture was specifically designed for medical image analysis. After extensive training and validation, the model achieved an accuracy of 92% in detecting diabetic retinopathy.',
     privacyData: 'Privacy & Data Usage',
