@@ -197,7 +197,7 @@ export const translations = {
     scrubVideo: 'Video durchsuchen und klaren Frame auswählen',
     useThisFrame: 'Diesen Frame verwenden',
     trainingData: 'Trainingsdaten',
-    trainingDataDesc: 'Unser Modell wurde mit 6.000 öffentlich verfügbaren Netzhautbildern trainiert, die gesunde Netzhäute und Netzhäute mit diabetischer Retinopathie umfassen, und erreichte eine Genauigkeit von 92%.',
+    trainingDataDesc: 'Unser Modell wurde mit 41.000 öffentlich verfügbaren Netzhautbildern trainiert, die gesunde Netzhäute und Netzhäute mit diabetischer Retinopathie umfassen, und erreichte eine Genauigkeit von 92%.',
     technology: 'Technologie',
     technologyDesc: 'Gebaut mit PyTorch wurde unsere CNN-Architektur speziell für die medizinische Bildanalyse entwickelt.',
     privacyData: 'Datenschutz & Datennutzung',
