@@ -397,7 +397,7 @@ export const translations = {
     scrubVideo: 'Parcourez la vidéo et sélectionnez une image nette',
     useThisFrame: 'Utiliser Cette Image',
     trainingData: "Données d'Entraînement",
-    trainingDataDesc: "Notre modèle a été entraîné avec 6 000 images rétiniennes disponibles publiquement, comprenant des rétines saines et des rétines atteintes de rétinopathie diabétique, atteignant une précision de 92%.",
+    trainingDataDesc: "Notre modèle a été entraîné avec 41 000 images rétiniennes disponibles publiquement, comprenant des rétines saines et des rétines atteintes de rétinopathie diabétique, atteignant une précision de 92%.",
     technology: 'Technologie',
     technologyDesc: "Construit avec PyTorch, notre architecture de réseau neuronal convolutif (CNN) a été spécialement conçue pour l'analyse d'images médicales.",
     privacyData: 'Confidentialité et Utilisation des Données',
