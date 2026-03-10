@@ -36,3 +36,25 @@ button, a, img {
 * {
   -webkit-tap-highlight-color: transparent;
 }
+
+/* ── Popup modals on mobile (not full-screen) ── */
+@media (max-width: 480px) {
+  .popup-modal {
+    margin: 16px !important;
+    width: calc(100vw - 32px) !important;
+    max-width: calc(100vw - 32px) !important;
+    max-height: calc(100vh - 32px) !important;
+    border-radius: 16px !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    box-sizing: border-box !important;
+    padding: 24px 20px !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+  }
+  .popup-modal .dialog-full-btn {
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
