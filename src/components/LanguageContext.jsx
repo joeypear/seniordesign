@@ -297,7 +297,7 @@ export const translations = {
     scrubVideo: 'Desplácese por el vídeo y seleccione un fotograma claro',
     useThisFrame: 'Usar Este Fotograma',
     trainingData: 'Datos de Entrenamiento',
-    trainingDataDesc: 'Nuestro modelo fue entrenado con 6,000 imágenes retinales disponibles públicamente, que comprenden retinas sanas y retinas con retinopatía diabética.',
+    trainingDataDesc: 'Nuestro modelo fue entrenado con 41,000 imágenes retinales disponibles públicamente, que comprenden retinas sanas y retinas con retinopatía diabética.',
     technology: 'Tecnología',
     technologyDesc: 'Construido con PyTorch, nuestra arquitectura de red neuronal convolucional (CNN) fue diseñada específicamente para el análisis de imágenes médicas, logrando una precisión del 92%.',
     privacyData: 'Privacidad y Uso de Datos',
