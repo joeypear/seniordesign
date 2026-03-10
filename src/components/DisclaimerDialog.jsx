@@ -14,7 +14,23 @@ export default function DisclaimerDialog({ open, onOpenChange }) {
   const { t } = useLanguage();
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md [&>button]:hidden popup-modal">
+      <DialogContent
+        className="max-w-md [&>button]:hidden"
+        style={window.innerWidth <= 480 ? {
+          position: 'fixed',
+          left: '16px',
+          right: '16px',
+          top: '50%',
+          transform: 'translateY(-50%)',
+          margin: '0',
+          width: 'calc(100vw - 32px)',
+          maxWidth: 'calc(100vw - 32px)',
+          maxHeight: 'calc(100vh - 80px)',
+          borderRadius: '16px',
+          overflowY: 'auto',
+          boxSizing: 'border-box',
+        } : {}}
+      >
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-xl">
             <AlertTriangle className="w-5 h-5 text-amber-500" />

@@ -25,7 +25,23 @@ export default function ContactUsButton() {
       </Button>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-md popup-modal">
+        <DialogContent
+          className="max-w-md"
+          style={window.innerWidth <= 480 ? {
+            position: 'fixed',
+            left: '16px',
+            right: '16px',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            margin: '0',
+            width: 'calc(100vw - 32px)',
+            maxWidth: 'calc(100vw - 32px)',
+            maxHeight: 'calc(100vh - 80px)',
+            borderRadius: '16px',
+            overflowY: 'auto',
+            boxSizing: 'border-box',
+          } : {}}
+        >
           <DialogHeader>
             <DialogTitle className="text-xl">{t('contactUs')}</DialogTitle>
           </DialogHeader>
