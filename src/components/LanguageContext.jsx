@@ -597,7 +597,7 @@ export const translations = {
     scrubVideo: '滚动视频并选择清晰帧',
     useThisFrame: '使用此帧',
     trainingData: '训练数据',
-    trainingDataDesc: '我们的模型使用6000张公开可用的视网膜图像进行训练，包括健康视网膜和患有糖尿病视网膜病变的视网膜，达到92%的准确率。',
+    trainingDataDesc: '我们的模型使用41000张公开可用的视网膜图像进行训练，包括健康视网膜和患有糖尿病视网膜病变的视网膜，达到92%的准确率。',
     technology: '技术',
     technologyDesc: '基于PyTorch构建，我们的卷积神经网络(CNN)架构专为医学图像分析而设计。',
     privacyData: '隐私与数据使用',
