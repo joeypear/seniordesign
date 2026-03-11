@@ -7,7 +7,7 @@ import { useLanguage } from '@/components/LanguageContext';
 import VideoFrameSelector from './VideoFrameSelector';
 import ImageCropper from './ImageCropper';
 
-export default function ImageUploader({ onImageUploaded, isUploading, setIsUploading }) {
+export default function ImageUploader({ onImageUploaded, isUploading, setIsUploading, recropUrl, onRecropConsumed }) {
   const { t } = useLanguage();
   const fileInputRef = useRef(null);
   const mediaStreamRef = useRef(null);
@@ -18,6 +18,14 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
   const [isRecording, setIsRecording] = useState(false);
   const [showLivePreview, setShowLivePreview] = useState(false);
   const [pendingImageUrl, setPendingImageUrl] = useState(null);
+
+  // When parent signals a recrop, set the pending image to trigger the cropper
+  React.useEffect(() => {
+    if (recropUrl) {
+      setPendingImageUrl(recropUrl);
+      onRecropConsumed?.();
+    }
+  }, [recropUrl]);
 
   const handleFileChange = async (e) => {
     const file = e.target.files?.[0];
