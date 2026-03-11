@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
-import { ArrowLeft, Sparkles, Loader2 } from 'lucide-react';
+import { X, Sparkles, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useLanguage } from '@/components/LanguageContext';
 
-export default function ScanPreview({ imageUrl, onCancel, onAnalyze, onRecrop, isAnalyzing }) {
+export default function ScanPreview({ imageUrl, onCancel, onAnalyze, isAnalyzing }) {
   const { t } = useLanguage();
   const [scanName, setScanName] = useState('');
   const [notes, setNotes] = useState('');
@@ -19,22 +19,12 @@ export default function ScanPreview({ imageUrl, onCancel, onAnalyze, onRecrop, i
       >
         {/* Header */}
         <div className="flex items-center justify-between px-5 py-4 border-b border-border">
-          <div className="flex items-center gap-2">
-            {onRecrop && (
-              <button
-                onClick={onRecrop}
-                className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-              >
-                <ArrowLeft className="w-5 h-5 text-foreground" />
-              </button>
-            )}
-            <span className="font-semibold text-foreground">{t('uploadTitle')}</span>
-          </div>
+          <span className="font-semibold text-foreground">{t('uploadTitle')}</span>
           <button
             onClick={onCancel}
-            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-sm text-gray-500 dark:text-gray-400"
+            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
           >
-            {t('cancel')}
+            <X className="w-5 h-5 text-foreground" />
           </button>
         </div>
 

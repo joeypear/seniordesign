@@ -43,8 +43,6 @@ function setScanIdInUrl(scanId) {
 export default function Home() {
   const { t } = useLanguage();
   const [previewImage, setPreviewImage] = useState(null);
-  const [originalImageForRecrop, setOriginalImageForRecrop] = useState(null);
-  const [recropUrl, setRecropUrl] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [showOnboarding, setShowOnboarding] = useState(false);
@@ -104,10 +102,7 @@ export default function Home() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['scans'] }),
   });
 
-  const handleImageUploaded = (url, originalUrl) => {
-    setPreviewImage(url);
-    setOriginalImageForRecrop(originalUrl || null);
-  };
+  const handleImageUploaded = (url) => setPreviewImage(url);
 
   const handleAnalyze = async (scanName, notes) => {
     setIsAnalyzing(true);
@@ -121,18 +116,7 @@ export default function Home() {
     setPreviewImage(null);
   };
 
-  const handleCancel = () => {
-    setPreviewImage(null);
-    setOriginalImageForRecrop(null);
-  };
-
-  const handleRecrop = () => {
-    setPreviewImage(null);
-    // ImageUploader will re-open crop via pendingImageUrl being re-set
-    // We pass originalImageForRecrop back so the uploader can re-crop it
-    setRecropUrl(originalImageForRecrop);
-    setOriginalImageForRecrop(null);
-  };
+  const handleCancel = () => setPreviewImage(null);
 
   const handleScanClick = (scan) => {
     setSelectedScanId(scan.id);
@@ -204,7 +188,6 @@ export default function Home() {
                 imageUrl={previewImage}
                 onCancel={handleCancel}
                 onAnalyze={handleAnalyze}
-                onRecrop={originalImageForRecrop ? handleRecrop : null}
                 isAnalyzing={isAnalyzing}
               />
             </motion.div>
@@ -221,11 +204,9 @@ export default function Home() {
                   <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-1">{t('uploadTitle')}</h2>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">{t('uploadSubtitle')}</p>
                   <ImageUploader
-                   onImageUploaded={handleImageUploaded}
-                   isUploading={isUploading}
-                   setIsUploading={setIsUploading}
-                   recropUrl={recropUrl}
-                   onRecropConsumed={() => setRecropUrl(null)}
+                    onImageUploaded={handleImageUploaded}
+                    isUploading={isUploading}
+                    setIsUploading={setIsUploading}
                   />
                 </div>
               )}

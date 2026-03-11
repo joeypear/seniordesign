@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Camera, Upload, Video } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -7,7 +7,7 @@ import { useLanguage } from '@/components/LanguageContext';
 import VideoFrameSelector from './VideoFrameSelector';
 import ImageCropper from './ImageCropper';
 
-export default function ImageUploader({ onImageUploaded, isUploading, setIsUploading, recropUrl, onRecropConsumed }) {
+export default function ImageUploader({ onImageUploaded, isUploading, setIsUploading }) {
   const { t } = useLanguage();
   const fileInputRef = useRef(null);
   const mediaStreamRef = useRef(null);
@@ -18,14 +18,6 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
   const [isRecording, setIsRecording] = useState(false);
   const [showLivePreview, setShowLivePreview] = useState(false);
   const [pendingImageUrl, setPendingImageUrl] = useState(null);
-
-  // When parent signals a recrop, set the pending image to trigger the cropper
-  useEffect(() => {
-    if (recropUrl) {
-      setPendingImageUrl(recropUrl);
-      onRecropConsumed?.();
-    }
-  }, [recropUrl]);
 
   const handleFileChange = async (e) => {
     const file = e.target.files?.[0];
@@ -112,10 +104,9 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
 
   const handleCropDone = async (croppedFile) => {
     setIsUploading(true);
-    const originalUrl = pendingImageUrl;
     setPendingImageUrl(null);
     const { file_url } = await base44.integrations.Core.UploadFile({ file: croppedFile });
-    onImageUploaded(file_url, originalUrl);
+    onImageUploaded(file_url);
     setIsUploading(false);
   };
 
