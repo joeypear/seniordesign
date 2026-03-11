@@ -164,6 +164,9 @@ export default function Home() {
               src="https://media.base44.com/images/public/69b197ac7dc234617b635f3b/d8be47b20_updated_logo_03_11_2026.png"
               alt="DR Monster Logo"
               className="w-20 h-20"
+              style={{ imageRendering: 'auto', WebkitFontSmoothing: 'antialiased' }}
+              width={160}
+              height={160}
             />
           </div>
           <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
