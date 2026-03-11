@@ -45,8 +45,15 @@ export default function ScanPreview({ imageUrl, onCancel, onAnalyze, isAnalyzing
             onChange={(e) => setScanName(e.target.value)}
             className="bg-white dark:bg-gray-800"
           />
+          <Textarea
+            placeholder={t('addNotes')}
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+            className="bg-white dark:bg-gray-800 resize-none"
+            rows={3}
+          />
           <Button
-            onClick={() => onAnalyze(scanName)}
+            onClick={() => onAnalyze(scanName, notes)}
             disabled={isAnalyzing}
             className="w-full h-14 text-lg font-semibold rounded-xl text-white shadow-lg shadow-purple-200 dark:shadow-purple-900/50 transition-all hover:scale-[1.01]"
             style={{ background: 'linear-gradient(to right, #8b5cf6, #9333ea)' }}
