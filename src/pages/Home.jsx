@@ -161,7 +161,7 @@ export default function Home() {
         >
           <div className="flex justify-center mb-3">
             <img
-              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/699f3a159c6c9f68128f785e/b55df7ef4_slightly_transformed.png"
+              src="https://media.base44.com/images/public/69b197ac7dc234617b635f3b/d8be47b20_updated_logo_03_11_2026.png"
               alt="DR Monster Logo"
               className="w-20 h-20"
             />
