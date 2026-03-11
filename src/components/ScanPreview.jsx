@@ -19,12 +19,22 @@ export default function ScanPreview({ imageUrl, onCancel, onAnalyze, onRecrop, i
       >
         {/* Header */}
         <div className="flex items-center justify-between px-5 py-4 border-b border-border">
-          <span className="font-semibold text-foreground">{t('uploadTitle')}</span>
+          <div className="flex items-center gap-2">
+            {onRecrop && (
+              <button
+                onClick={onRecrop}
+                className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              >
+                <ArrowLeft className="w-5 h-5 text-foreground" />
+              </button>
+            )}
+            <span className="font-semibold text-foreground">{t('uploadTitle')}</span>
+          </div>
           <button
             onClick={onCancel}
-            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-sm text-gray-500 dark:text-gray-400"
           >
-            <X className="w-5 h-5 text-foreground" />
+            {t('cancel')}
           </button>
         </div>
 
