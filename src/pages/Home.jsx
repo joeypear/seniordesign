@@ -104,12 +104,13 @@ export default function Home() {
 
   const handleImageUploaded = (url) => setPreviewImage(url);
 
-  const handleAnalyze = async (scanName) => {
+  const handleAnalyze = async (scanName, notes) => {
     setIsAnalyzing(true);
     await createScanMutation.mutateAsync({
       name: scanName || undefined,
       image_url: previewImage,
       result: 'pending',
+      notes: notes || undefined,
     });
     setIsAnalyzing(false);
     setPreviewImage(null);
