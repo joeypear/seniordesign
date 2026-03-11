@@ -204,6 +204,7 @@ export default function Home() {
                 imageUrl={previewImage}
                 onCancel={handleCancel}
                 onAnalyze={handleAnalyze}
+                onRecrop={originalImageForRecrop ? handleRecrop : null}
                 isAnalyzing={isAnalyzing}
               />
             </motion.div>
