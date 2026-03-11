@@ -220,9 +220,11 @@ export default function Home() {
                   <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-1">{t('uploadTitle')}</h2>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">{t('uploadSubtitle')}</p>
                   <ImageUploader
-                    onImageUploaded={handleImageUploaded}
-                    isUploading={isUploading}
-                    setIsUploading={setIsUploading}
+                   onImageUploaded={handleImageUploaded}
+                   isUploading={isUploading}
+                   setIsUploading={setIsUploading}
+                   recropUrl={recropUrl}
+                   onRecropConsumed={() => setRecropUrl(null)}
                   />
                 </div>
               )}
