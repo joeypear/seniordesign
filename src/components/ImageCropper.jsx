@@ -50,8 +50,11 @@ export default function ImageCropper({ imageUrl, onCropDone, onCancel }) {
   const isDark = document.documentElement.classList.contains('dark');
 
   return createPortal(
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-      <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-md overflow-hidden flex flex-col">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center sm:p-4 bg-black/60 backdrop-blur-sm">
+      <div className="bg-white dark:bg-gray-900 sm:rounded-2xl shadow-2xl w-full sm:max-w-md overflow-hidden flex flex-col"
+        style={{ height: '100dvh' }}
+      >
+        <style>{`@media (min-width: 640px) { .cropper-wrapper { height: 100dvh !important; } }`}</style>
         {/* Header */}
         <div className="flex items-center gap-2 px-5 py-4 border-b border-border">
           <Crop className="w-5 h-5 text-foreground" />
@@ -60,7 +63,7 @@ export default function ImageCropper({ imageUrl, onCropDone, onCancel }) {
         </div>
 
         {/* Cropper */}
-        <div className="relative w-full" style={{ height: '320px' }}>
+        <div className="relative w-full flex-1">
           <Cropper
             image={imageUrl}
             crop={crop}
