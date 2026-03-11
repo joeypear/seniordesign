@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Camera, Upload, Video } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -20,7 +20,7 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
   const [pendingImageUrl, setPendingImageUrl] = useState(null);
 
   // When parent signals a recrop, set the pending image to trigger the cropper
-  React.useEffect(() => {
+  useEffect(() => {
     if (recropUrl) {
       setPendingImageUrl(recropUrl);
       onRecropConsumed?.();
