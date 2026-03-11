@@ -9,6 +9,7 @@ import { useLanguage } from '@/components/LanguageContext';
 export default function ScanPreview({ imageUrl, onCancel, onAnalyze, isAnalyzing }) {
   const { t } = useLanguage();
   const [scanName, setScanName] = useState('');
+  const [notes, setNotes] = useState('');
 
   return createPortal(
     <div className="fixed inset-0 z-[9999] flex items-center justify-center sm:p-4 bg-black/60 backdrop-blur-sm">
