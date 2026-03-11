@@ -103,7 +103,10 @@ export default function Home() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['scans'] }),
   });
 
-  const handleImageUploaded = (url) => setPreviewImage(url);
+  const handleImageUploaded = (url, originalUrl) => {
+    setPreviewImage(url);
+    setOriginalImageForRecrop(originalUrl || null);
+  };
 
   const handleAnalyze = async (scanName, notes) => {
     setIsAnalyzing(true);
@@ -117,7 +120,18 @@ export default function Home() {
     setPreviewImage(null);
   };
 
-  const handleCancel = () => setPreviewImage(null);
+  const handleCancel = () => {
+    setPreviewImage(null);
+    setOriginalImageForRecrop(null);
+  };
+
+  const handleRecrop = () => {
+    setPreviewImage(null);
+    // ImageUploader will re-open crop via pendingImageUrl being re-set
+    // We pass originalImageForRecrop back so the uploader can re-crop it
+    setRecropUrl(originalImageForRecrop);
+    setOriginalImageForRecrop(null);
+  };
 
   const handleScanClick = (scan) => {
     setSelectedScanId(scan.id);
