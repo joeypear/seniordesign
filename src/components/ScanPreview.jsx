@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useLanguage } from '@/components/LanguageContext';
 
-export default function ScanPreview({ imageUrl, onCancel, onAnalyze, isAnalyzing }) {
+export default function ScanPreview({ imageUrl, onCancel, onAnalyze, onRecrop, isAnalyzing }) {
   const { t } = useLanguage();
   const [scanName, setScanName] = useState('');
   const [notes, setNotes] = useState('');
