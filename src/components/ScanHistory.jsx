@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { format } from 'date-fns';
 import { useLanguage } from '@/components/LanguageContext';
-import { CheckCircle2, XCircle, Clock, ChevronRight, Trash2, Edit2, Filter, ArrowUpDown, Loader2, Search, Download } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { CheckCircle2, XCircle, Clock, Trash2, Edit2, Filter, ArrowUpDown, Loader2, Search, Download, MoreVertical } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -15,7 +15,6 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import {
   Dialog,
@@ -24,15 +23,16 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog';
 
 const statusConfig = {
   pending: {
     icon: Clock,
     color: 'text-amber-500 dark:text-amber-400',
-    bg: 'bg-amber-50 dark:bg-amber-950/30',
+    bg: 'bg-amber-100 dark:bg-amber-950/40',
     border: 'border-amber-200 dark:border-amber-800',
+    badgeBg: 'bg-amber-100 dark:bg-amber-900/50',
+    badgeText: 'text-amber-700 dark:text-amber-300',
     labelKey: 'pending'
   },
   abnormal: {
@@ -40,6 +40,8 @@ const statusConfig = {
     color: 'text-rose-500 dark:text-rose-400',
     bg: 'bg-rose-50 dark:bg-rose-950/30',
     border: 'border-rose-200 dark:border-rose-800',
+    badgeBg: 'bg-rose-100 dark:bg-rose-900/50',
+    badgeText: 'text-rose-700 dark:text-rose-300',
     labelKey: 'abnormal'
   },
   normal: {
@@ -47,23 +49,133 @@ const statusConfig = {
     color: 'text-emerald-500 dark:text-emerald-400',
     bg: 'bg-emerald-50 dark:bg-emerald-950/30',
     border: 'border-emerald-200 dark:border-emerald-800',
+    badgeBg: 'bg-emerald-100 dark:bg-emerald-900/50',
+    badgeText: 'text-emerald-700 dark:text-emerald-300',
     labelKey: 'normal'
   }
 };
 
+function OverflowMenu({ scan, onDownload, onRename, onDelete, downloadingId, deletingId, t }) {
+  const [open, setOpen] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [showRenameDialog, setShowRenameDialog] = useState(false);
+  const [editName, setEditName] = useState('');
+  const [renamingId, setRenamingId] = useState(null);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const handler = (e) => { if (ref.current && !ref.current.contains(e.target)) setOpen(false); };
+    document.addEventListener('mousedown', handler);
+    document.addEventListener('touchstart', handler);
+    return () => { document.removeEventListener('mousedown', handler); document.removeEventListener('touchstart', handler); };
+  }, []);
+
+  const handleRename = async () => {
+    setRenamingId(scan.id);
+    await onRename(scan.id, editName);
+    setRenamingId(null);
+    setShowRenameDialog(false);
+  };
+
+  return (
+    <div ref={ref} className="relative flex-shrink-0">
+      <button
+        className="flex items-center justify-center w-11 h-11 rounded-full text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+        onClick={(e) => { e.stopPropagation(); setOpen(o => !o); }}
+      >
+        <MoreVertical className="w-5 h-5" />
+      </button>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.92, y: -4 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.92, y: -4 }}
+            transition={{ duration: 0.12 }}
+            className="absolute right-0 top-12 z-50 w-44 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 overflow-hidden"
+          >
+            <button
+              className="flex items-center gap-3 w-full px-4 py-3 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors min-h-[44px]"
+              onClick={(e) => { e.stopPropagation(); setOpen(false); onDownload(scan, e); }}
+              disabled={downloadingId === scan.id}
+            >
+              {downloadingId === scan.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4 text-emerald-500" />}
+              Download
+            </button>
+            <button
+              className="flex items-center gap-3 w-full px-4 py-3 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors min-h-[44px]"
+              onClick={(e) => { e.stopPropagation(); setOpen(false); setEditName(scan.name || ''); setShowRenameDialog(true); }}
+            >
+              <Edit2 className="w-4 h-4 text-blue-500" />
+              {t('renameScan')}
+            </button>
+            <button
+              className="flex items-center gap-3 w-full px-4 py-3 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors min-h-[44px]"
+              onClick={(e) => { e.stopPropagation(); setOpen(false); setShowDeleteDialog(true); }}
+              disabled={deletingId === scan.id}
+            >
+              {deletingId === scan.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
+              {t('delete')}
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Rename Dialog */}
+      <Dialog open={showRenameDialog} onOpenChange={setShowRenameDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t('renameScan')}</DialogTitle>
+            <DialogDescription>{t('enterNewName')}</DialogDescription>
+          </DialogHeader>
+          <Input
+            placeholder={t('scanName')}
+            value={editName}
+            onChange={(e) => setEditName(e.target.value)}
+            onKeyDown={(e) => { if (e.key === 'Enter' && !renamingId) handleRename(); }}
+          />
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowRenameDialog(false)} disabled={!!renamingId}>{t('cancel')}</Button>
+            <Button onClick={handleRename} disabled={!!renamingId}>
+              {renamingId ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" />{t('saving')}</> : t('save')}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Dialog */}
+      <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>{t('deleteThisScan')}</AlertDialogTitle>
+            <AlertDialogDescription>{t('deleteConfirm')}</AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>{t('cancel')}</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => { onDelete(scan.id); setShowDeleteDialog(false); }}
+              className="bg-red-600 hover:bg-red-700"
+            >
+              {t('delete')}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </div>
+  );
+}
+
 export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRenameScan }) {
   const { t } = useLanguage();
-  const [editingId, setEditingId] = useState(null);
-  const [editName, setEditName] = useState('');
   const [filter, setFilter] = useState('all');
   const [sortBy, setSortBy] = useState('newest');
   const [deletingId, setDeletingId] = useState(null);
-  const [renamingId, setRenamingId] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [downloadingId, setDownloadingId] = useState(null);
 
   const handleDownload = async (scan, e) => {
-    e.stopPropagation();
+    e?.stopPropagation();
     setDownloadingId(scan.id);
     const response = await fetch(scan.image_url);
     const blob = await response.blob();
@@ -88,21 +200,12 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
     setDeletingId(null);
   };
 
-  const handleRename = async (scanId, name) => {
-    setRenamingId(scanId);
-    await onRenameScan(scanId, name);
-    setRenamingId(null);
-    setEditingId(null);
-  };
-
-  // Filter scans
   let filteredScans = scans.filter(scan => {
     if (filter !== 'all' && scan.result !== filter) return false;
     if (searchQuery && !(scan.name || '').toLowerCase().includes(searchQuery.toLowerCase())) return false;
     return true;
   });
 
-  // Sort scans
   filteredScans = [...filteredScans].sort((a, b) => {
     const dateA = new Date(a.created_date).getTime();
     const dateB = new Date(b.created_date).getTime();
@@ -120,56 +223,38 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
       <style>{`
-        .sh-scroll-list {
-          scrollbar-width: none;
-        }
-        .sh-scroll-list::-webkit-scrollbar {
-          display: none;
-        }
+        .sh-scroll-list { scrollbar-width: none; }
+        .sh-scroll-list::-webkit-scrollbar { display: none; }
         @media (hover: hover) {
-          .sh-scroll-list {
-            scrollbar-width: thin;
-            scrollbar-color: transparent transparent;
-            transition: scrollbar-color 300ms ease;
-          }
-          .sh-scroll-list:hover {
-            scrollbar-color: #d1d5db transparent;
-          }
-          .dark .sh-scroll-list:hover {
-            scrollbar-color: #4B5563 transparent;
-          }
-          .sh-scroll-list::-webkit-scrollbar {
-            display: block;
-            width: 4px;
-          }
+          .sh-scroll-list { scrollbar-width: thin; scrollbar-color: transparent transparent; transition: scrollbar-color 300ms ease; }
+          .sh-scroll-list:hover { scrollbar-color: #d1d5db transparent; }
+          .dark .sh-scroll-list:hover { scrollbar-color: #4B5563 transparent; }
+          .sh-scroll-list::-webkit-scrollbar { display: block; width: 4px; }
           .sh-scroll-list::-webkit-scrollbar-track { background: transparent; }
-          .sh-scroll-list::-webkit-scrollbar-thumb {
-            background: transparent;
-            border-radius: 9999px;
-          }
-          .sh-scroll-list:hover::-webkit-scrollbar-thumb {
-            background: #d1d5db;
-          }
-          .dark .sh-scroll-list:hover::-webkit-scrollbar-thumb {
-            background: #4B5563;
-          }
+          .sh-scroll-list::-webkit-scrollbar-thumb { background: transparent; border-radius: 9999px; }
+          .sh-scroll-list:hover::-webkit-scrollbar-thumb { background: #d1d5db; }
+          .dark .sh-scroll-list:hover::-webkit-scrollbar-thumb { background: #4B5563; }
         }
       `}</style>
-      <div className="flex gap-2 items-center">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-          <Input
-            placeholder={t('searchByName')}
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-9 h-8 text-xs bg-white dark:bg-gray-800 dark:border-gray-600"
-          />
-        </div>
+
+      {/* Search bar — full width */}
+      <div className="relative w-full">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+        <Input
+          placeholder={t('searchByName')}
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="pl-9 h-11 text-sm bg-white dark:bg-gray-800 dark:border-gray-600 w-full"
+        />
+      </div>
+
+      {/* Filter + Sort row */}
+      <div className="flex gap-2">
         <Select value={filter} onValueChange={setFilter}>
-          <SelectTrigger className="bg-white dark:bg-gray-800 dark:border-gray-600 text-xs h-8 w-auto px-2">
-            <Filter className="w-3 h-3 mr-1" />
+          <SelectTrigger className="flex-1 bg-white dark:bg-gray-800 dark:border-gray-600 text-sm h-11">
+            <Filter className="w-3.5 h-3.5 mr-1.5 flex-shrink-0" />
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -180,8 +265,8 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
           </SelectContent>
         </Select>
         <Select value={sortBy} onValueChange={setSortBy}>
-          <SelectTrigger className="bg-white dark:bg-gray-800 dark:border-gray-600 text-xs h-8 w-auto px-2">
-            <ArrowUpDown className="w-3 h-3 mr-1" />
+          <SelectTrigger className="flex-1 bg-white dark:bg-gray-800 dark:border-gray-600 text-sm h-11">
+            <ArrowUpDown className="w-3.5 h-3.5 mr-1.5 flex-shrink-0" />
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -196,147 +281,60 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
           <p className="text-sm">{t('noScansMatch')}</p>
         </div>
       ) : (
-        <div className="sh-scroll-list space-y-3" style={{ maxHeight: '364px', overflowY: 'auto', paddingRight: '4px' }}>
+        <div className="sh-scroll-list space-y-2" style={{ maxHeight: '380px', overflowY: 'auto' }}>
           {filteredScans.map((scan, index) => {
-        const status = statusConfig[scan.result] || statusConfig.pending;
-        const StatusIcon = status.icon;
-        const statusLabel = t(status.labelKey);
+            const status = statusConfig[scan.result] || statusConfig.pending;
+            const StatusIcon = status.icon;
+            const statusLabel = t(status.labelKey);
 
-        return (
-          <motion.div
-            key={scan.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.05 }}
-            className={`flex items-center gap-4 p-3 rounded-xl border ${status.border} ${status.bg}`}
-          >
-            <img
-              src={scan.image_url}
-              alt="Scan"
-              className="w-16 h-16 rounded-lg object-cover shadow-sm cursor-pointer"
-              onClick={() => onScanClick?.(scan)}
-            />
-            <div className="flex-1 min-w-0 cursor-pointer" onClick={() => onScanClick?.(scan)}>
-              <div className="flex items-center gap-2">
-                <StatusIcon className={`w-4 h-4 ${status.color}`} />
-                <span className={`font-medium ${status.color}`}>{statusLabel}</span>
-              </div>
-              {scan.name && (
-                <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mt-1">
-                  {scan.name}
-                </p>
-              )}
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                {format(new Date(scan.created_date + 'Z'), 'MMM d, yyyy • h:mm a')}
-              </p>
-
-            </div>
-            <Button
-                  variant="ghost"
-                  size="icon"
-                  className="text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-transparent"
-                  onClick={(e) => handleDownload(scan, e)}
-                  disabled={downloadingId === scan.id}
-                >
-                  {downloadingId === scan.id ? (
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                  ) : (
-                    <Download className="w-4 h-4" />
-                  )}
-                </Button>
-            <Dialog open={editingId === scan.id} onOpenChange={(open) => !open && setEditingId(null)}>
-              <DialogTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-transparent"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setEditingId(scan.id);
-                    setEditName(scan.name || '');
-                  }}
-                >
-                  <Edit2 className="w-4 h-4" />
-                </Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>{t('renameScan')}</DialogTitle>
-                  <DialogDescription>
-                    {t('enterNewName')}
-                  </DialogDescription>
-                </DialogHeader>
-                <Input
-                  placeholder={t('scanName')}
-                  value={editName}
-                  onChange={(e) => setEditName(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' && !renamingId) {
-                      handleRename(scan.id, editName);
-                    }
-                  }}
+            return (
+              <motion.div
+                key={scan.id}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.04 }}
+                className="flex items-center gap-3 px-3 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800/60 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+              >
+                {/* Thumbnail */}
+                <img
+                  src={scan.image_url}
+                  alt="Scan"
+                  className="w-14 h-14 rounded-lg object-cover shadow-sm flex-shrink-0 cursor-pointer"
+                  onClick={() => onScanClick?.(scan)}
                 />
-                <DialogFooter>
-                  <Button variant="outline" onClick={() => setEditingId(null)} disabled={renamingId === scan.id}>
-                        {t('cancel')}
-                      </Button>
-                  <Button 
-                    onClick={() => handleRename(scan.id, editName)}
-                    disabled={renamingId === scan.id}
-                  >
-                    {renamingId === scan.id ? (
-                      <>
-                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                        {t('saving')}
-                      </>
-                    ) : t('save')}
-                  </Button>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="text-gray-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-transparent"
-                  onClick={(e) => e.stopPropagation()}
-                  disabled={deletingId === scan.id}
-                >
-                  {deletingId === scan.id ? (
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                  ) : (
-                    <Trash2 className="w-4 h-4" />
+
+                {/* Center info */}
+                <div className="flex-1 min-w-0 cursor-pointer" onClick={() => onScanClick?.(scan)}>
+                  {/* Status badge */}
+                  <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${status.badgeBg} ${status.badgeText}`}>
+                    <StatusIcon className="w-3 h-3" />
+                    {statusLabel}
+                  </span>
+                  {/* Name */}
+                  {scan.name && (
+                    <p className="text-sm font-medium text-gray-800 dark:text-gray-200 truncate mt-0.5">
+                      {scan.name}
+                    </p>
                   )}
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>{t('deleteThisScan')}</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    {t('deleteConfirm')}
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>{t('cancel')}</AlertDialogCancel>
-                  <AlertDialogAction
-                    onClick={() => handleDelete(scan.id)}
-                    className="bg-red-600 hover:bg-red-700"
-                    disabled={deletingId === scan.id}
-                  >
-                    {deletingId === scan.id ? (
-                      <>
-                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                        {t('deleting')}
-                      </>
-                    ) : t('delete')}
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-          </motion.div>
-          );
-        })}
+                  {/* Date */}
+                  <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5 whitespace-nowrap">
+                    {format(new Date(scan.created_date + 'Z'), 'MMM d, yyyy · h:mm a')}
+                  </p>
+                </div>
+
+                {/* ⋯ Menu */}
+                <OverflowMenu
+                  scan={scan}
+                  onDownload={handleDownload}
+                  onRename={onRenameScan}
+                  onDelete={handleDelete}
+                  downloadingId={downloadingId}
+                  deletingId={deletingId}
+                  t={t}
+                />
+              </motion.div>
+            );
+          })}
         </div>
       )}
     </div>
