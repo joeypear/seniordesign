@@ -32,6 +32,9 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
   const [isDeleting, setIsDeleting] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
+  const [renameError, setRenameError] = useState('');
+  const [rateLimited, setRateLimited] = useState(isRateLimited());
+  useEffect(() => subscribeRateLimit(setRateLimited), []);
 
   useEffect(() => {
     if (scan) {
