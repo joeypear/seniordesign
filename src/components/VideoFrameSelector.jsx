@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Button } from '@/components/ui/button';
-import { PlayCircle, PauseCircle, CheckCircle } from 'lucide-react';
+import { PlayCircle, PauseCircle, CheckCircle, X } from 'lucide-react';
 import { useLanguage } from '@/components/LanguageContext';
 
 export default function VideoFrameSelector({ videoFile, onFrameSelected, onCancel }) {
@@ -19,47 +20,32 @@ export default function VideoFrameSelector({ videoFile, onFrameSelected, onCance
   }, [videoFile]);
 
   const handleLoadedMetadata = () => {
-    if (videoRef.current) {
-      setDuration(videoRef.current.duration);
-    }
+    if (videoRef.current) setDuration(videoRef.current.duration);
   };
 
   const handleTimeUpdate = () => {
-    if (videoRef.current) {
-      setCurrentTime(videoRef.current.currentTime);
-    }
+    if (videoRef.current) setCurrentTime(videoRef.current.currentTime);
   };
 
   const togglePlayPause = () => {
-    if (videoRef.current) {
-      if (isPlaying) {
-        videoRef.current.pause();
-      } else {
-        videoRef.current.play();
-      }
-      setIsPlaying(!isPlaying);
-    }
+    if (!videoRef.current) return;
+    if (isPlaying) { videoRef.current.pause(); } else { videoRef.current.play(); }
+    setIsPlaying(!isPlaying);
   };
 
   const handleSeek = (e) => {
     const newTime = parseFloat(e.target.value);
-    if (videoRef.current) {
-      videoRef.current.currentTime = newTime;
-      setCurrentTime(newTime);
-    }
+    if (videoRef.current) { videoRef.current.currentTime = newTime; setCurrentTime(newTime); }
   };
 
   const captureFrame = () => {
     if (videoRef.current && canvasRef.current) {
       const video = videoRef.current;
       const canvas = canvasRef.current;
-      
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
-      
       const ctx = canvas.getContext('2d');
       ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-      
       canvas.toBlob((blob) => {
         const file = new File([blob], 'frame.jpg', { type: 'image/jpeg' });
         onFrameSelected(file);
@@ -67,73 +53,72 @@ export default function VideoFrameSelector({ videoFile, onFrameSelected, onCance
     }
   };
 
-  return (
-    <div className="space-y-4">
-      <div className="relative rounded-xl overflow-hidden bg-black">
-        <video
-          ref={videoRef}
-          src={videoUrl}
-          onLoadedMetadata={handleLoadedMetadata}
-          onTimeUpdate={handleTimeUpdate}
-          preload="metadata"
-          playsInline
-          className="w-full h-auto max-h-96"
-        />
-      </div>
-
-      <canvas ref={canvasRef} className="hidden" />
-
-      <div className="space-y-3">
-        <div className="flex items-center gap-3">
-          <Button
-            onClick={togglePlayPause}
-            variant="outline"
-            size="icon"
-            className="shrink-0"
+  return createPortal(
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center sm:p-4 bg-black/60 backdrop-blur-sm">
+      <div
+        className="bg-white dark:bg-gray-900 sm:rounded-2xl shadow-2xl w-full sm:max-w-md flex flex-col overflow-hidden"
+        style={{ height: '100dvh' }}
+      >
+        {/* Header */}
+        <div className="flex items-center gap-3 px-5 py-4 border-b border-border">
+          <button
+            onClick={onCancel}
+            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
           >
-            {isPlaying ? (
-              <PauseCircle className="w-5 h-5" />
-            ) : (
-              <PlayCircle className="w-5 h-5" />
-            )}
-          </Button>
-
-          <input
-            type="range"
-            min="0"
-            max={duration || 0}
-            step="0.1"
-            value={currentTime}
-            onChange={handleSeek}
-            className="flex-1 h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-teal-500 [&::-webkit-slider-thumb]:cursor-pointer"
-          />
-
-          <span className="text-sm text-gray-500 dark:text-gray-400 shrink-0 w-16 text-right">
-            {currentTime.toFixed(1)}s
-          </span>
+            <X className="w-5 h-5 text-foreground" />
+          </button>
+          <span className="font-semibold text-foreground">{t('scrubVideo')}</span>
         </div>
 
-        <p className="text-sm text-center text-gray-600 dark:text-gray-400">
-          {t('scrubVideo')}
-        </p>
+        {/* Video */}
+        <div className="flex-1 relative overflow-hidden bg-black flex items-center justify-center">
+          <video
+            ref={videoRef}
+            src={videoUrl}
+            onLoadedMetadata={handleLoadedMetadata}
+            onTimeUpdate={handleTimeUpdate}
+            preload="metadata"
+            playsInline
+            className="w-full h-full object-contain"
+          />
+        </div>
 
-        <div className="grid grid-cols-2 gap-3">
-          <Button
-            onClick={onCancel}
-            variant="outline"
-            className="w-full"
-          >
-            {t('cancel')}
-          </Button>
+        <canvas ref={canvasRef} className="hidden" />
+
+        {/* Controls */}
+        <div className="flex flex-col gap-3 px-6 py-5 border-t border-border">
+          <div className="flex items-center gap-3">
+            <button
+              onClick={togglePlayPause}
+              className="shrink-0 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+            >
+              {isPlaying ? <PauseCircle className="w-8 h-8" /> : <PlayCircle className="w-8 h-8" />}
+            </button>
+            <input
+              type="range"
+              min="0"
+              max={duration || 0}
+              step="0.1"
+              value={currentTime}
+              onChange={handleSeek}
+              className="flex-1 h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-teal-500"
+            />
+            <span className="text-sm text-gray-500 dark:text-gray-400 shrink-0 w-12 text-right">
+              {currentTime.toFixed(1)}s
+            </span>
+          </div>
+
           <Button
             onClick={captureFrame}
-            className="w-full bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-600 hover:to-emerald-600"
+            className="w-full h-14 text-lg font-semibold rounded-xl text-white shadow-lg transition-all hover:scale-[1.01]"
+            style={{ background: 'linear-gradient(to right, #14b8a6, #22c55e)' }}
           >
-            <CheckCircle className="w-4 h-4 mr-2" />
+            <CheckCircle className="w-5 h-5 mr-2" />
             {t('useThisFrame')}
           </Button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
