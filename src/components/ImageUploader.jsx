@@ -15,6 +15,7 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
   const recordedChunksRef = useRef([]);
   const liveVideoRef = useRef(null);
   const [selectedVideo, setSelectedVideo] = useState(null);
+  const [pendingVideoFile, setPendingVideoFile] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
   const [showLivePreview, setShowLivePreview] = useState(false);
   const [pendingImageUrl, setPendingImageUrl] = useState(restoreCropUrl || null);
