@@ -20,7 +20,7 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
   const [pendingImageUrl, setPendingImageUrl] = useState(restoreCropUrl || null);
 
   // If a restoreCropUrl is passed (user hit back from ScanPreview), open the cropper immediately
-  React.useEffect(() => {
+  useEffect(() => {
     if (restoreCropUrl) {
       setPendingImageUrl(restoreCropUrl);
       onRestoreCropUrlConsumed?.();
