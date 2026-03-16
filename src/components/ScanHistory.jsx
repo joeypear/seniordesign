@@ -335,9 +335,7 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
               </motion.div>
             );
           })}
-          <p className="text-center text-xs text-gray-400 dark:text-gray-600 py-3">
-            — No additional scans —
-          </p>
+
         </div>
       )}
     </div>
