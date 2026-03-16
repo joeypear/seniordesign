@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
-import { X, Sparkles, Loader2 } from 'lucide-react';
+import { ArrowLeft, Sparkles, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -18,14 +18,14 @@ export default function ScanPreview({ imageUrl, onCancel, onAnalyze, isAnalyzing
         style={{ height: '100dvh' }}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-border">
-          <span className="font-semibold text-foreground">{t('uploadTitle')}</span>
+        <div className="flex items-center gap-3 px-5 py-4 border-b border-border">
           <button
             onClick={onCancel}
             className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
           >
-            <X className="w-5 h-5 text-foreground" />
+            <ArrowLeft className="w-5 h-5 text-foreground" />
           </button>
+          <span className="font-semibold text-foreground">{t('uploadTitle')}</span>
         </div>
 
         {/* Image */}
