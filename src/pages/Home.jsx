@@ -256,18 +256,16 @@ export default function Home() {
         </AnimatePresence>
 
         {/* Footer */}
-        {!isHistory && (
-          <div className="text-center mt-8 space-y-3">
-            <p className="text-xs text-gray-400 dark:text-gray-500">{t('footerDisclaimer')}</p>
-            <div className="flex items-center justify-center gap-2">
-              <ModelInfoButton />
-              <span className="text-gray-300 dark:text-gray-600">•</span>
-              <MissionInfoButton />
-              <span className="text-gray-300 dark:text-gray-600">•</span>
-              <ContactUsButton />
-            </div>
+        <div className="text-center mt-8 space-y-3">
+          <p className="text-xs text-gray-400 dark:text-gray-500">{t('footerDisclaimer')}</p>
+          <div className="flex items-center justify-center gap-2">
+            <ModelInfoButton />
+            <span className="text-gray-300 dark:text-gray-600">•</span>
+            <MissionInfoButton />
+            <span className="text-gray-300 dark:text-gray-600">•</span>
+            <ContactUsButton />
           </div>
-        )}
+        </div>
       </div>
 
       {/* Fixed Bottom Nav */}
