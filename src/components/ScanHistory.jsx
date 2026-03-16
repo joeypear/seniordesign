@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import { format } from 'date-fns';
 import { useLanguage } from '@/components/LanguageContext';
 import { CheckCircle2, XCircle, Clock, Trash2, Edit2, Filter, ArrowUpDown, Loader2, Search, Download, MoreVertical } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
