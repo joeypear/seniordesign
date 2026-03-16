@@ -248,7 +248,8 @@ export default function Home() {
                     isUploading={isUploading}
                     setIsUploading={setIsUploading}
                     restoreCropUrl={restoreCropUrl}
-                    onRestoreCropUrlConsumed={() => setRestoreCropUrl(null)}
+                    onRestoreCropUrlConsumed={handleRestoreCropUrlConsumed}
+                    restoreVideoFile={restoreVideoFile}
                   />
                 </div>
               )}
