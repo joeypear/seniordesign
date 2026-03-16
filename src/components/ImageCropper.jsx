@@ -30,7 +30,7 @@ function getCroppedImg(imageSrc, pixelCrop) {
   });
 }
 
-export default function ImageCropper({ imageUrl, onCropDone, onCancel, showBackArrow = false }) {
+export default function ImageCropper({ imageUrl, onCropDone, onCancel }) {
   const { t } = useLanguage();
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
@@ -58,18 +58,13 @@ export default function ImageCropper({ imageUrl, onCropDone, onCancel, showBackA
         <style>{`@media (min-width: 640px) { .cropper-wrapper { height: 100dvh !important; } }`}</style>
         {/* Header */}
         <div className="flex items-center gap-3 px-5 py-4 border-b border-border">
-          {showBackArrow ? (
-            <button
-              onClick={onCancel}
-              className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-            >
-              <ArrowLeft className="w-5 h-5 text-foreground" />
-            </button>
-          ) : (
-            <Crop className="w-5 h-5 text-foreground" />
-          )}
+          <button
+            onClick={onCancel}
+            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+          >
+            <ArrowLeft className="w-5 h-5 text-foreground" />
+          </button>
           <span className="font-semibold text-foreground">{t('cropImage')}</span>
-          {!showBackArrow && <span className="text-sm text-muted-foreground ml-1">{t('dragToReposition')}</span>}
         </div>
 
         {/* Cropper */}
@@ -101,17 +96,9 @@ export default function ImageCropper({ imageUrl, onCropDone, onCancel, showBackA
           </div>
           <div className="flex gap-3 w-full max-w-xs">
             <Button
-              onClick={onCancel}
-              variant="outline"
-              className="flex-1"
-            >
-              <X className="w-4 h-4 mr-1" />
-              {t('cancel')}
-            </Button>
-            <Button
               onClick={handleConfirm}
               disabled={isProcessing}
-              className="flex-[2] text-white"
+              className="flex-1 text-white"
               style={{ background: 'linear-gradient(to right, #f43f5e, #fb923c)' }}
             >
               {isProcessing ? (
