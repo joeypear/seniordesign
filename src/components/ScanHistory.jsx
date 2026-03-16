@@ -166,6 +166,109 @@ function OverflowMenu({ scan, onDownload, onRename, onDelete, downloadingId, del
   );
 }
 
+function getScanGroup(date) {
+  const now = new Date();
+  const d = new Date(date + 'Z');
+  const diffMs = now - d;
+  const diffDays = diffMs / (1000 * 60 * 60 * 24);
+  const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const yesterdayStart = new Date(todayStart); yesterdayStart.setDate(todayStart.getDate() - 1);
+  const weekStart = new Date(todayStart); weekStart.setDate(todayStart.getDate() - todayStart.getDay());
+  const lastWeekStart = new Date(weekStart); lastWeekStart.setDate(weekStart.getDate() - 7);
+  const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+  const lastMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+  const yearStart = new Date(now.getFullYear(), 0, 1);
+
+  if (d >= todayStart) return 'Today';
+  if (d >= yesterdayStart) return 'Yesterday';
+  if (d >= weekStart) return 'This Week';
+  if (d >= lastWeekStart) return 'Last Week';
+  if (d >= monthStart) return 'This Month';
+  if (d >= lastMonthStart) return 'Last Month';
+  if (d >= yearStart) return 'Earlier This Year';
+  return 'A Long Time Ago';
+}
+
+const GROUP_ORDER = ['Today', 'Yesterday', 'This Week', 'Last Week', 'This Month', 'Last Month', 'Earlier This Year', 'A Long Time Ago'];
+
+function ScanCard({ scan, onScanClick, onDownload, onRename, onDelete, downloadingId, deletingId, t, index }) {
+  const status = statusConfig[scan.result] || statusConfig.pending;
+  const StatusIcon = status.icon;
+  return (
+    <motion.div
+      key={scan.id}
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.04 }}
+      className={`flex items-center gap-3 px-3 py-5 rounded-xl border transition-colors ${status.bg} ${status.border} hover:opacity-90`}
+    >
+      <img
+        src={scan.image_url}
+        alt="Scan"
+        className="w-16 h-16 rounded-lg object-cover shadow-sm flex-shrink-0 cursor-pointer"
+        onClick={() => onScanClick?.(scan)}
+      />
+      <div className="flex-1 min-w-0 cursor-pointer" onClick={() => onScanClick?.(scan)}>
+        <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-sm font-bold ${status.badgeBg} ${status.badgeText}`}>
+          <StatusIcon className="w-3.5 h-3.5" />
+          {t(status.labelKey)}
+        </span>
+        {scan.name && (
+          <p className="text-base font-medium text-gray-800 dark:text-gray-200 truncate mt-1">{scan.name}</p>
+        )}
+        <p className="text-sm text-gray-400 dark:text-gray-500 mt-0.5 whitespace-nowrap">
+          {format(new Date(scan.created_date + 'Z'), 'MMM d, yyyy · h:mm a')}
+        </p>
+      </div>
+      <OverflowMenu
+        scan={scan}
+        onDownload={onDownload}
+        onRename={onRename}
+        onDelete={onDelete}
+        downloadingId={downloadingId}
+        deletingId={deletingId}
+        t={t}
+      />
+    </motion.div>
+  );
+}
+
+function GroupedScanList({ scans, onScanClick, onDownload, onRename, onDelete, downloadingId, deletingId, t }) {
+  const groups = {};
+  scans.forEach(scan => {
+    const group = getScanGroup(scan.created_date);
+    if (!groups[group]) groups[group] = [];
+    groups[group].push(scan);
+  });
+
+  let globalIndex = 0;
+  return (
+    <div className="space-y-5">
+      {GROUP_ORDER.filter(g => groups[g]?.length).map(group => (
+        <div key={group}>
+          <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-2 px-1">{group}</p>
+          <div className="space-y-3">
+            {groups[group].map(scan => (
+              <ScanCard
+                key={scan.id}
+                scan={scan}
+                index={globalIndex++}
+                onScanClick={onScanClick}
+                onDownload={onDownload}
+                onRename={onRename}
+                onDelete={onDelete}
+                downloadingId={downloadingId}
+                deletingId={deletingId}
+                t={t}
+              />
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRenameScan }) {
   const { t } = useLanguage();
   const [filter, setFilter] = useState('all');
