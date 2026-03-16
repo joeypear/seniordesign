@@ -80,7 +80,7 @@ function OverflowMenu({ scan, onDownload, onRename, onDelete, downloadingId, del
   return (
     <div ref={ref} className="relative flex-shrink-0">
       <button
-        className="flex items-center justify-center w-11 h-11 rounded-full text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+        className="flex items-center justify-center w-11 h-11 rounded-full text-white/80 hover:text-white hover:bg-white/20 transition-colors"
         onClick={(e) => { e.stopPropagation(); setOpen(o => !o); }}
       >
         <MoreVertical className="w-5 h-5" />
