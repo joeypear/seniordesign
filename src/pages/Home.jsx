@@ -148,35 +148,53 @@ export default function Home() {
     );
   }
 
+  const isHistory = activeTab === 'history' && !previewImage;
+
   return (
     <div className="min-h-[100dvh] bg-gradient-to-b from-orange-50 via-white to-teal-50 dark:from-[#161B2E] dark:via-[#161B2E] dark:to-[#161B2E]">
       <OnboardingGuide open={showOnboarding} onClose={handleCloseOnboarding} />
 
-      <div className="max-w-lg mx-auto px-4 pt-8 pb-28">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-8"
-        >
-          <div className="flex justify-center mb-3">
-            <img
-              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69b197ac7dc234617b635f3b/957c3239e_fixed_background_with_fade.png"
-              alt="DR Monster Logo"
-              className="w-16 h-16"
-              style={{ imageRendering: 'auto' }}
-              width={384}
-              height={384}
-            />
-          </div>
-          <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
-            DR{' '}
-            <span style={{ background: 'linear-gradient(to right, #f97316, #f43f5e)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-              Monster
-            </span>
-          </h1>
-          <p className="text-gray-500 dark:text-gray-400 mt-1">{t('appSubtitle')}</p>
-        </motion.div>
+      {/* Mini header — history tab only */}
+      {isHistory && (
+        <div className="max-w-lg mx-auto px-4 flex items-center" style={{ height: 56 }}>
+          <img
+            src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69b197ac7dc234617b635f3b/957c3239e_fixed_background_with_fade.png"
+            alt="DR Monster Logo"
+            className="w-9 h-9"
+            style={{ imageRendering: 'auto' }}
+            width={384}
+            height={384}
+          />
+        </div>
+      )}
+
+      <div className="max-w-lg mx-auto px-4 pb-28" style={{ paddingTop: isHistory ? 8 : 32 }}>
+        {/* Full header — scan tab only */}
+        {!isHistory && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center mb-8"
+          >
+            <div className="flex justify-center mb-3">
+              <img
+                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69b197ac7dc234617b635f3b/957c3239e_fixed_background_with_fade.png"
+                alt="DR Monster Logo"
+                className="w-16 h-16"
+                style={{ imageRendering: 'auto' }}
+                width={384}
+                height={384}
+              />
+            </div>
+            <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
+              DR{' '}
+              <span style={{ background: 'linear-gradient(to right, #f97316, #f43f5e)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+                Monster
+              </span>
+            </h1>
+            <p className="text-gray-500 dark:text-gray-400 mt-1">{t('appSubtitle')}</p>
+          </motion.div>
+        )}
 
         {/* Main Content */}
         <AnimatePresence mode="wait">
@@ -216,7 +234,6 @@ export default function Home() {
 
               {activeTab === 'history' && (
                 <div className="bg-white/80 dark:bg-[#22263A] backdrop-blur rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-[#2E3350]">
-                  <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">{t('scanHistory')}</h2>
                   {isLoading ? (
                     <div className="flex justify-center py-12">
                       <div className="w-8 h-8 border-2 border-teal-400 border-t-transparent rounded-full animate-spin" />
@@ -238,16 +255,18 @@ export default function Home() {
         </AnimatePresence>
 
         {/* Footer */}
-        <div className="text-center mt-8 space-y-3">
-          <p className="text-xs text-gray-400 dark:text-gray-500">{t('footerDisclaimer')}</p>
-          <div className="flex items-center justify-center gap-2">
-            <ModelInfoButton />
-            <span className="text-gray-300 dark:text-gray-600">•</span>
-            <MissionInfoButton />
-            <span className="text-gray-300 dark:text-gray-600">•</span>
-            <ContactUsButton />
+        {!isHistory && (
+          <div className="text-center mt-8 space-y-3">
+            <p className="text-xs text-gray-400 dark:text-gray-500">{t('footerDisclaimer')}</p>
+            <div className="flex items-center justify-center gap-2">
+              <ModelInfoButton />
+              <span className="text-gray-300 dark:text-gray-600">•</span>
+              <MissionInfoButton />
+              <span className="text-gray-300 dark:text-gray-600">•</span>
+              <ContactUsButton />
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* Fixed Bottom Nav */}
