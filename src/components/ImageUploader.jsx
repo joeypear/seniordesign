@@ -116,9 +116,11 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
   const handleCropDone = async (croppedFile) => {
     setIsUploading(true);
     const rawUrl = pendingImageUrl;
+    const videoFile = pendingVideoFile;
     setPendingImageUrl(null);
+    setPendingVideoFile(null);
     const { file_url } = await base44.integrations.Core.UploadFile({ file: croppedFile });
-    onImageUploaded(file_url, rawUrl);
+    onImageUploaded(file_url, rawUrl, videoFile);
     setIsUploading(false);
   };
 
