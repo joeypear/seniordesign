@@ -219,7 +219,7 @@ export default function Home() {
             >
               <ScanPreview
                 imageUrl={previewImage}
-                onCancel={handleCancel}
+                onCancel={handleBackToCropper}
                 onAnalyze={handleAnalyze}
                 isAnalyzing={isAnalyzing}
               />
