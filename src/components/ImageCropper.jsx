@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import Cropper from 'react-easy-crop';
 import { Button } from '@/components/ui/button';
-import { Crop, Check, X } from 'lucide-react';
+import { Crop, Check, X, ArrowLeft } from 'lucide-react';
 import { useLanguage } from '@/components/LanguageContext';
 
 function getCroppedImg(imageSrc, pixelCrop) {
