@@ -405,6 +405,7 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
           downloadingId={downloadingId}
           deletingId={deletingId}
           t={t}
+          sortBy={sortBy}
         />
       )}
     </div>
