@@ -10,6 +10,8 @@ import { recordAction, isRateLimited, subscribeRateLimit } from '@/lib/security'
 
 export default function ImageUploader({ onImageUploaded, isUploading, setIsUploading, restoreCropUrl, onRestoreCropUrlConsumed, restoreVideoFile }) {
   const { t } = useLanguage();
+  const [rateLimited, setRateLimited] = useState(isRateLimited());
+  useEffect(() => subscribeRateLimit(setRateLimited), []);
   const fileInputRef = useRef(null);
   const mediaStreamRef = useRef(null);
   const mediaRecorderRef = useRef(null);
