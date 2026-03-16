@@ -156,7 +156,6 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
       exit={{ opacity: 0, x: 40 }}
       transition={{ type: 'spring', stiffness: 320, damping: 32 }}
       className="min-h-[100dvh] bg-gradient-to-b from-orange-50 via-white to-teal-50 dark:from-[#161B2E] dark:via-[#161B2E] dark:to-[#161B2E]"
-      style={{ position: 'relative', zIndex: 100 }}
     >
       {/* Hide layout buttons (info + account) while on detail screen */}
       <style>{`.fixed.top-4.right-4.z-50 { display: none !important; }`}</style>
