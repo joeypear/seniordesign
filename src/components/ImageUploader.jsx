@@ -7,7 +7,7 @@ import { useLanguage } from '@/components/LanguageContext';
 import VideoFrameSelector from './VideoFrameSelector';
 import ImageCropper from './ImageCropper';
 
-export default function ImageUploader({ onImageUploaded, isUploading, setIsUploading }) {
+export default function ImageUploader({ onImageUploaded, isUploading, setIsUploading, restoreCropUrl, onRestoreCropUrlConsumed }) {
   const { t } = useLanguage();
   const fileInputRef = useRef(null);
   const mediaStreamRef = useRef(null);
