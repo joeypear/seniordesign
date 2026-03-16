@@ -99,44 +99,38 @@ function OverflowMenu({ scan, onDownload, onRename, onDelete, downloadingId, del
         <MoreVertical className="w-5 h-5" />
       </button>
 
-      <AnimatePresence>
-        {open && createPortal(
-          <motion.div
-            ref={ref}
-            initial={{ opacity: 0, scale: 0.92, y: -4 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.92, y: -4 }}
-            transition={{ duration: 0.12 }}
-            style={{ position: 'fixed', top: menuPos.top, right: menuPos.right, zIndex: 99999 }}
-            className="w-44 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 overflow-hidden"
+      {open && createPortal(
+        <div
+          ref={ref}
+          style={{ position: 'fixed', top: menuPos.top, right: menuPos.right, zIndex: 99999 }}
+          className="w-44 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 overflow-hidden"
+        >
+          <button
+            className="flex items-center gap-3 w-full px-4 py-3 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors min-h-[44px]"
+            onClick={(e) => { e.stopPropagation(); setOpen(false); onDownload(scan, e); }}
+            disabled={downloadingId === scan.id}
           >
-            <button
-              className="flex items-center gap-3 w-full px-4 py-3 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors min-h-[44px]"
-              onClick={(e) => { e.stopPropagation(); setOpen(false); onDownload(scan, e); }}
-              disabled={downloadingId === scan.id}
-            >
-              {downloadingId === scan.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4 text-emerald-500" />}
-              Download
-            </button>
-            <button
-              className="flex items-center gap-3 w-full px-4 py-3 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors min-h-[44px]"
-              onClick={(e) => { e.stopPropagation(); setOpen(false); setEditName(scan.name || ''); setShowRenameDialog(true); }}
-            >
-              <Edit2 className="w-4 h-4 text-blue-500" />
-              {t('renameScan')}
-            </button>
-            <button
-              className="flex items-center gap-3 w-full px-4 py-3 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors min-h-[44px]"
-              onClick={(e) => { e.stopPropagation(); setOpen(false); setShowDeleteDialog(true); }}
-              disabled={deletingId === scan.id}
-            >
-              {deletingId === scan.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
-              {t('delete')}
-            </button>
-          </motion.div>,
-          document.body
-        )}
-      </AnimatePresence>
+            {downloadingId === scan.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4 text-emerald-500" />}
+            Download
+          </button>
+          <button
+            className="flex items-center gap-3 w-full px-4 py-3 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors min-h-[44px]"
+            onClick={(e) => { e.stopPropagation(); setOpen(false); setEditName(scan.name || ''); setShowRenameDialog(true); }}
+          >
+            <Edit2 className="w-4 h-4 text-blue-500" />
+            {t('renameScan')}
+          </button>
+          <button
+            className="flex items-center gap-3 w-full px-4 py-3 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors min-h-[44px]"
+            onClick={(e) => { e.stopPropagation(); setOpen(false); setShowDeleteDialog(true); }}
+            disabled={deletingId === scan.id}
+          >
+            {deletingId === scan.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
+            {t('delete')}
+          </button>
+        </div>,
+        document.body
+      )}
 
       {/* Rename Dialog */}
       <Dialog open={showRenameDialog} onOpenChange={setShowRenameDialog}>
