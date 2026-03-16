@@ -42,6 +42,7 @@ export default function ImageCropper({ imageUrl, onCropDone, onCancel }) {
   }, []);
 
   const handleConfirm = async () => {
+    if (!croppedAreaPixels) return;
     setIsProcessing(true);
     const file = await getCroppedImg(imageUrl, croppedAreaPixels);
     onCropDone(file);
