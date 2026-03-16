@@ -35,6 +35,7 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
   const handleFileChange = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    if (!recordAction()) return;
 
     if (file.type.startsWith('video/')) {
       setSelectedVideo(file);
