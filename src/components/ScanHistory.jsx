@@ -62,14 +62,25 @@ function OverflowMenu({ scan, onDownload, onRename, onDelete, downloadingId, del
   const [showRenameDialog, setShowRenameDialog] = useState(false);
   const [editName, setEditName] = useState('');
   const [renamingId, setRenamingId] = useState(null);
+  const [menuPos, setMenuPos] = useState({ top: 0, right: 0 });
+  const btnRef = useRef(null);
   const ref = useRef(null);
 
   useEffect(() => {
-    const handler = (e) => { if (ref.current && !ref.current.contains(e.target)) setOpen(false); };
+    const handler = (e) => { if (ref.current && !ref.current.contains(e.target) && btnRef.current && !btnRef.current.contains(e.target)) setOpen(false); };
     document.addEventListener('mousedown', handler);
     document.addEventListener('touchstart', handler);
     return () => { document.removeEventListener('mousedown', handler); document.removeEventListener('touchstart', handler); };
   }, []);
+
+  const handleOpen = (e) => {
+    e.stopPropagation();
+    if (!open && btnRef.current) {
+      const rect = btnRef.current.getBoundingClientRect();
+      setMenuPos({ top: rect.bottom + 4, right: window.innerWidth - rect.right });
+    }
+    setOpen(o => !o);
+  };
 
   const handleRename = async () => {
     setRenamingId(scan.id);
@@ -79,22 +90,25 @@ function OverflowMenu({ scan, onDownload, onRename, onDelete, downloadingId, del
   };
 
   return (
-    <div ref={ref} className="relative flex-shrink-0">
+    <div className="relative flex-shrink-0">
       <button
+        ref={btnRef}
         className="flex items-center justify-center w-12 h-12 rounded-full text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-        onClick={(e) => { e.stopPropagation(); setOpen(o => !o); }}
+        onClick={handleOpen}
       >
         <MoreVertical className="w-5 h-5" />
       </button>
 
       <AnimatePresence>
-        {open && (
+        {open && createPortal(
           <motion.div
+            ref={ref}
             initial={{ opacity: 0, scale: 0.92, y: -4 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.92, y: -4 }}
             transition={{ duration: 0.12 }}
-            className="absolute right-0 top-12 z-[9999] w-44 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 overflow-hidden"
+            style={{ position: 'fixed', top: menuPos.top, right: menuPos.right, zIndex: 99999 }}
+            className="w-44 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 overflow-hidden"
           >
             <button
               className="flex items-center gap-3 w-full px-4 py-3 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors min-h-[44px]"
@@ -119,7 +133,8 @@ function OverflowMenu({ scan, onDownload, onRename, onDelete, downloadingId, del
               {deletingId === scan.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
               {t('delete')}
             </button>
-          </motion.div>
+          </motion.div>,
+          document.body
         )}
       </AnimatePresence>
 
