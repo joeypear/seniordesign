@@ -27,7 +27,7 @@ export const translations = {
     uploadFile: 'Upload File',
     uploadingImage: 'Uploading image...',
     uploadHint: 'Upload images or videos to select a clear frame for analysis',
-    nameScanPlaceholder: 'Name this scan (optional)',
+    nameScanPlaceholder: 'Name this scan...',
     analyzeButton: 'Analyze for Diabetic Retinopathy',
     analyzing: 'Analyzing...',
     scanHistory: 'Scan History',
