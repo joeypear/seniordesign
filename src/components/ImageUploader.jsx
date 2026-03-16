@@ -6,6 +6,7 @@ import { base44 } from '@/api/base44Client';
 import { useLanguage } from '@/components/LanguageContext';
 import VideoFrameSelector from './VideoFrameSelector';
 import ImageCropper from './ImageCropper';
+import { recordAction, isRateLimited, subscribeRateLimit } from '@/lib/security';
 
 export default function ImageUploader({ onImageUploaded, isUploading, setIsUploading, restoreCropUrl, onRestoreCropUrlConsumed, restoreVideoFile }) {
   const { t } = useLanguage();
