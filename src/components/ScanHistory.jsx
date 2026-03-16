@@ -244,7 +244,7 @@ function ScanCard({ scan, onScanClick, onDownload, onRename, onDelete, downloadi
   );
 }
 
-function GroupedScanList({ scans, onScanClick, onDownload, onRename, onDelete, downloadingId, deletingId, t }) {
+function GroupedScanList({ scans, onScanClick, onDownload, onRename, onDelete, downloadingId, deletingId, t, sortBy }) {
   const groups = {};
   scans.forEach(scan => {
     const group = getScanGroup(scan.created_date);
@@ -252,10 +252,11 @@ function GroupedScanList({ scans, onScanClick, onDownload, onRename, onDelete, d
     groups[group].push(scan);
   });
 
+  const groupOrder = sortBy === 'oldest' ? GROUP_ORDER_OLDEST : GROUP_ORDER_NEWEST;
   let globalIndex = 0;
   return (
     <div className="space-y-5">
-      {GROUP_ORDER.filter(g => groups[g]?.length).map(group => (
+      {groupOrder.filter(g => groups[g]?.length).map(group => (
         <div key={group}>
           <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-2 px-1">{group}</p>
           <div className="space-y-3">
