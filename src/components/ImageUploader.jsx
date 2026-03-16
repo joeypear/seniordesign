@@ -17,7 +17,15 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
   const [showLivePreview, setShowLivePreview] = useState(false);
-  const [pendingImageUrl, setPendingImageUrl] = useState(null);
+  const [pendingImageUrl, setPendingImageUrl] = useState(restoreCropUrl || null);
+
+  // If a restoreCropUrl is passed (user hit back from ScanPreview), open the cropper immediately
+  React.useEffect(() => {
+    if (restoreCropUrl) {
+      setPendingImageUrl(restoreCropUrl);
+      onRestoreCropUrlConsumed?.();
+    }
+  }, [restoreCropUrl]);
 
   const handleFileChange = async (e) => {
     const file = e.target.files?.[0];
