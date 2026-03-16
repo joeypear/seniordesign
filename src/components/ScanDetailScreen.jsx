@@ -161,10 +161,10 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
       {/* Hide layout buttons (info + account) while on detail screen */}
       <style>{`.fixed.top-4.right-4.z-50 { display: none !important; }`}</style>
       {/* Top bar */}
-      <div className="sticky top-0 z-30 bg-white/85 dark:bg-[#1A1D2E]/90 backdrop-blur-md border-b border-gray-100 dark:border-[#2E3350] flex items-center gap-3 px-4 py-3">
+      <div className="sticky top-0 z-30 bg-white/85 dark:bg-[#1A1D2E]/90 backdrop-blur-md border-b border-gray-100 dark:border-[#2E3350] flex items-center gap-3 px-4" style={{ minHeight: 56 }}>
         <button
           onClick={onBack}
-          className="flex items-center gap-1 text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors shrink-0"
+          className="flex items-center gap-1.5 text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors shrink-0 py-3 pr-2"
         >
           <ArrowLeft className="w-5 h-5" />
           <span className="text-sm font-medium">{t('history')}</span>
