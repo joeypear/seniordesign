@@ -240,6 +240,8 @@ export default function Home() {
                     onImageUploaded={handleImageUploaded}
                     isUploading={isUploading}
                     setIsUploading={setIsUploading}
+                    restoreCropUrl={restoreCropUrl}
+                    onRestoreCropUrlConsumed={() => setRestoreCropUrl(null)}
                   />
                 </div>
               )}
