@@ -29,7 +29,7 @@ const statusConfig = {
   pending: {
     icon: Clock,
     color: 'text-amber-500 dark:text-amber-400',
-    bg: 'bg-amber-100 dark:bg-amber-950/40',
+    bg: 'bg-amber-50 dark:bg-amber-950/40',
     border: 'border-amber-200 dark:border-amber-800',
     badgeBg: 'bg-amber-100 dark:bg-amber-900/50',
     badgeText: 'text-amber-700 dark:text-amber-300',
