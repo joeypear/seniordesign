@@ -13,6 +13,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { motion } from 'framer-motion';
 import jsPDF from 'jspdf';
+import { validateFilename, recordAction, isRateLimited, subscribeRateLimit } from '@/lib/security';
 
 const statusConfig = {
   pending: { icon: Clock, color: 'text-amber-500 dark:text-amber-400', bg: 'bg-amber-100 dark:bg-amber-900/50', labelKey: 'pendingAnalysis', descKey: 'pendingDesc' },
