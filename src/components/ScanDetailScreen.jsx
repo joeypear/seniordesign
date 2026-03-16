@@ -253,10 +253,10 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
 
         {/* Actions */}
         <div className="bg-white/80 dark:bg-[#22263A] rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-[#2E3350] flex flex-col gap-3">
-          <div className="flex gap-3">
+          <div className="grid grid-cols-2 gap-3">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" disabled={isExporting} className="flex-1 h-12 text-base text-indigo-600 dark:text-indigo-400 border-indigo-200 dark:border-indigo-800 hover:bg-indigo-50 dark:hover:bg-indigo-900/20">
+                <Button variant="outline" disabled={isExporting} className="w-full h-12 text-base text-indigo-600 dark:text-indigo-400 border-indigo-200 dark:border-indigo-800 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 flex items-center justify-center">
                   {isExporting ? <Loader2 className="w-5 h-5 mr-2 animate-spin" /> : <FileDown className="w-5 h-5 mr-2" />}
                   {isExporting ? t('processing') : 'Export'}
                   <ChevronDown className="w-4 h-4 ml-1" />
@@ -269,7 +269,7 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
               </DropdownMenuContent>
             </DropdownMenu>
 
-            <Button variant="outline" onClick={handleDownload} disabled={isDownloading} className="flex-1 h-12 text-base text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800 hover:bg-emerald-50 dark:hover:bg-emerald-900/20">
+            <Button variant="outline" onClick={handleDownload} disabled={isDownloading} className="w-full h-12 text-base text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 flex items-center justify-center">
               {isDownloading ? <Loader2 className="w-5 h-5 mr-2 animate-spin" /> : <Download className="w-5 h-5 mr-2" />}
               {isDownloading ? t('processing') : 'Save Image'}
             </Button>
