@@ -281,7 +281,7 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
           <p className="text-sm">{t('noScansMatch')}</p>
         </div>
       ) : (
-        <div className="sh-scroll-list space-y-2" style={{ maxHeight: '420px', overflowY: 'auto' }}>
+        <div className="sh-scroll-list space-y-3" style={{ maxHeight: '420px', overflowY: 'auto' }}>
           {filteredScans.map((scan, index) => {
             const status = statusConfig[scan.result] || statusConfig.pending;
             const StatusIcon = status.icon;
@@ -293,31 +293,31 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.04 }}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-xl border transition-colors ${status.bg} ${status.border} hover:opacity-90`}
+                className={`flex items-center gap-3 px-3 py-5 rounded-xl border transition-colors ${status.bg} ${status.border} hover:opacity-90`}
               >
                 {/* Thumbnail */}
                 <img
                   src={scan.image_url}
                   alt="Scan"
-                  className="w-14 h-14 rounded-lg object-cover shadow-sm flex-shrink-0 cursor-pointer"
+                  className="w-16 h-16 rounded-lg object-cover shadow-sm flex-shrink-0 cursor-pointer"
                   onClick={() => onScanClick?.(scan)}
                 />
 
                 {/* Center info */}
                 <div className="flex-1 min-w-0 cursor-pointer" onClick={() => onScanClick?.(scan)}>
                   {/* Status badge */}
-                  <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${status.badgeBg} ${status.badgeText}`}>
-                    <StatusIcon className="w-3 h-3" />
+                  <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-sm font-bold ${status.badgeBg} ${status.badgeText}`}>
+                    <StatusIcon className="w-3.5 h-3.5" />
                     {statusLabel}
                   </span>
                   {/* Name */}
                   {scan.name && (
-                    <p className="text-sm font-medium text-gray-800 dark:text-gray-200 truncate mt-0.5">
+                    <p className="text-base font-medium text-gray-800 dark:text-gray-200 truncate mt-1">
                       {scan.name}
                     </p>
                   )}
                   {/* Date */}
-                  <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5 whitespace-nowrap">
+                  <p className="text-sm text-gray-400 dark:text-gray-500 mt-0.5 whitespace-nowrap">
                     {format(new Date(scan.created_date + 'Z'), 'MMM d, yyyy · h:mm a')}
                   </p>
                 </div>
