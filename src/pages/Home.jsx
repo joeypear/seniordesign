@@ -234,7 +234,7 @@ export default function Home() {
 
               {activeTab === 'history' && (
                 <div>
-                  <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-4">{t('scanHistory')}</h2>
+                  <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">{t('scanHistory')}</h2>
                   {isLoading ? (
                     <div className="flex justify-center py-12">
                       <div className="w-8 h-8 border-2 border-teal-400 border-t-transparent rounded-full animate-spin" />
