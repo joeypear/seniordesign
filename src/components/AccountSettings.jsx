@@ -315,6 +315,13 @@ const styles = `
     min-width: 100px;
     max-width: 100%;
     flex-shrink: 0;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+  .as-select-trigger:focus, .as-select-trigger:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
+    ring: none !important;
   }
 
   /* Danger zone */
