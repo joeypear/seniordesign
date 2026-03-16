@@ -189,7 +189,7 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
           ) : (
             <button
               onClick={() => { setEditName(scan.name || ''); setIsEditingName(true); }}
-              className="flex items-center gap-1.5 group max-w-full"
+              className="flex items-center gap-1.5 group max-w-full self-stretch"
             >
               <h1 className="text-sm font-semibold text-gray-800 dark:text-gray-100 truncate">
                 {scan.name || t('scanDetails')}
