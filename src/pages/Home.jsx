@@ -105,6 +105,11 @@ export default function Home() {
 
   const handleImageUploaded = (url) => setPreviewImage(url);
 
+  const handleBackToCropper = () => {
+    setPreviewImage(null);
+    // preCropImage is set by ImageUploader before cropping; go back to crop
+  };
+
   const handleAnalyze = async (scanName, notes) => {
     setIsAnalyzing(true);
     await createScanMutation.mutateAsync({
