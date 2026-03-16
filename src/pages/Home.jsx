@@ -104,11 +104,16 @@ export default function Home() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['scans'] }),
   });
 
-  const handleImageUploaded = (url) => setPreviewImage(url);
+  const handleImageUploaded = (url, rawUrl) => {
+    setPreCropImage(rawUrl || null);
+    setPreviewImage(url);
+  };
 
   const handleBackToCropper = () => {
     setPreviewImage(null);
-    // preCropImage is set by ImageUploader before cropping; go back to crop
+    if (preCropImage) {
+      setRestoreCropUrl(preCropImage);
+    }
   };
 
   const handleAnalyze = async (scanName, notes) => {
