@@ -64,10 +64,7 @@ export default function ScanPreview({ imageUrl, onCancel, onAnalyze, isAnalyzing
                 {t('analyzing')}
               </>
             ) : (
-              <>
-                <Sparkles className="w-5 h-5 mr-2" />
-                {t('analyzeButton')}
-              </>
+              t('analyzeButton')
             )}
           </Button>
         </div>
