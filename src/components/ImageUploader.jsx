@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Camera, Upload, Video } from 'lucide-react';
 import { Button } from '@/components/ui/button';
