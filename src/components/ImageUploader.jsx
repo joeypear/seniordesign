@@ -7,7 +7,7 @@ import { useLanguage } from '@/components/LanguageContext';
 import VideoFrameSelector from './VideoFrameSelector';
 import ImageCropper from './ImageCropper';
 
-export default function ImageUploader({ onImageUploaded, isUploading, setIsUploading, restoreCropUrl, onRestoreCropUrlConsumed }) {
+export default function ImageUploader({ onImageUploaded, isUploading, setIsUploading, restoreCropUrl, onRestoreCropUrlConsumed, restoreVideoFile }) {
   const { t } = useLanguage();
   const fileInputRef = useRef(null);
   const mediaStreamRef = useRef(null);
@@ -24,6 +24,7 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
   useEffect(() => {
     if (restoreCropUrl) {
       setPendingImageUrl(restoreCropUrl);
+      if (restoreVideoFile) setPendingVideoFile(restoreVideoFile);
       onRestoreCropUrlConsumed?.();
     }
   }, [restoreCropUrl]);
