@@ -43,6 +43,7 @@ function setScanIdInUrl(scanId) {
 export default function Home() {
   const { t } = useLanguage();
   const [previewImage, setPreviewImage] = useState(null);
+  const [preCropImage, setPreCropImage] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [showOnboarding, setShowOnboarding] = useState(false);
