@@ -45,6 +45,7 @@ export default function Home() {
   const [previewImage, setPreviewImage] = useState(null);
   const [preCropImage, setPreCropImage] = useState(null);
   const [restoreCropUrl, setRestoreCropUrl] = useState(null);
+  const [restoreVideoFile, setRestoreVideoFile] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [showOnboarding, setShowOnboarding] = useState(false);
@@ -104,8 +105,9 @@ export default function Home() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['scans'] }),
   });
 
-  const handleImageUploaded = (url, rawUrl) => {
+  const handleImageUploaded = (url, rawUrl, videoFile) => {
     setPreCropImage(rawUrl || null);
+    setRestoreVideoFile(videoFile || null);
     setPreviewImage(url);
   };
 
@@ -114,6 +116,11 @@ export default function Home() {
     if (preCropImage) {
       setRestoreCropUrl(preCropImage);
     }
+  };
+
+  const handleRestoreCropUrlConsumed = () => {
+    setRestoreCropUrl(null);
+    setRestoreVideoFile(null);
   };
 
   const handleAnalyze = async (scanName, notes) => {
