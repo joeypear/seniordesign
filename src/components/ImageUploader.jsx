@@ -228,10 +228,15 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
         className="hidden"
       />
 
+      {rateLimited && (
+        <div className="text-center text-sm text-rose-500 dark:text-rose-400 bg-rose-50 dark:bg-rose-900/20 border border-rose-200 dark:border-rose-800 rounded-xl px-4 py-3">
+          Too many actions. Please wait 30 seconds.
+        </div>
+      )}
       <div className="grid grid-cols-2 gap-4">
         <Button
           onClick={handleOpenCamera}
-          disabled={isUploading}
+          disabled={isUploading || rateLimited}
           className="h-32 flex-col gap-3 text-white rounded-2xl shadow-lg shadow-orange-200 dark:shadow-orange-900/50 transition-all hover:scale-[1.02] hover:shadow-xl dark:hover:shadow-orange-900/70"
           style={{ background: 'linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%)' }}
         >
@@ -241,7 +246,7 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
 
         <Button
           onClick={() => fileInputRef.current?.click()}
-          disabled={isUploading}
+          disabled={isUploading || rateLimited}
           className="h-32 flex-col gap-3 text-white rounded-2xl shadow-lg shadow-teal-200 dark:shadow-teal-900/50 transition-all hover:scale-[1.02] hover:shadow-xl dark:hover:shadow-teal-900/70"
           style={{ background: 'linear-gradient(135deg, #4fd1c5 0%, #48bb78 100%)' }}
         >
