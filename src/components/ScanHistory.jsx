@@ -199,7 +199,8 @@ function getScanGroup(date) {
   return 'A Long Time Ago';
 }
 
-const GROUP_ORDER = ['Today', 'Yesterday', 'This Week', 'Last Week', 'This Month', 'Last Month', 'Earlier This Year', 'A Long Time Ago'];
+const GROUP_ORDER_NEWEST = ['Today', 'Yesterday', 'This Week', 'Last Week', 'This Month', 'Last Month', 'Earlier This Year', 'A Long Time Ago'];
+const GROUP_ORDER_OLDEST = [...GROUP_ORDER_NEWEST].reverse();
 
 function ScanCard({ scan, onScanClick, onDownload, onRename, onDelete, downloadingId, deletingId, t, index }) {
   const status = statusConfig[scan.result] || statusConfig.pending;
