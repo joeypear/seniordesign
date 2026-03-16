@@ -281,7 +281,7 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
           <p className="text-sm">{t('noScansMatch')}</p>
         </div>
       ) : (
-        <div className="sh-scroll-list space-y-2" style={{ maxHeight: '380px', overflowY: 'auto' }}>
+        <div className="sh-scroll-list space-y-2" style={{ maxHeight: '420px', overflowY: 'auto' }}>
           {filteredScans.map((scan, index) => {
             const status = statusConfig[scan.result] || statusConfig.pending;
             const StatusIcon = status.icon;
