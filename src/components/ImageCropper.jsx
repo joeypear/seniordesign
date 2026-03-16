@@ -57,10 +57,19 @@ export default function ImageCropper({ imageUrl, onCropDone, onCancel, showBackA
       >
         <style>{`@media (min-width: 640px) { .cropper-wrapper { height: 100dvh !important; } }`}</style>
         {/* Header */}
-        <div className="flex items-center gap-2 px-5 py-4 border-b border-border">
-          <Crop className="w-5 h-5 text-foreground" />
+        <div className="flex items-center gap-3 px-5 py-4 border-b border-border">
+          {showBackArrow ? (
+            <button
+              onClick={onCancel}
+              className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            >
+              <ArrowLeft className="w-5 h-5 text-foreground" />
+            </button>
+          ) : (
+            <Crop className="w-5 h-5 text-foreground" />
+          )}
           <span className="font-semibold text-foreground">{t('cropImage')}</span>
-          <span className="text-sm text-muted-foreground ml-1">{t('dragToReposition')}</span>
+          {!showBackArrow && <span className="text-sm text-muted-foreground ml-1">{t('dragToReposition')}</span>}
         </div>
 
         {/* Cropper */}
