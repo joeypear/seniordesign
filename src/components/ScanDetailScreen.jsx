@@ -252,28 +252,30 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
         </div>
 
         {/* Actions */}
-        <div className="bg-white/80 dark:bg-[#22263A] rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-[#2E3350] flex gap-2">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" disabled={isExporting} className="flex-1 text-indigo-600 dark:text-indigo-400 border-indigo-200 dark:border-indigo-800 hover:bg-indigo-50 dark:hover:bg-indigo-900/20">
-                {isExporting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <FileDown className="w-4 h-4 mr-2" />}
-                {isExporting ? t('processing') : 'Export'}
-                <ChevronDown className="w-3 h-3 ml-1" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onSelect={() => handleExport('pdf')}>Export as PDF</DropdownMenuItem>
-              <DropdownMenuItem onSelect={() => handleExport('csv')}>Export as CSV</DropdownMenuItem>
-              <DropdownMenuItem onSelect={() => handleExport('fhir')}>Export as FHIR</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+        <div className="bg-white/80 dark:bg-[#22263A] rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-[#2E3350] flex flex-col gap-2">
+          <div className="flex gap-2">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="sm" disabled={isExporting} className="flex-1 text-indigo-600 dark:text-indigo-400 border-indigo-200 dark:border-indigo-800 hover:bg-indigo-50 dark:hover:bg-indigo-900/20">
+                  {isExporting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <FileDown className="w-4 h-4 mr-2" />}
+                  {isExporting ? t('processing') : 'Export'}
+                  <ChevronDown className="w-3 h-3 ml-1" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onSelect={() => handleExport('pdf')}>Export as PDF</DropdownMenuItem>
+                <DropdownMenuItem onSelect={() => handleExport('csv')}>Export as CSV</DropdownMenuItem>
+                <DropdownMenuItem onSelect={() => handleExport('fhir')}>Export as FHIR</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
 
-          <Button variant="outline" size="sm" onClick={handleDownload} disabled={isDownloading} className="flex-1 text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800 hover:bg-emerald-50 dark:hover:bg-emerald-900/20">
-            {isDownloading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Download className="w-4 h-4 mr-2" />}
-            {isDownloading ? t('processing') : 'Save Image'}
-          </Button>
+            <Button variant="outline" size="sm" onClick={handleDownload} disabled={isDownloading} className="flex-1 text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800 hover:bg-emerald-50 dark:hover:bg-emerald-900/20">
+              {isDownloading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Download className="w-4 h-4 mr-2" />}
+              {isDownloading ? t('processing') : 'Save Image'}
+            </Button>
+          </div>
 
-          <Button variant="outline" size="sm" onClick={handleDelete} disabled={isDeleting} className="flex-1 text-rose-500 hover:text-rose-600 border border-rose-200 dark:border-rose-800 hover:bg-rose-50 dark:hover:bg-rose-900/20">
+          <Button variant="outline" size="sm" onClick={handleDelete} disabled={isDeleting} className="w-full text-rose-500 hover:text-rose-600 border border-rose-200 dark:border-rose-800 hover:bg-rose-50 dark:hover:bg-rose-900/20">
             {isDeleting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Trash2 className="w-4 h-4 mr-2" />}
             {t('deleteScan')}
           </Button>
