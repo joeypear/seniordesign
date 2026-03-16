@@ -241,7 +241,8 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
             placeholder={t('addNotes')}
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
-            className="min-h-[80px] resize-none"
+            className="min-h-[60px] resize-none"
+            rows={2}
           />
           {notes !== savedNotes && (
             <Button onClick={handleSaveNotes} disabled={isSaving} size="sm" className="w-full">
