@@ -312,18 +312,18 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
                 {/* Center info */}
                 <div className="flex-1 min-w-0 cursor-pointer" onClick={() => onScanClick?.(scan)}>
                   {/* Status badge */}
-                  <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${status.badgeBg} ${status.badgeText}`}>
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-white/25 text-white">
                     <StatusIcon className="w-3 h-3" />
                     {statusLabel}
                   </span>
                   {/* Name */}
                   {scan.name && (
-                    <p className="text-sm font-medium text-gray-800 dark:text-gray-200 truncate mt-0.5">
+                    <p className="text-sm font-medium text-white truncate mt-0.5">
                       {scan.name}
                     </p>
                   )}
                   {/* Date */}
-                  <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5 whitespace-nowrap">
+                  <p className="text-xs text-white/75 mt-0.5 whitespace-nowrap">
                     {format(new Date(scan.created_date + 'Z'), 'MMM d, yyyy · h:mm a')}
                   </p>
                 </div>
