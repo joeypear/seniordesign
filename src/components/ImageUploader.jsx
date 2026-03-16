@@ -123,7 +123,13 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
 
   const handleCropCancel = () => {
     setPendingImageUrl(null);
-    if (fileInputRef.current) fileInputRef.current.value = '';
+    if (pendingVideoFile) {
+      // Go back to frame selector
+      setSelectedVideo(pendingVideoFile);
+      setPendingVideoFile(null);
+    } else {
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    }
   };
 
   const handleCancelVideo = () => {
