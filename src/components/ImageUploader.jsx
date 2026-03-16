@@ -142,7 +142,6 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
         imageUrl={pendingImageUrl}
         onCropDone={handleCropDone}
         onCancel={handleCropCancel}
-        showBackArrow={!!pendingVideoFile}
       />
     );
   }
