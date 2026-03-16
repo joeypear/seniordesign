@@ -106,6 +106,7 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
   const handleFrameSelected = async (frameFile) => {
     setIsUploading(true);
     const { file_url } = await base44.integrations.Core.UploadFile({ file: frameFile });
+    setPendingVideoFile(selectedVideo);
     setSelectedVideo(null);
     setPendingImageUrl(file_url);
     setIsUploading(false);
