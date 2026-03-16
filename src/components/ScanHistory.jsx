@@ -293,7 +293,13 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.04 }}
-                className="flex items-center gap-3 px-3 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800/60 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-xl border transition-colors ${
+                  scan.result === 'normal'
+                    ? 'bg-emerald-500 border-emerald-600 hover:bg-emerald-600'
+                    : scan.result === 'abnormal'
+                    ? 'bg-rose-500 border-rose-600 hover:bg-rose-600'
+                    : 'bg-amber-400 border-amber-500 hover:bg-amber-500'
+                }`}
               >
                 {/* Thumbnail */}
                 <img
