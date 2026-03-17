@@ -631,7 +631,6 @@ export default function AccountSettings() {
                       </div>
                     )}
                   </div>
-                </div>
               </div>
             </div>
 
