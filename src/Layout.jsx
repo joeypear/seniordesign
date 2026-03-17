@@ -70,15 +70,6 @@ function LayoutInner({ children }) {
           <Info className="w-5 h-5 text-gray-600 dark:text-gray-300" />
         </Button>
 
-        <Button
-          onClick={() => setShowSettings(true)}
-          variant="outline"
-          size="icon"
-          className="rounded-full shadow-lg bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700"
-        >
-          <User className="w-5 h-5 text-gray-600 dark:text-gray-300" />
-        </Button>
-
         <Dialog open={showSettings} onOpenChange={setShowSettings}>
           <DialogContent className="max-w-lg w-[calc(100vw-2rem)] max-h-[90vh] overflow-y-auto as-dialog-scroll as-settings-dialog">
             {/* Desktop header (hidden on mobile) */}
