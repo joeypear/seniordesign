@@ -583,8 +583,7 @@ export default function AccountSettings() {
             {/* — PROFILE — */}
             <div>
               <div className="as-section-label">Profile</div>
-              <div className="as-profile-card">
-                <div className="as-profile-row">
+              <div className="as-profile-row">
                   <div className="as-avatar-wrap">
                     <div className="as-avatar">
                       {user?.profile_picture || user?.avatar_url
