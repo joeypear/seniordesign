@@ -168,7 +168,7 @@ export default function Home() {
     );
   }
 
-  const isHistory = activeTab === 'history' && !previewImage;
+  const isHistory = (activeTab === 'history' || activeTab === 'account') && !previewImage;
 
   return (
     <div className="min-h-[100dvh] bg-gradient-to-b from-orange-50 via-white to-teal-50 dark:from-[#161B2E] dark:via-[#161B2E] dark:to-[#161B2E]">
