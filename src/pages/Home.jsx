@@ -19,7 +19,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 function getTabFromUrl() {
   const params = new URLSearchParams(window.location.search);
   const tab = params.get('tab');
-  return tab === 'history' ? 'history' : 'scan';
+  return ['history', 'account'].includes(tab) ? tab : 'scan';
 }
 
 function setTabInUrl(tab) {
