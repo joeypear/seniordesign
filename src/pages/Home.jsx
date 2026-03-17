@@ -69,6 +69,10 @@ export default function Home() {
   }, []);
 
   const handleTabChange = (tab) => {
+    if (tab === 'account') {
+      window.dispatchEvent(new CustomEvent('showSettings'));
+      return;
+    }
     setActiveTab(tab);
     setSelectedScanId(null);
     setTabInUrl(tab);
