@@ -4,6 +4,7 @@ import { base44 } from '@/api/base44Client';
 import { useLanguage } from '@/components/LanguageContext';
 
 import ImageUploader from '@/components/ImageUploader';
+import AccountSettings from '@/components/AccountSettings';
 import ScanPreview from '@/components/ScanPreview';
 import ScanHistory from '@/components/ScanHistory';
 import OnboardingGuide from '@/components/OnboardingGuide';
