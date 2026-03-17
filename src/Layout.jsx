@@ -56,6 +56,12 @@ function LayoutInner({ children }) {
     return () => window.removeEventListener('showDisclaimer', handler);
   }, []);
 
+  useEffect(() => {
+    const handler = () => setShowSettings(true);
+    window.addEventListener('showSettings', handler);
+    return () => window.removeEventListener('showSettings', handler);
+  }, []);
+
   return (
     <div dir={isRtl ? 'rtl' : 'ltr'}>
       <DisclaimerDialog open={showDisclaimer} onOpenChange={handleDisclaimerClose} />
