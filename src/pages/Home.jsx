@@ -296,7 +296,7 @@ export default function Home() {
 
       {/* Fixed Bottom Nav */}
       {!previewImage && (
-        <BottomNav activeTab={activeTab} onTabChange={handleTabChange} showAccount />
+        <BottomNav activeTab={activeTab} onTabChange={handleTabChange} />
       )}
     </div>
   );
