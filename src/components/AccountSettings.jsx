@@ -90,6 +90,22 @@ const styles = `
   .as-body { padding: 4px 0 8px; display: flex; flex-direction: column; gap: 24px; width: 100%; }
 
   /* Profile Card */
+  .as-profile-card {
+    background: var(--as-card);
+    border: 1px solid var(--as-border);
+    border-radius: 14px;
+    padding: 18px 20px;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+  }
+  .as-profile-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(124,92,252,0.06) 0%, rgba(236,72,153,0.04) 100%);
+    pointer-events: none;
+  }
   .as-avatar-wrap {
     position: relative;
     width: 64px;
@@ -375,6 +391,12 @@ const styles = `
     margin-top: 0;
   }
 
+  /* Profile card */
+  .as-profile-card {
+    padding: 16px;
+    margin-bottom: 8px;
+  }
+
   /* Keep preference cards as single row, constrain right side */
   .as-setting-card {
     flex-wrap: nowrap;
@@ -561,7 +583,8 @@ export default function AccountSettings() {
             {/* — PROFILE — */}
             <div>
               <div className="as-section-label">Profile</div>
-              <div className="as-profile-row">
+              <div className="as-profile-card">
+                <div className="as-profile-row">
                   <div className="as-avatar-wrap">
                     <div className="as-avatar">
                       {user?.profile_picture || user?.avatar_url
@@ -609,6 +632,7 @@ export default function AccountSettings() {
                       </div>
                     )}
                   </div>
+                </div>
               </div>
             </div>
 
