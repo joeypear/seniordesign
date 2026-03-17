@@ -1,5 +1,5 @@
 import React from 'react';
-import { Eye, History } from 'lucide-react';
+import { Eye, History, User } from 'lucide-react';
 import { useLanguage } from '@/components/LanguageContext';
 import { motion } from 'framer-motion';
 
@@ -20,6 +20,13 @@ export default function BottomNav({ activeTab, onTabChange }) {
       labelKey: 'history',
       activeGradient: 'from-teal-400 to-green-400',
       activeColor: 'text-teal-500 dark:text-teal-400',
+    },
+    {
+      key: 'account',
+      icon: User,
+      labelKey: 'accountSettings',
+      activeGradient: 'from-violet-400 to-purple-500',
+      activeColor: 'text-violet-500 dark:text-violet-400',
     },
   ];
 
