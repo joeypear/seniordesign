@@ -94,11 +94,11 @@ export default function ImageCropper({ imageUrl, onCropDone, onCancel }) {
               className="flex-1 accent-rose-500"
             />
           </div>
-          <div className="flex gap-3 w-full max-w-xs">
+          <div className="flex gap-3 w-full">
             <Button
               onClick={handleConfirm}
               disabled={isProcessing}
-              className="flex-1 text-white"
+              className="flex-1 h-14 text-lg font-semibold rounded-xl text-white shadow-lg transition-all hover:scale-[1.01]"
               style={{ background: 'linear-gradient(to right, #f43f5e, #fb923c)' }}
             >
               {isProcessing ? (
