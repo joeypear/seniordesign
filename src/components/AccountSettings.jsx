@@ -90,22 +90,6 @@ const styles = `
   .as-body { padding: 4px 0 8px; display: flex; flex-direction: column; gap: 24px; width: 100%; }
 
   /* Profile Card */
-  .as-profile-card {
-    background: var(--as-card);
-    border: 1px solid var(--as-border);
-    border-radius: 14px;
-    padding: 18px 20px;
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-  }
-  .as-profile-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(124,92,252,0.06) 0%, rgba(236,72,153,0.04) 100%);
-    pointer-events: none;
-  }
   .as-avatar-wrap {
     position: relative;
     width: 64px;
