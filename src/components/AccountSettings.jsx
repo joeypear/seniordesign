@@ -375,12 +375,6 @@ const styles = `
     margin-top: 0;
   }
 
-  /* Profile card */
-  .as-profile-card {
-    padding: 16px;
-    margin-bottom: 8px;
-  }
-
   /* Keep preference cards as single row, constrain right side */
   .as-setting-card {
     flex-wrap: nowrap;
