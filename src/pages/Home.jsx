@@ -176,7 +176,7 @@ export default function Home() {
 
       {/* Mini header — history tab only */}
       {isHistory && (
-        <div className="max-w-lg mx-auto px-4 flex items-center justify-between" style={{ height: 56 }}>
+        <div className="max-w-2xl mx-auto px-4 flex items-center justify-between" style={{ height: 56 }}>
           <img
             src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69b197ac7dc234617b635f3b/957c3239e_fixed_background_with_fade.png"
             alt="DR Monster Logo"
@@ -188,7 +188,7 @@ export default function Home() {
         </div>
       )}
 
-      <div className="max-w-lg mx-auto px-4 pb-28" style={{ paddingTop: isHistory ? 8 : 32 }}>
+      <div className={`${activeTab === 'account' ? 'max-w-2xl' : 'max-w-lg'} mx-auto px-4 pb-28`} style={{ paddingTop: isHistory ? 8 : 32 }}>
         {/* Full header — scan tab only */}
         {!isHistory && (
           <motion.div
