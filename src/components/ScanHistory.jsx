@@ -211,7 +211,7 @@ function ScanCard({ scan, onScanClick, onDownload, onRename, onDelete, downloadi
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.04 }}
-      className={`flex items-center gap-3 px-3 py-5 rounded-xl border transition-colors ${status.bg} ${status.border} hover:opacity-90`}
+      className={`flex items-center gap-3 px-3 py-4 rounded-xl border transition-colors ${status.bg} ${status.border} hover:opacity-90`}
     >
       <img
         src={scan.image_url}
