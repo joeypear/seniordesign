@@ -588,7 +588,7 @@ export default function AccountSettings() {
             {/* — PROFILE — */}
             <div>
               <div className="as-section-label">Profile</div>
-              <div className="as-profile-card">
+              <div className="as-profile-card" style={{ width: '100%', maxWidth: '100%', boxSizing: 'border-box' }}>
                 <div className="as-profile-row">
                   <div className="as-avatar-wrap">
                     <div className="as-avatar">
