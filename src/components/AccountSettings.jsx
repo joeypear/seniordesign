@@ -577,7 +577,7 @@ export default function AccountSettings() {
   return (
     <>
       <style>{styles}</style>
-      <div className="as-root" data-theme={effectiveDark ? 'dark' : 'light'}>
+      <div className="as-root" data-theme={effectiveDark ? 'dark' : 'light'} style={{ width: '100%', maxWidth: '100%', boxSizing: 'border-box' }}>
         {isLoading ? (
           <div style={{ display: 'flex', justifyContent: 'center', padding: '40px' }}>
             <div className="as-spinner" />
