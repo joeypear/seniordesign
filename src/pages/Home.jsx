@@ -188,7 +188,7 @@ export default function Home() {
         </div>
       )}
 
-      <div className={activeTab === 'account' ? 'w-full mx-auto px-4 pb-28' : 'max-w-lg mx-auto px-4 pb-28'} style={{ paddingTop: isHistory ? 8 : 32 }}>
+      <div className={activeTab === 'account' ? 'w-full mx-auto px-4 pb-28' : 'max-w-lg mx-auto px-4 pb-28'} style={{ paddingTop: isHistory ? 8 : 32, ...(activeTab === 'account' && { maxWidth: '100%' }) }}>
         {/* Full header — scan tab only */}
         {!isHistory && (
           <motion.div
@@ -256,7 +256,7 @@ export default function Home() {
               )}
 
               {activeTab === 'account' && (
-                <div>
+                <div style={{ width: '100%', maxWidth: '100%', boxSizing: 'border-box' }}>
                   <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">{t('accountSettings')}</h2>
                   <AccountSettings />
                 </div>
