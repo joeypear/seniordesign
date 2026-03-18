@@ -647,7 +647,7 @@ export default function AccountSettings() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
 
                 {/* Appearance */}
-                <div className="as-setting-card">
+                <div className="as-setting-card" style={{ width: '100%', maxWidth: '100%', boxSizing: 'border-box' }}>
                   <div className="as-setting-left">
                     <div className="as-setting-label">
                       <Moon size={16} />
