@@ -98,6 +98,8 @@ const styles = `
     position: relative;
     overflow: hidden;
     width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
   }
   .as-profile-card::before {
     content: '';
