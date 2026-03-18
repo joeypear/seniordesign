@@ -219,15 +219,15 @@ function ScanCard({ scan, onScanClick, onDownload, onRename, onDelete, downloadi
         className="w-16 h-16 rounded-lg object-cover shadow-sm flex-shrink-0 cursor-pointer"
         onClick={() => onScanClick?.(scan)}
       />
-      <div className="flex-1 min-w-0 cursor-pointer" onClick={() => onScanClick?.(scan)}>
-        <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-sm font-bold ${status.badgeBg} ${status.badgeText}`}>
+      <div className="flex-1 min-w-0 cursor-pointer flex flex-col" onClick={() => onScanClick?.(scan)}>
+        <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-sm font-bold self-start ${status.badgeBg} ${status.badgeText}`}>
           <StatusIcon className="w-3.5 h-3.5" />
           {t(status.labelKey)}
         </span>
-        {scan.name && (
+        {scan.name ? (
           <p className="text-base font-medium text-gray-800 dark:text-gray-200 truncate mt-1">{scan.name}</p>
-        )}
-        <p className="text-sm text-gray-400 dark:text-gray-500 mt-0.5 whitespace-nowrap">
+        ) : null}
+        <p className="text-sm text-gray-400 dark:text-gray-500 mt-1 whitespace-nowrap">
           {format(new Date(scan.created_date + 'Z'), 'MMM d, yyyy · h:mm a')}
         </p>
       </div>
