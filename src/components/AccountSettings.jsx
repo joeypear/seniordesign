@@ -335,6 +335,7 @@ const styles = `
     align-items: center;
     gap: 10px;
     width: 100%;
+    max-width: 100%;
     padding: 13px 16px;
     border-radius: 10px;
     border: 1px solid var(--as-border);
