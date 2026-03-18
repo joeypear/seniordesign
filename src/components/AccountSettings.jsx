@@ -382,7 +382,7 @@ const styles = `
     width: 100%;
     box-sizing: border-box;
     overflow-x: hidden;
-    padding: 20px 16px 32px;
+    padding: 20px 0 32px;
     gap: 0;
   }
 
