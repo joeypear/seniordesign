@@ -258,9 +258,7 @@ export default function Home() {
               {activeTab === 'account' && (
                 <div>
                   <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">{t('accountSettings')}</h2>
-                  <div className="bg-white/80 dark:bg-[#22263A] backdrop-blur rounded-2xl shadow-sm border border-gray-100 dark:border-[#2E3350] px-4 py-2">
-                    <AccountSettings />
-                  </div>
+                  <AccountSettings />
                 </div>
               )}
 
