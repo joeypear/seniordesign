@@ -73,7 +73,7 @@ function LayoutInner({ children }) {
         </Button>
 
         <Dialog open={showSettings} onOpenChange={setShowSettings}>
-          <DialogContent className="max-w-2xl w-[calc(100vw-2rem)] max-h-[90vh] overflow-y-auto as-dialog-scroll as-settings-dialog">
+          <DialogContent className="max-w-2xl w-[calc(100vw-2rem)] max-h-[90vh] overflow-y-auto as-dialog-scroll as-settings-dialog" style={{ maxWidth: '672px', width: 'calc(100vw - 2rem)' }}>
             {/* Desktop header (hidden on mobile) */}
             <DialogHeader className="as-settings-desktop-header">
               <DialogTitle>{t('accountSettings')}</DialogTitle>
