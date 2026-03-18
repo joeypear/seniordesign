@@ -583,7 +583,7 @@ export default function AccountSettings() {
             <div className="as-spinner" />
           </div>
         ) : (
-          <div className="as-body">
+          <div className="as-body" style={{ width: '100%', maxWidth: '100%', boxSizing: 'border-box' }}>
 
             {/* — PROFILE — */}
             <div>
