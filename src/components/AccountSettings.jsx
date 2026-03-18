@@ -746,7 +746,7 @@ export default function AccountSettings() {
             {/* — DANGER ZONE — */}
             <div>
               <div className="as-section-label">Account Actions</div>
-              <div className="as-danger-section">
+              <div className="as-danger-section" style={{ width: '100%', maxWidth: '100%', boxSizing: 'border-box' }}>
                 <button className="as-action-btn" onClick={() => base44.auth.logout()}>
                   <LogOut size={16} />
                   {t('logOut')}
