@@ -134,7 +134,7 @@ function OverflowMenu({ scan, onDownload, onRename, onDelete, downloadingId, del
 
       {/* Rename Dialog */}
       <Dialog open={showRenameDialog} onOpenChange={setShowRenameDialog}>
-        <DialogContent>
+        <DialogContent style={{ top: '30%', transform: 'translate(-50%, 0)' }}>
           <DialogHeader>
             <DialogTitle>{t('renameScan')}</DialogTitle>
             <DialogDescription>{t('enterNewName')}</DialogDescription>
@@ -145,9 +145,9 @@ function OverflowMenu({ scan, onDownload, onRename, onDelete, downloadingId, del
             onChange={(e) => setEditName(e.target.value)}
             onKeyDown={(e) => { if (e.key === 'Enter' && !renamingId) handleRename(); }}
           />
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setShowRenameDialog(false)} disabled={!!renamingId}>{t('cancel')}</Button>
-            <Button onClick={handleRename} disabled={!!renamingId}>
+          <DialogFooter className="flex flex-row gap-3 mt-2">
+            <Button variant="outline" className="flex-1" onClick={() => setShowRenameDialog(false)} disabled={!!renamingId}>{t('cancel')}</Button>
+            <Button className="flex-1" onClick={handleRename} disabled={!!renamingId}>
               {renamingId ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" />{t('saving')}</> : t('save')}
             </Button>
           </DialogFooter>
