@@ -134,7 +134,7 @@ function OverflowMenu({ scan, onDownload, onRename, onDelete, downloadingId, del
 
       {/* Rename Dialog */}
       <Dialog open={showRenameDialog} onOpenChange={setShowRenameDialog}>
-        <DialogContent style={{ top: '30%', transform: 'translate(-50%, 0)' }}>
+        <DialogContent style={{ top: '15%', bottom: 'auto', transform: 'translate(-50%, 0)', position: 'fixed' }}>
           <DialogHeader>
             <DialogTitle>{t('renameScan')}</DialogTitle>
             <DialogDescription>{t('enterNewName')}</DialogDescription>
