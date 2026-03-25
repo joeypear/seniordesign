@@ -263,6 +263,7 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
         buildTag(0x0028, 0x0102, 'US', writeUS(7)),                     // High Bit
         buildTag(0x0028, 0x0103, 'US', writeUS(0)),                     // Pixel Representation
         buildTag(0x4008, 0x0300, 'LT', writeStr('LT', imgComments)),   // Image Comments
+        buildTag(0x0040, 0xA124, 'LO', writeStr('LO', `AI Screening Result: ${scan.result ? scan.result.charAt(0).toUpperCase() + scan.result.slice(1) : 'Pending'}`)), // AI Result
         buildTag(0x7FE0, 0x0010, 'OW', grayPixels),                    // Pixel Data
       ];
 
