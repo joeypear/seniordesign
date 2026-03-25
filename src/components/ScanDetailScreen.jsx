@@ -308,12 +308,13 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
             </Button>
           </div>
 
-          <div style={{ borderTop: '1px solid', borderColor: 'hsl(var(--border))' }} className="pt-2">
+        </div>
+
+        <div className="bg-white/80 dark:bg-[#22263A] rounded-2xl p-3 shadow-sm border border-gray-100 dark:border-[#2E3350]">
             <Button variant="outline" onClick={handleDelete} disabled={isDeleting} className="w-full h-11 text-sm text-rose-500 hover:text-rose-600 border border-rose-200 dark:border-rose-800 hover:bg-rose-50 dark:hover:bg-rose-900/20">
               {isDeleting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Trash2 className="w-4 h-4 mr-2" />}
               {t('deleteScan')}
             </Button>
-          </div>
         </div>
       </div>
     </motion.div>
