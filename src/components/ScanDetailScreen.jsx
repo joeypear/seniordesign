@@ -201,10 +201,9 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
         BitsStored:           { Value: [8], vr: 'US' },
         HighBit:              { Value: [7], vr: 'US' },
         PixelRepresentation:  { Value: [0], vr: 'US' },
-        SamplesPerPixel:      { Value: [3], vr: 'US' },
-        PhotometricInterpretation: { Value: ['RGB'], vr: 'CS' },
-        PlanarConfiguration:  { Value: [0], vr: 'US' },
-        PixelData:            { Value: [rgbPixels.buffer], vr: 'OB' },
+        SamplesPerPixel:      { Value: [1], vr: 'US' },
+        PhotometricInterpretation: { Value: ['MONOCHROME2'], vr: 'CS' },
+        PixelData:            { Value: [grayPixels.buffer], vr: 'OB' },
       };
 
       const dicomDict = new DicomDict(dataset._meta);
