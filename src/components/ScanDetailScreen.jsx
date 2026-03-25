@@ -191,7 +191,20 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
       </div>
 
       {/* Scrollable content */}
-      <div className="max-w-lg mx-auto px-4 py-6 space-y-4 pb-10">
+      <div className="max-w-lg mx-auto px-4 pt-4 pb-12 space-y-5">
+
+        {/* Metadata row */}
+        <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 px-1">
+          <Calendar className="w-4 h-4 shrink-0" />
+          <span>{format(new Date(scan.created_date + 'Z'), 'MMMM d, yyyy · h:mm a')}</span>
+          {scan.name && (
+            <>
+              <span className="text-gray-300 dark:text-gray-600">·</span>
+              <span className="truncate">{scan.name}</span>
+            </>
+          )}
+        </div>
+
         {/* Image */}
         <div className="rounded-2xl overflow-hidden bg-gray-100 dark:bg-gray-800 shadow-sm">
           <img src={scan.image_url} alt="Retina scan" className="w-full h-auto max-h-72 object-contain" />
@@ -215,14 +228,9 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
           </Popover>
         </div>
 
-        {/* Date */}
-        <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 px-1">
-          <Calendar className="w-4 h-4" />
-          <span>{t('scannedOn')} {format(new Date(scan.created_date + 'Z'), 'MMMM d, yyyy • h:mm a')}</span>
-        </div>
-
         {/* Editable scan name */}
         <div className="bg-white/80 dark:bg-[#22263A] rounded-2xl p-3 shadow-sm border border-gray-100 dark:border-[#2E3350]">
+          <p className="text-xs font-medium text-gray-400 dark:text-gray-500 mb-1.5 px-1">Eye / Title</p>
           {isEditingName ? (
             <div className="flex flex-col gap-1">
               <div className="flex items-center gap-1">
@@ -261,8 +269,9 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
 
         {/* Notes */}
         <div className="bg-white/80 dark:bg-[#22263A] rounded-2xl p-3 shadow-sm border border-gray-100 dark:border-[#2E3350] space-y-2">
+          <p className="text-xs font-medium text-gray-400 dark:text-gray-500 px-1">Notes</p>
           <Textarea
-            placeholder={t('addNotes')}
+            placeholder="Add clinical notes…"
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
             className="min-h-[80px] resize-none"
@@ -276,7 +285,7 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
         </div>
 
         {/* Actions */}
-        <div className="bg-white/80 dark:bg-[#22263A] rounded-2xl p-3 shadow-sm border border-gray-100 dark:border-[#2E3350] flex flex-col gap-2">
+        <div className="bg-white/80 dark:bg-[#22263A] rounded-2xl p-3 shadow-sm border border-gray-100 dark:border-[#2E3350] flex flex-col gap-3">
           <div className="grid grid-cols-2 gap-3">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -299,10 +308,12 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
             </Button>
           </div>
 
-          <Button variant="outline" onClick={handleDelete} disabled={isDeleting} className="w-full h-12 text-base text-rose-500 hover:text-rose-600 border border-rose-200 dark:border-rose-800 hover:bg-rose-50 dark:hover:bg-rose-900/20">
-            {isDeleting ? <Loader2 className="w-5 h-5 mr-2 animate-spin" /> : <Trash2 className="w-5 h-5 mr-2" />}
-            {t('deleteScan')}
-          </Button>
+          <div style={{ borderTop: '1px solid', borderColor: 'hsl(var(--border))' }} className="pt-2">
+            <Button variant="outline" onClick={handleDelete} disabled={isDeleting} className="w-full h-11 text-sm text-rose-500 hover:text-rose-600 border border-rose-200 dark:border-rose-800 hover:bg-rose-50 dark:hover:bg-rose-900/20">
+              {isDeleting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Trash2 className="w-4 h-4 mr-2" />}
+              {t('deleteScan')}
+            </Button>
+          </div>
         </div>
       </div>
     </motion.div>
