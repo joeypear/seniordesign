@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { format } from 'date-fns';
 import { useLanguage } from '@/components/LanguageContext';
 import { CheckCircle2, XCircle, Clock, Trash2, Edit2, Filter, ArrowUpDown, Loader2, Search, Download, MoreVertical } from 'lucide-react';
+import { validateFilename } from '@/lib/security';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -62,6 +63,7 @@ function OverflowMenu({ scan, onDownload, onRename, onDelete, downloadingId, del
   const [showRenameDialog, setShowRenameDialog] = useState(false);
   const [editName, setEditName] = useState('');
   const [renamingId, setRenamingId] = useState(null);
+  const [renameError, setRenameError] = useState('');
   const [menuPos, setMenuPos] = useState({ top: 0, right: 0 });
   const btnRef = useRef(null);
   const ref = useRef(null);
@@ -83,8 +85,11 @@ function OverflowMenu({ scan, onDownload, onRename, onDelete, downloadingId, del
   };
 
   const handleRename = async () => {
+    const { valid, error, value } = validateFilename(editName);
+    if (!valid) { setRenameError(error); return; }
+    setRenameError('');
     setRenamingId(scan.id);
-    await onRename(scan.id, editName);
+    await onRename(scan.id, value);
     setRenamingId(null);
     setShowRenameDialog(false);
   };
@@ -142,9 +147,10 @@ function OverflowMenu({ scan, onDownload, onRename, onDelete, downloadingId, del
           <Input
             placeholder={t('scanName')}
             value={editName}
-            onChange={(e) => setEditName(e.target.value)}
+            onChange={(e) => { setEditName(e.target.value); setRenameError(''); }}
             onKeyDown={(e) => { if (e.key === 'Enter' && !renamingId) handleRename(); }}
           />
+          {renameError && <p className="text-xs text-rose-500">{renameError}</p>}
           <DialogFooter className="flex flex-row gap-3 mt-2">
             <Button variant="outline" className="flex-1" onClick={() => setShowRenameDialog(false)} disabled={!!renamingId}>{t('cancel')}</Button>
             <Button className="flex-1" onClick={handleRename} disabled={!!renamingId}>

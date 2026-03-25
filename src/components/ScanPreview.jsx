@@ -5,11 +5,13 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useLanguage } from '@/components/LanguageContext';
+import { validateFilename } from '@/lib/security';
 
 export default function ScanPreview({ imageUrl, onCancel, onAnalyze, isAnalyzing }) {
   const { t } = useLanguage();
   const [scanName, setScanName] = useState('');
   const [notes, setNotes] = useState('');
+  const [nameError, setNameError] = useState('');
 
   return createPortal(
     <div className="fixed inset-0 z-[9999] flex items-center justify-center sm:p-4 bg-black/60 backdrop-blur-sm">
@@ -42,9 +44,10 @@ export default function ScanPreview({ imageUrl, onCancel, onAnalyze, isAnalyzing
           <Input
             placeholder={t('nameScanPlaceholder')}
             value={scanName}
-            onChange={(e) => setScanName(e.target.value)}
+            onChange={(e) => { setScanName(e.target.value); setNameError(''); }}
             className="bg-white dark:bg-gray-800"
           />
+          {nameError && <p className="text-xs text-rose-500 -mt-1">{nameError}</p>}
           <Textarea
             placeholder={t('addNotes')}
             value={notes}
@@ -53,7 +56,16 @@ export default function ScanPreview({ imageUrl, onCancel, onAnalyze, isAnalyzing
             rows={3}
           />
           <Button
-            onClick={() => onAnalyze(scanName, notes)}
+            onClick={() => {
+              if (scanName.trim()) {
+                const { valid, error, value } = validateFilename(scanName);
+                if (!valid) { setNameError(error); return; }
+                setNameError('');
+                onAnalyze(value, notes);
+              } else {
+                onAnalyze(scanName, notes);
+              }
+            }}
             disabled={isAnalyzing}
             className="w-full h-14 text-lg font-semibold rounded-xl text-white shadow-lg shadow-purple-200 dark:shadow-purple-900/50 transition-all hover:scale-[1.01]"
             style={{ background: 'linear-gradient(to right, #8b5cf6, #9333ea)' }}
