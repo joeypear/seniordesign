@@ -418,9 +418,16 @@ const styles = `
     min-width: unset !important;
     width: auto !important;
     box-sizing: border-box !important;
+    height: 48px !important;
+    font-size: 15px !important;
+    padding: 0 14px !important;
   }
   .as-native-select {
     max-width: 100%;
+  }
+  .as-seg-btn {
+    padding: 8px 12px;
+    font-size: 14px;
   }
 
   /* Gap between preference cards */
