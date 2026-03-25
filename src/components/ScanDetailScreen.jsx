@@ -63,12 +63,15 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
   };
 
   const handleRename = async () => {
-    const { valid, error } = validateFilename(editName);
-    if (!valid) { setRenameError(error); return; }
+    const trimmed = editName.trim();
+    if (trimmed !== '') {
+      const { valid, error } = validateFilename(trimmed);
+      if (!valid) { setRenameError(error); return; }
+    }
     if (!recordAction()) return;
     setRenameError('');
     setIsRenaming(true);
-    await onRenameScan(scan.id, editName);
+    await onRenameScan(scan.id, trimmed);
     setIsRenaming(false);
     setIsEditingName(false);
   };
