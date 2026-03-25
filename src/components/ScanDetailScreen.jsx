@@ -219,7 +219,7 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
         </div>
 
         {/* Editable scan name */}
-        <div className="space-y-1">
+        <div className="bg-white/80 dark:bg-[#22263A] rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-[#2E3350]">
           {isEditingName ? (
             <div className="flex flex-col gap-1">
               <div className="flex items-center gap-1">
@@ -257,7 +257,7 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
         </div>
 
         {/* Notes */}
-        <div className="space-y-1">
+        <div className="bg-white/80 dark:bg-[#22263A] rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-[#2E3350] space-y-2">
           <Textarea
             placeholder={t('addNotes')}
             value={notes}
