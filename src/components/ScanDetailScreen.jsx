@@ -180,20 +180,20 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
         <div className="flex-1 min-w-0 flex justify-center">
           {isEditingName ? (
             <div className="flex flex-col gap-1 w-full">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1">
                 <Input
                   value={editName}
                   onChange={(e) => { setEditName(e.target.value); setRenameError(''); }}
                   onKeyDown={(e) => { if (e.key === 'Enter') handleRename(); if (e.key === 'Escape') { setIsEditingName(false); setRenameError(''); } }}
-                  className="h-7 text-sm"
+                  className="h-9 text-base"
                   autoFocus
                   disabled={rateLimited}
                 />
-                <Button size="icon" variant="ghost" className="h-7 w-7 text-green-600 shrink-0" onClick={handleRename} disabled={isRenaming || rateLimited}>
-                  {isRenaming ? <Loader2 className="w-3 h-3 animate-spin" /> : <Check className="w-3 h-3" />}
+                <Button size="icon" variant="ghost" className="h-9 w-9 text-green-600 shrink-0" onClick={handleRename} disabled={isRenaming || rateLimited}>
+                  {isRenaming ? <Loader2 className="w-5 h-5 animate-spin" /> : <Check className="w-5 h-5" />}
                 </Button>
-                <Button size="icon" variant="ghost" className="h-7 w-7 text-gray-400 shrink-0" onClick={() => { setIsEditingName(false); setRenameError(''); }}>
-                  <X className="w-3 h-3" />
+                <Button size="icon" variant="ghost" className="h-9 w-9 text-gray-400 shrink-0" onClick={() => { setIsEditingName(false); setRenameError(''); }}>
+                  <X className="w-5 h-5" />
                 </Button>
               </div>
               {renameError && <p className="text-xs text-rose-500 px-1">{renameError}</p>}
@@ -204,7 +204,7 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
               onClick={() => { setEditName(scan.name || ''); setIsEditingName(true); }}
               className="flex items-center gap-1.5 max-w-full h-full"
             >
-              <h1 className="text-sm font-semibold text-gray-800 dark:text-gray-100 truncate">
+              <h1 className="text-base font-semibold text-gray-800 dark:text-gray-100 truncate">
                 {scan.name || t('scanDetails')}
               </h1>
               <Pencil className="w-3 h-3 text-gray-400 shrink-0" />
