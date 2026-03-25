@@ -163,12 +163,13 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
       ctx.drawImage(img, 0, 0);
       const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
-      // Build RGB pixel data (3 samples per pixel, drop alpha)
-      const rgbPixels = new Uint8Array(canvas.width * canvas.height * 3);
+      // Convert to grayscale (average RGB channels) into a Uint8Array
+      const grayPixels = new Uint8Array(canvas.width * canvas.height);
       for (let i = 0; i < canvas.width * canvas.height; i++) {
-        rgbPixels[i * 3]     = imageData.data[i * 4];
-        rgbPixels[i * 3 + 1] = imageData.data[i * 4 + 1];
-        rgbPixels[i * 3 + 2] = imageData.data[i * 4 + 2];
+        const r = imageData.data[i * 4];
+        const g = imageData.data[i * 4 + 1];
+        const b = imageData.data[i * 4 + 2];
+        grayPixels[i] = Math.round((r + g + b) / 3);
       }
 
       const scanDate = new Date(scan.created_date + 'Z');
