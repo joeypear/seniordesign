@@ -1,5 +1,5 @@
 // Filename validation
-const INVALID_CHARS = /[/\\:*?"<>|\x00]/g;
+const INVALID_CHARS = /[/\\*?"<>|\x00]/g;
 
 export function validateFilename(name) {
   if (!name || typeof name !== 'string') return { valid: false, error: 'That filename contains invalid characters. Please rename and try again.' };
