@@ -13,6 +13,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { motion } from 'framer-motion';
 import jsPDF from 'jspdf';
+import dcmjs from 'dcmjs';
 import { validateFilename, recordAction, isRateLimited, subscribeRateLimit } from '@/lib/security';
 
 const statusConfig = {
@@ -147,6 +148,71 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url; a.download = `${filename}_fhir.json`;
+      document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+    } else if (exportFormat === 'dicom') {
+      // Load image onto canvas to extract raw pixel data
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.src = scan.image_url;
+      await new Promise(resolve => { img.onload = resolve; });
+
+      const canvas = document.createElement('canvas');
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+      // Build RGB pixel data (3 samples per pixel, drop alpha)
+      const rgbPixels = new Uint8Array(canvas.width * canvas.height * 3);
+      for (let i = 0; i < canvas.width * canvas.height; i++) {
+        rgbPixels[i * 3]     = imageData.data[i * 4];
+        rgbPixels[i * 3 + 1] = imageData.data[i * 4 + 1];
+        rgbPixels[i * 3 + 2] = imageData.data[i * 4 + 2];
+      }
+
+      const scanDate = new Date(scan.created_date + 'Z');
+      const studyDate = format(scanDate, 'yyyyMMdd');
+      const studyTime = format(scanDate, 'HHmmss');
+
+      // Generate a simple UID
+      const uid = `2.25.${Date.now()}${Math.floor(Math.random() * 1000000)}`;
+
+      const { DicomMetaDictionary, DicomDict, WriteBufferStream } = dcmjs.data;
+
+      const dataset = {
+        _meta: {
+          MediaStorageSOPClassUID:    { Value: ['1.2.840.10008.5.1.4.1.1.77.1.5.1'], vr: 'UI' },
+          MediaStorageSOPInstanceUID: { Value: [uid], vr: 'UI' },
+          TransferSyntaxUID:          { Value: ['1.2.840.10008.1.2.1'], vr: 'UI' },
+        },
+        SOPClassUID:          { Value: ['1.2.840.10008.5.1.4.1.1.77.1.5.1'], vr: 'UI' },
+        SOPInstanceUID:       { Value: [uid], vr: 'UI' },
+        PatientName:          { Value: [scan.name || 'Untitled'], vr: 'PN' },
+        StudyDate:            { Value: [studyDate], vr: 'DA' },
+        StudyTime:            { Value: [studyTime], vr: 'TM' },
+        Modality:             { Value: ['OP'], vr: 'CS' },
+        StudyDescription:     { Value: ['Retinal Screening - DR Monster'], vr: 'LO' },
+        ImageComments:        { Value: [notes || ''], vr: 'LT' },
+        Rows:                 { Value: [canvas.height], vr: 'US' },
+        Columns:              { Value: [canvas.width], vr: 'US' },
+        BitsAllocated:        { Value: [8], vr: 'US' },
+        BitsStored:           { Value: [8], vr: 'US' },
+        HighBit:              { Value: [7], vr: 'US' },
+        PixelRepresentation:  { Value: [0], vr: 'US' },
+        SamplesPerPixel:      { Value: [3], vr: 'US' },
+        PhotometricInterpretation: { Value: ['RGB'], vr: 'CS' },
+        PlanarConfiguration:  { Value: [0], vr: 'US' },
+        PixelData:            { Value: [rgbPixels.buffer], vr: 'OB' },
+      };
+
+      const dicomDict = new DicomDict(dataset._meta);
+      dicomDict.dict = dataset;
+      const buffer = dicomDict.write();
+      const blob = new Blob([buffer], { type: 'application/octet-stream' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = `${filename}.dcm`;
       document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
     } else {
       const rows = [['Field', 'Value'], ['Scan Name', scan.name || 'Untitled'], ['Date', date], ['Result', result], ['Notes', notes || '']];
@@ -300,6 +366,7 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
                 <DropdownMenuItem onSelect={() => handleExport('pdf')}>Export as PDF</DropdownMenuItem>
                 <DropdownMenuItem onSelect={() => handleExport('csv')}>Export as CSV</DropdownMenuItem>
                 <DropdownMenuItem onSelect={() => handleExport('fhir')}>Export as FHIR</DropdownMenuItem>
+                <DropdownMenuItem onSelect={() => handleExport('dicom')}>Export as DICOM</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
 
