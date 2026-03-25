@@ -13,7 +13,6 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { motion } from 'framer-motion';
 import jsPDF from 'jspdf';
-import dcmjs from 'dcmjs';
 import { validateFilename, recordAction, isRateLimited, subscribeRateLimit } from '@/lib/security';
 
 const statusConfig = {
@@ -163,9 +162,10 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
       ctx.drawImage(img, 0, 0);
       const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
-      // Convert to grayscale (average RGB channels) into a Uint8Array
-      const grayPixels = new Uint8Array(canvas.width * canvas.height);
-      for (let i = 0; i < canvas.width * canvas.height; i++) {
+      // Convert to grayscale (average RGB) into a Uint8Array
+      const pixelCount = canvas.width * canvas.height;
+      const grayPixels = new Uint8Array(pixelCount);
+      for (let i = 0; i < pixelCount; i++) {
         const r = imageData.data[i * 4];
         const g = imageData.data[i * 4 + 1];
         const b = imageData.data[i * 4 + 2];
@@ -175,41 +175,108 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
       const scanDate = new Date(scan.created_date + 'Z');
       const studyDate = format(scanDate, 'yyyyMMdd');
       const studyTime = format(scanDate, 'HHmmss');
-
-      // Generate a simple UID
       const uid = `2.25.${Date.now()}${Math.floor(Math.random() * 1000000)}`;
+      const sopClassUID = '1.2.840.10008.5.1.4.1.1.77.1.5.1';
+      const transferSyntaxUID = '1.2.840.10008.1.2.1'; // Explicit VR Little Endian
 
-      const { DicomMetaDictionary, DicomDict, WriteBufferStream } = dcmjs.data;
+      // ── Hand-written DICOM binary encoder (Explicit VR Little Endian) ──
+      const enc = new TextEncoder();
 
-      const dataset = {
-        _meta: {
-          MediaStorageSOPClassUID:    { Value: ['1.2.840.10008.5.1.4.1.1.77.1.5.1'], vr: 'UI' },
-          MediaStorageSOPInstanceUID: { Value: [uid], vr: 'UI' },
-          TransferSyntaxUID:          { Value: ['1.2.840.10008.1.2.1'], vr: 'UI' },
-        },
-        SOPClassUID:          { Value: ['1.2.840.10008.5.1.4.1.1.77.1.5.1'], vr: 'UI' },
-        SOPInstanceUID:       { Value: [uid], vr: 'UI' },
-        PatientName:          { Value: [scan.name || 'Untitled'], vr: 'PN' },
-        StudyDate:            { Value: [studyDate], vr: 'DA' },
-        StudyTime:            { Value: [studyTime], vr: 'TM' },
-        Modality:             { Value: ['OP'], vr: 'CS' },
-        StudyDescription:     { Value: ['Retinal Screening - DR Monster'], vr: 'LO' },
-        ImageComments:        { Value: [notes || ''], vr: 'LT' },
-        Rows:                 { Value: [canvas.height], vr: 'US' },
-        Columns:              { Value: [canvas.width], vr: 'US' },
-        BitsAllocated:        { Value: [8], vr: 'US' },
-        BitsStored:           { Value: [8], vr: 'US' },
-        HighBit:              { Value: [7], vr: 'US' },
-        PixelRepresentation:  { Value: [0], vr: 'US' },
-        SamplesPerPixel:      { Value: [1], vr: 'US' },
-        PhotometricInterpretation: { Value: ['MONOCHROME2'], vr: 'CS' },
-        PixelData:            { Value: [grayPixels.buffer], vr: 'OB' },
+      const writeStr = (vr, str) => {
+        const bytes = enc.encode(str);
+        // DICOM strings must be even length
+        const padded = bytes.length % 2 === 0 ? bytes : new Uint8Array([...bytes, 0x20]);
+        return padded;
       };
 
-      const dicomDict = new DicomDict(dataset._meta);
-      dicomDict.dict = dataset;
-      const buffer = dicomDict.write();
-      const blob = new Blob([buffer], { type: 'application/octet-stream' });
+      const writeUI = (str) => {
+        const bytes = enc.encode(str);
+        const padded = bytes.length % 2 === 0 ? bytes : new Uint8Array([...bytes, 0x00]);
+        return padded;
+      };
+
+      const writeUS = (val) => {
+        const buf = new ArrayBuffer(2);
+        new DataView(buf).setUint16(0, val, true);
+        return new Uint8Array(buf);
+      };
+
+      // Build a single explicit-VR tag element
+      // tag: [group, element] as numbers
+      // vr: 2-char string
+      // valueBytes: Uint8Array
+      const buildTag = (group, element, vr, valueBytes) => {
+        const isLong = ['OB', 'OW', 'OF', 'SQ', 'UC', 'UR', 'UT', 'UN'].includes(vr);
+        const headerLen = isLong ? 12 : 8;
+        const buf = new ArrayBuffer(headerLen + valueBytes.length);
+        const dv = new DataView(buf);
+        dv.setUint16(0, group, true);
+        dv.setUint16(2, element, true);
+        dv.setUint8(4, vr.charCodeAt(0));
+        dv.setUint8(5, vr.charCodeAt(1));
+        if (isLong) {
+          dv.setUint16(6, 0, true); // reserved
+          dv.setUint32(8, valueBytes.length, true);
+        } else {
+          dv.setUint16(6, valueBytes.length, true);
+        }
+        new Uint8Array(buf).set(valueBytes, headerLen);
+        return new Uint8Array(buf);
+      };
+
+      // Build meta information (group 0002)
+      const metaTags = [
+        buildTag(0x0002, 0x0001, 'OB', new Uint8Array([0x00, 0x01])), // File Meta Info Version
+        buildTag(0x0002, 0x0002, 'UI', writeUI(sopClassUID)),           // Media Storage SOP Class UID
+        buildTag(0x0002, 0x0003, 'UI', writeUI(uid)),                   // Media Storage SOP Instance UID
+        buildTag(0x0002, 0x0010, 'UI', writeUI(transferSyntaxUID)),     // Transfer Syntax UID
+      ];
+
+      // Calculate meta length (all tags after 0002,0000)
+      const metaContentLength = metaTags.reduce((sum, t) => sum + t.length, 0);
+      const metaLengthTag = buildTag(0x0002, 0x0000, 'UL', (() => {
+        const b = new ArrayBuffer(4); new DataView(b).setUint32(0, metaContentLength, true); return new Uint8Array(b);
+      })());
+
+      // Build dataset tags (sorted by tag number)
+      const patientName = scan.name || 'Anonymous';
+      const studyDesc = 'Retinal Screening - DR Monster';
+      const imgComments = notes || '';
+
+      const dataTags = [
+        buildTag(0x0008, 0x0020, 'DA', writeStr('DA', studyDate)),
+        buildTag(0x0008, 0x0030, 'TM', writeStr('TM', studyTime)),
+        buildTag(0x0008, 0x0060, 'CS', writeStr('CS', 'OP')),
+        buildTag(0x0008, 0x0070, 'LO', writeStr('LO', 'DR Monster')),
+        buildTag(0x0008, 0x103E, 'LO', writeStr('LO', studyDesc)),
+        buildTag(0x0008, 0x0018, 'UI', writeUI(uid)),                   // SOP Instance UID
+        buildTag(0x0008, 0x0016, 'UI', writeUI(sopClassUID)),           // SOP Class UID
+        buildTag(0x0010, 0x0010, 'PN', writeStr('PN', patientName)),
+        buildTag(0x0020, 0x000D, 'UI', writeUI(uid)),                   // Study Instance UID
+        buildTag(0x0020, 0x000E, 'UI', writeUI(uid)),                   // Series Instance UID
+        buildTag(0x0028, 0x0002, 'US', writeUS(1)),                     // Samples Per Pixel
+        buildTag(0x0028, 0x0004, 'CS', writeStr('CS', 'MONOCHROME2')), // Photometric Interpretation
+        buildTag(0x0028, 0x0010, 'US', writeUS(canvas.height)),         // Rows
+        buildTag(0x0028, 0x0011, 'US', writeUS(canvas.width)),          // Columns
+        buildTag(0x0028, 0x0100, 'US', writeUS(8)),                     // Bits Allocated
+        buildTag(0x0028, 0x0101, 'US', writeUS(8)),                     // Bits Stored
+        buildTag(0x0028, 0x0102, 'US', writeUS(7)),                     // High Bit
+        buildTag(0x0028, 0x0103, 'US', writeUS(0)),                     // Pixel Representation
+        buildTag(0x4008, 0x0300, 'LT', writeStr('LT', imgComments)),   // Image Comments
+        buildTag(0x7FE0, 0x0010, 'OW', grayPixels),                    // Pixel Data
+      ];
+
+      // Concatenate everything: preamble (128 bytes) + "DICM" + meta + data
+      const preamble = new Uint8Array(128); // zeros
+      const magic = enc.encode('DICM');
+
+      const allParts = [preamble, magic, metaLengthTag, ...metaTags, ...dataTags];
+      const totalLen = allParts.reduce((s, p) => s + p.length, 0);
+      const output = new Uint8Array(totalLen);
+      let offset = 0;
+      for (const part of allParts) { output.set(part, offset); offset += part.length; }
+
+      const blob = new Blob([output], { type: 'application/octet-stream' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url; a.download = `${filename}.dcm`;
