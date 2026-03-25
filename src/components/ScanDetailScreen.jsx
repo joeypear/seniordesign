@@ -219,8 +219,7 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
         </div>
 
         {/* Editable scan name */}
-        <div className="bg-white/80 dark:bg-[#22263A] rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-[#2E3350] space-y-2">
-          <p className="text-sm font-medium text-gray-700 dark:text-gray-300">{t('scanName')}</p>
+        <div className="space-y-1">
           {isEditingName ? (
             <div className="flex flex-col gap-1">
               <div className="flex items-center gap-1">
@@ -245,10 +244,12 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
           ) : (
             <button
               onClick={() => { setEditName(scan.name || ''); setIsEditingName(true); }}
-              className="flex items-center gap-2 w-full text-left px-3 py-2 rounded-md border border-input bg-transparent hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
+              className="flex items-center gap-2 w-full text-left px-3 py-2.5 rounded-md border border-input bg-transparent hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors"
             >
-              <span className="flex-1 text-base text-gray-800 dark:text-gray-100 truncate">
-                {scan.name || <span className="text-muted-foreground">{t('scanName')}</span>}
+              <span className="flex-1 text-base truncate">
+                {scan.name
+                  ? <span className="text-gray-800 dark:text-gray-100">{scan.name}</span>
+                  : <span className="text-muted-foreground">{t('nameScanPlaceholder')}</span>}
               </span>
               <Pencil className="w-4 h-4 text-gray-400 shrink-0" />
             </button>
@@ -256,14 +257,13 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
         </div>
 
         {/* Notes */}
-        <div className="bg-white/80 dark:bg-[#22263A] rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-[#2E3350] space-y-2">
-          <p className="text-sm font-medium text-gray-700 dark:text-gray-300">{t('notes')}</p>
+        <div className="space-y-1">
           <Textarea
             placeholder={t('addNotes')}
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
-            className="min-h-[60px] resize-none"
-            rows={2}
+            className="min-h-[80px] resize-none"
+            rows={3}
           />
           {notes !== savedNotes && (
             <Button onClick={handleSaveNotes} disabled={isSaving} size="sm" className="w-full">
