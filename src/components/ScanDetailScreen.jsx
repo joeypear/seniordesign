@@ -178,38 +178,9 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
         </button>
 
         <div className="flex-1 min-w-0 flex justify-center">
-          {isEditingName ? (
-            <div className="flex flex-col gap-1 w-full">
-              <div className="flex items-center gap-1">
-                <Input
-                  value={editName}
-                  onChange={(e) => { setEditName(e.target.value); setRenameError(''); }}
-                  onKeyDown={(e) => { if (e.key === 'Enter') handleRename(); if (e.key === 'Escape') { setIsEditingName(false); setRenameError(''); } }}
-                  className="h-9 text-base"
-                  autoFocus
-                  disabled={rateLimited}
-                />
-                <Button size="icon" variant="ghost" className="h-9 w-9 text-green-600 shrink-0" onClick={handleRename} disabled={isRenaming || rateLimited}>
-                  {isRenaming ? <Loader2 className="w-5 h-5 animate-spin" /> : <Check className="w-5 h-5" />}
-                </Button>
-                <Button size="icon" variant="ghost" className="h-9 w-9 text-gray-400 shrink-0" onClick={() => { setIsEditingName(false); setRenameError(''); }}>
-                  <X className="w-5 h-5" />
-                </Button>
-              </div>
-              {renameError && <p className="text-xs text-rose-500 px-1">{renameError}</p>}
-              {rateLimited && <p className="text-xs text-rose-500 px-1">Too many actions. Please wait 30 seconds.</p>}
-            </div>
-          ) : (
-            <button
-              onClick={() => { setEditName(scan.name || ''); setIsEditingName(true); }}
-              className="flex items-center gap-1.5 max-w-full h-full"
-            >
-              <h1 className="text-base font-semibold text-gray-800 dark:text-gray-100 truncate">
-                {scan.name || t('scanDetails')}
-              </h1>
-              <Pencil className="w-3 h-3 text-gray-400 shrink-0" />
-            </button>
-          )}
+          <h1 className="text-base font-semibold text-gray-800 dark:text-gray-100 truncate">
+            {t('scanDetails')}
+          </h1>
         </div>
 
         {/* Spacer to balance back button */}
@@ -245,6 +216,43 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
         <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 px-1">
           <Calendar className="w-4 h-4" />
           <span>{t('scannedOn')} {format(new Date(scan.created_date + 'Z'), 'MMMM d, yyyy • h:mm a')}</span>
+        </div>
+
+        {/* Editable scan name */}
+        <div className="bg-white/80 dark:bg-[#22263A] rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-[#2E3350] space-y-2">
+          <p className="text-sm font-medium text-gray-700 dark:text-gray-300">{t('scanName')}</p>
+          {isEditingName ? (
+            <div className="flex flex-col gap-1">
+              <div className="flex items-center gap-1">
+                <Input
+                  value={editName}
+                  onChange={(e) => { setEditName(e.target.value); setRenameError(''); }}
+                  onKeyDown={(e) => { if (e.key === 'Enter') handleRename(); if (e.key === 'Escape') { setIsEditingName(false); setRenameError(''); } }}
+                  className="h-10 text-base flex-1"
+                  autoFocus
+                  disabled={rateLimited}
+                />
+                <Button size="icon" variant="ghost" className="h-10 w-10 text-green-600 shrink-0" onClick={handleRename} disabled={isRenaming || rateLimited}>
+                  {isRenaming ? <Loader2 className="w-5 h-5 animate-spin" /> : <Check className="w-5 h-5" />}
+                </Button>
+                <Button size="icon" variant="ghost" className="h-10 w-10 text-gray-400 shrink-0" onClick={() => { setIsEditingName(false); setRenameError(''); }}>
+                  <X className="w-5 h-5" />
+                </Button>
+              </div>
+              {renameError && <p className="text-xs text-rose-500 px-1">{renameError}</p>}
+              {rateLimited && <p className="text-xs text-rose-500 px-1">Too many actions. Please wait 30 seconds.</p>}
+            </div>
+          ) : (
+            <button
+              onClick={() => { setEditName(scan.name || ''); setIsEditingName(true); }}
+              className="flex items-center gap-2 w-full text-left px-3 py-2 rounded-md border border-input bg-transparent hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
+            >
+              <span className="flex-1 text-base text-gray-800 dark:text-gray-100 truncate">
+                {scan.name || <span className="text-muted-foreground">{t('scanName')}</span>}
+              </span>
+              <Pencil className="w-4 h-4 text-gray-400 shrink-0" />
+            </button>
+          )}
         </div>
 
         {/* Notes */}
