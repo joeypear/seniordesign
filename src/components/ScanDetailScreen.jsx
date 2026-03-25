@@ -286,6 +286,7 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
 
         {/* Actions */}
         <div className="bg-white/80 dark:bg-[#22263A] rounded-2xl p-3 shadow-sm border border-gray-100 dark:border-[#2E3350] flex flex-col gap-3">
+          <p className="text-xs font-medium text-gray-400 dark:text-gray-500 px-1">Actions</p>
           <div className="grid grid-cols-2 gap-3">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
