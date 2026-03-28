@@ -328,6 +328,14 @@ const styles = `
     ring: none !important;
   }
 
+  /* Larger dropdown items for easier mobile tapping */
+  [data-radix-select-viewport] [role="option"] {
+    min-height: 48px !important;
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+    font-size: 15px !important;
+  }
+
   /* Danger zone */
   .as-danger-section { display: flex; flex-direction: column; gap: 10px; }
   .as-action-btn {
