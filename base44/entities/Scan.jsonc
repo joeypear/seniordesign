@@ -1,0 +1,54 @@
+{
+  "name": "Scan",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name/title of the scan"
+    },
+    "image_url": {
+      "type": "string",
+      "description": "URL of the uploaded retina image"
+    },
+    "result": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "abnormal",
+        "normal",
+        "no_result"
+      ],
+      "default": "pending",
+      "description": "Diabetic retinopathy detection result"
+    },
+    "confidence": {
+      "type": "number",
+      "description": "AI confidence score (0-100)"
+    },
+    "ai_message": {
+      "type": "string",
+      "description": "Explanation message from the AI model"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Additional notes about the scan"
+    }
+  },
+  "required": [
+    "image_url"
+  ],
+  "rls": {
+    "create": {
+      "created_by": "{{user.email}}"
+    },
+    "read": {
+      "created_by": "{{user.email}}"
+    },
+    "update": {
+      "created_by": "{{user.email}}"
+    },
+    "delete": {
+      "created_by": "{{user.email}}"
+    }
+  }
+}

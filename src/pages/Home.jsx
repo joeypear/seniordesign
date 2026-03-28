@@ -127,12 +127,50 @@ export default function Home() {
 
   const handleAnalyze = async (scanName, notes) => {
     setIsAnalyzing(true);
+
+    // Run inference
+    let result = 'pending';
+    let confidence = undefined;
+    let ai_message = undefined;
+
+    try {
+      const response = await fetch(previewImage);
+      const blob = await response.blob();
+      const file = new File([blob], 'scan.jpg', { type: blob.type || 'image/jpeg' });
+
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 30000);
+
+      const res = await fetch('https://joeypear-dr-monster-api.hf.space/predict', {
+        method: 'POST',
+        body: formData,
+        signal: controller.signal,
+      });
+      clearTimeout(timeout);
+
+      if (res.ok) {
+        const data = await res.json();
+        result = data.result || 'pending';
+        confidence = data.confidence ?? undefined;
+        ai_message = data.message ?? undefined;
+      }
+    } catch {
+      // API failed or timed out — save with pending result
+      result = 'pending';
+    }
+
     await createScanMutation.mutateAsync({
       name: scanName || undefined,
       image_url: previewImage,
-      result: 'pending',
+      result,
+      confidence,
+      ai_message,
       notes: notes || undefined,
     });
+
     setIsAnalyzing(false);
     setPreviewImage(null);
   };
