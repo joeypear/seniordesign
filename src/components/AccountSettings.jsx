@@ -637,12 +637,9 @@ export default function AccountSettings() {
                     ) : (
                       <div className="as-name-row">
                         <span className="as-name">{user?.username || user?.full_name || 'User'}</span>
-                        <div className="as-name-row-sub">
-                          <span className="as-role-badge">{user?.role || 'user'}</span>
-                          <button className="as-edit-btn" onClick={handleEditName} title="Edit name">
-                            <Pencil size={13} />
-                          </button>
-                        </div>
+                        <button className="as-edit-btn" onClick={handleEditName} title="Edit name">
+                          <Pencil size={13} />
+                        </button>
                       </div>
                     )}
                     <div className="as-email">{user?.email}</div>
@@ -650,6 +647,7 @@ export default function AccountSettings() {
                       <div className="as-joined-pill">
                         <span>📅</span>
                         <span>{t('joined')} {joinedDate}</span>
+                        <span className="as-role-badge" style={{ marginLeft: 4 }}>{user?.role || 'user'}</span>
                       </div>
                     )}
                   </div>
