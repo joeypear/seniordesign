@@ -69,7 +69,7 @@ function LayoutInner({ children }) {
           size="icon"
           className="rounded-full shadow-lg bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 w-11 h-11"
         >
-          <Info className="w-6 h-6 text-gray-600 dark:text-gray-300" />
+          <Info className="w-7 h-7 text-gray-600 dark:text-gray-300" />
         </Button>
 
         <Dialog open={showSettings} onOpenChange={setShowSettings}>
