@@ -481,14 +481,15 @@ const styles = `
 
   /* Name row: name on its own line, badge+edit below */
   .as-name-row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
   }
   .as-name-row-sub {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
   }
   }
 `;
