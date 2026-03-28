@@ -644,10 +644,12 @@ export default function AccountSettings() {
                     )}
                     <div className="as-email">{user?.email}</div>
                     {joinedDate && (
-                      <div className="as-joined-pill">
-                        <span>📅</span>
-                        <span>{t('joined')} {joinedDate}</span>
-                        <span className="as-role-badge" style={{ marginLeft: 4 }}>{user?.role || 'user'}</span>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 6 }}>
+                        <div className="as-joined-pill" style={{ margin: 0 }}>
+                          <span>📅</span>
+                          <span>{t('joined')} {joinedDate}</span>
+                        </div>
+                        <span className="as-role-badge">{user?.role || 'user'}</span>
                       </div>
                     )}
                   </div>
