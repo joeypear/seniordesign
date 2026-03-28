@@ -636,6 +636,9 @@ export default function AccountSettings() {
                       </div>
                     ) : (
                       <div className="as-name-row">
+                        {user?.role === 'admin' && (
+                          <span style={{ fontSize: 9, fontWeight: 700, padding: '2px 6px', borderRadius: 20, background: 'rgba(124,92,252,0.15)', color: 'var(--as-accent)', border: '1px solid rgba(124,92,252,0.25)', textTransform: 'uppercase', letterSpacing: '0.06em', lineHeight: 1.4 }}>Admin</span>
+                        )}
                         <span className="as-name">{user?.username || user?.full_name || 'User'}</span>
                         <button className="as-edit-btn" onClick={handleEditName} title="Edit name">
                           <Pencil size={13} />
@@ -644,12 +647,9 @@ export default function AccountSettings() {
                     )}
                     <div className="as-email">{user?.email}</div>
                     {joinedDate && (
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 6 }}>
-                        <div className="as-joined-pill" style={{ margin: 0 }}>
-                          <span>📅</span>
-                          <span>{t('joined')} {joinedDate}</span>
-                        </div>
-                        <span className="as-role-badge">{user?.role || 'user'}</span>
+                      <div className="as-joined-pill">
+                        <span>📅</span>
+                        <span>{t('joined')} {joinedDate}</span>
                       </div>
                     )}
                   </div>
