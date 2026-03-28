@@ -9,14 +9,16 @@ import {
 import { Button } from '@/components/ui/button';
 import { AlertTriangle, Lightbulb, Stethoscope, Database } from 'lucide-react';
 import { useLanguage } from '@/components/LanguageContext';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 export default function DisclaimerDialog({ open, onOpenChange }) {
   const { t } = useLanguage();
+  const isMobile = useIsMobile();
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         className="max-w-md [&>button]:hidden"
-        style={window.innerWidth <= 480 ? {
+        style={isMobile ? {
           position: 'fixed',
           left: '16px',
           right: '16px',

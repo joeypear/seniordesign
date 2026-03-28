@@ -7,10 +7,12 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { useLanguage } from '@/components/LanguageContext';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 export default function MissionInfoButton() {
   const [open, setOpen] = useState(false);
   const { t } = useLanguage();
+  const isMobile = useIsMobile();
 
   return (
     <>
@@ -26,7 +28,7 @@ export default function MissionInfoButton() {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent
           className="max-w-md"
-          style={window.innerWidth <= 480 ? {
+          style={isMobile ? {
             position: 'fixed',
             left: '16px',
             right: '16px',
