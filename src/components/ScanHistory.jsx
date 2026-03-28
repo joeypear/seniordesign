@@ -369,12 +369,12 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
 
       {/* Search bar — full width */}
       <div className="relative w-full">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
         <Input
           placeholder={t('searchByName')}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="pl-9 h-9 text-sm bg-white dark:bg-gray-800 dark:border-gray-600 w-full focus-visible:ring-offset-0"
+          className="pl-9 h-12 text-base bg-white dark:bg-gray-800 dark:border-gray-600 w-full focus-visible:ring-offset-0"
         />
       </div>
 
