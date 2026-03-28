@@ -30,7 +30,7 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
       if (restoreVideoFile) setPendingVideoFile(restoreVideoFile);
       onRestoreCropUrlConsumed?.();
     }
-  }, [restoreCropUrl]);
+  }, [restoreCropUrl, restoreVideoFile, onRestoreCropUrlConsumed]);
 
   const handleFileChange = async (e) => {
     const file = e.target.files?.[0];

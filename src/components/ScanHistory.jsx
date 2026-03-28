@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import ErrorBoundary from '@/components/ErrorBoundary';
 import { createPortal } from 'react-dom';
 import { format } from 'date-fns';
 import { useLanguage } from '@/components/LanguageContext';
@@ -397,23 +398,25 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
         </Select>
       </div>
 
-      {filteredScans.length === 0 ? (
-        <div className="text-center py-8 text-gray-400 dark:text-gray-500">
-          <p className="text-sm">{t('noScansMatch')}</p>
-        </div>
-      ) : (
-        <GroupedScanList
-          scans={filteredScans}
-          onScanClick={onScanClick}
-          onDownload={handleDownload}
-          onRename={onRenameScan}
-          onDelete={handleDelete}
-          downloadingId={downloadingId}
-          deletingId={deletingId}
-          t={t}
-          sortBy={sortBy}
-        />
-      )}
+      <ErrorBoundary inline>
+        {filteredScans.length === 0 ? (
+          <div className="text-center py-8 text-gray-400 dark:text-gray-500">
+            <p className="text-sm">{t('noScansMatch')}</p>
+          </div>
+        ) : (
+          <GroupedScanList
+            scans={filteredScans}
+            onScanClick={onScanClick}
+            onDownload={handleDownload}
+            onRename={onRenameScan}
+            onDelete={handleDelete}
+            downloadingId={downloadingId}
+            deletingId={deletingId}
+            t={t}
+            sortBy={sortBy}
+          />
+        )}
+      </ErrorBoundary>
     </div>
   );
 }

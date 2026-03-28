@@ -14,6 +14,7 @@ import ContactUsButton from '@/components/ContactUsButton';
 import BottomNav from '@/components/BottomNav';
 import PullToRefresh from '@/components/PullToRefresh';
 import ScanDetailScreen from '@/components/ScanDetailScreen';
+import ErrorBoundary from '@/components/ErrorBoundary';
 import { motion, AnimatePresence } from 'framer-motion';
 
 function getTabFromUrl() {
@@ -171,6 +172,7 @@ export default function Home() {
   const isHistory = (activeTab === 'history' || activeTab === 'account') && !previewImage;
 
   return (
+    <ErrorBoundary>
     <div className="min-h-[100dvh] bg-gradient-to-b from-orange-50 via-white to-teal-50 dark:from-[#161B2E] dark:via-[#161B2E] dark:to-[#161B2E]">
       <OnboardingGuide open={showOnboarding} onClose={handleCloseOnboarding} />
 
@@ -303,5 +305,6 @@ export default function Home() {
         <BottomNav activeTab={activeTab} onTabChange={handleTabChange} />
       )}
     </div>
+    </ErrorBoundary>
   );
 }
