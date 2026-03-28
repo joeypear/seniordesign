@@ -359,6 +359,12 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
           .sh-scroll-list:hover::-webkit-scrollbar-thumb { background: #d1d5db; }
           .dark .sh-scroll-list:hover::-webkit-scrollbar-thumb { background: #4B5563; }
         }
+        [data-radix-select-viewport] [role="option"] {
+          min-height: 48px !important;
+          padding-top: 12px !important;
+          padding-bottom: 12px !important;
+          font-size: 15px !important;
+        }
       `}</style>
 
       {/* Search bar — full width */}
@@ -375,8 +381,8 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
       {/* Filter + Sort row */}
       <div className="flex gap-2">
         <Select value={filter} onValueChange={setFilter}>
-          <SelectTrigger className="flex-1 bg-white dark:bg-gray-800 dark:border-gray-600 text-sm h-9 focus:ring-0 focus:ring-offset-0 data-[state=open]:ring-0">
-            <Filter className="w-3.5 h-3.5 mr-1 flex-shrink-0" />
+          <SelectTrigger className="flex-1 bg-white dark:bg-gray-800 dark:border-gray-600 text-sm h-12 text-base focus:ring-0 focus:ring-offset-0 data-[state=open]:ring-0">
+            <Filter className="w-4 h-4 mr-1 flex-shrink-0" />
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -387,8 +393,8 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
           </SelectContent>
         </Select>
         <Select value={sortBy} onValueChange={setSortBy}>
-          <SelectTrigger className="flex-1 bg-white dark:bg-gray-800 dark:border-gray-600 text-sm h-9 focus:ring-0 focus:ring-offset-0 data-[state=open]:ring-0">
-            <ArrowUpDown className="w-3.5 h-3.5 mr-1 flex-shrink-0" />
+          <SelectTrigger className="flex-1 bg-white dark:bg-gray-800 dark:border-gray-600 text-sm h-12 text-base focus:ring-0 focus:ring-offset-0 data-[state=open]:ring-0">
+            <ArrowUpDown className="w-4 h-4 mr-1 flex-shrink-0" />
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
