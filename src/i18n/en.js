@@ -24,6 +24,7 @@ export default {
   abnormal: 'Abnormal',
   normal: 'Normal',
   pending: 'Pending',
+  noResult: 'No Result',
   newest: 'Newest',
   oldest: 'Oldest',
   noScansMatch: 'No scans match the selected filter',

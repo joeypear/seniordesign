@@ -3,7 +3,7 @@ import ErrorBoundary from '@/components/ErrorBoundary';
 import { createPortal } from 'react-dom';
 import { format } from 'date-fns';
 import { useLanguage } from '@/components/LanguageContext';
-import { CheckCircle2, XCircle, Clock, Trash2, Edit2, Filter, ArrowUpDown, Loader2, Search, Download, MoreVertical } from 'lucide-react';
+import { CheckCircle2, XCircle, Clock, AlertTriangle, Trash2, Edit2, Filter, ArrowUpDown, Loader2, Search, Download, MoreVertical } from 'lucide-react';
 import { validateFilename } from '@/lib/security';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
@@ -37,6 +37,15 @@ const statusConfig = {
     badgeBg: 'bg-amber-100 dark:bg-amber-900/50',
     badgeText: 'text-amber-700 dark:text-amber-300',
     labelKey: 'pending'
+  },
+  no_result: {
+    icon: AlertTriangle,
+    color: 'text-amber-500 dark:text-amber-400',
+    bg: 'bg-amber-50 dark:bg-amber-950/40',
+    border: 'border-amber-200 dark:border-amber-800',
+    badgeBg: 'bg-amber-100 dark:bg-amber-900/50',
+    badgeText: 'text-amber-700 dark:text-amber-300',
+    labelKey: 'noResult'
   },
   abnormal: {
     icon: XCircle,
