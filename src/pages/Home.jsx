@@ -156,10 +156,22 @@ export default function Home() {
         result = data.result || 'pending';
         confidence = data.confidence ?? undefined;
         ai_message = data.message ?? undefined;
+      } else {
+        result = 'pending';
+        base44.analytics.track({
+          eventName: 'ai_inference_failed',
+          properties: { error: `http_${res.status}` }
+        });
       }
-    } catch {
+    } catch (err) {
       // API failed or timed out — save with pending result
       result = 'pending';
+      base44.analytics.track({
+        eventName: 'ai_inference_failed',
+        properties: {
+          error: err?.name === 'AbortError' ? 'timeout' : (err?.message || 'unknown'),
+        }
+      });
     }
 
     await createScanMutation.mutateAsync({
