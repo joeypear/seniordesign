@@ -13,4 +13,16 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  // onnxruntime-web ships its own pre-built bundles + WASM; exclude it from
+  // Vite's dep-optimizer so it's loaded as-is (avoids bundle corruption).
+  optimizeDeps: {
+    exclude: ['onnxruntime-web'],
+  },
+  // Ensure .wasm files are served with the correct MIME type in dev mode
+  server: {
+    headers: {
+      'Cross-Origin-Opener-Policy': 'same-origin',
+      'Cross-Origin-Embedder-Policy': 'require-corp',
+    },
+  },
 });

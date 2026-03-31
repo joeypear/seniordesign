@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Scan } from '@/lib/localScans';
+import { runInference } from '@/lib/localInference';
 import { useLanguage } from '@/components/LanguageContext';
 
 import ImageUploader from '@/components/ImageUploader';
@@ -128,37 +129,17 @@ export default function Home() {
   const handleAnalyze = async (scanName, notes) => {
     setIsAnalyzing(true);
 
-    // Run inference
+    // Run local inference (no network required)
     let result = 'pending';
     let confidence = undefined;
     let ai_message = undefined;
 
     try {
-      const response = await fetch(previewImage);
-      const blob = await response.blob();
-      const file = new File([blob], 'scan.jpg', { type: blob.type || 'image/jpeg' });
-
-      const formData = new FormData();
-      formData.append('file', file);
-
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 30000);
-
-      const res = await fetch('https://joeypear-dr-monster-api.hf.space/predict', {
-        method: 'POST',
-        body: formData,
-        signal: controller.signal,
-      });
-      clearTimeout(timeout);
-
-      if (res.ok) {
-        const data = await res.json();
-        result = data.result || 'pending';
-        confidence = data.confidence ?? undefined;
-        ai_message = data.message ?? undefined;
-      }
+      const data = await runInference(previewImage);
+      result     = data.result     ?? 'pending';
+      confidence = data.confidence ?? undefined;
+      ai_message = data.message    ?? undefined;
     } catch {
-      // API failed or timed out — save with pending result
       result = 'pending';
     }
 
