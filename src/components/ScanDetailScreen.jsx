@@ -177,7 +177,7 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
                 <p className="text-sm text-gray-600 dark:text-gray-300 mt-0.5">{scan.ai_message}</p>
                 {scan.confidence != null && (
                   <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
-                    Confidence: {Number(scan.confidence).toFixed(1)}%
+                    Confidence: {scan.result === 'normal' ? (100 - Number(scan.confidence)).toFixed(1) : Number(scan.confidence).toFixed(1)}%
                   </p>
                 )}
               </>
