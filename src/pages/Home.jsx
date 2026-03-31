@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { base44 } from '@/api/base44Client';
+import { Scan } from '@/lib/localScans';
 import { useLanguage } from '@/components/LanguageContext';
 
 import ImageUploader from '@/components/ImageUploader';
@@ -84,26 +84,26 @@ export default function Home() {
 
   const { data: scans = [], isLoading, refetch } = useQuery({
     queryKey: ['scans'],
-    queryFn: () => base44.entities.Scan.list('-created_date', 50),
+    queryFn: () => Scan.list('-created_date', 50),
   });
 
   const createScanMutation = useMutation({
-    mutationFn: (data) => base44.entities.Scan.create(data),
+    mutationFn: (data) => Scan.create(data),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['scans'] }),
   });
 
   const deleteScanMutation = useMutation({
-    mutationFn: (scanId) => base44.entities.Scan.delete(scanId),
+    mutationFn: (scanId) => Scan.delete(scanId),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['scans'] }),
   });
 
   const renameScanMutation = useMutation({
-    mutationFn: ({ scanId, name }) => base44.entities.Scan.update(scanId, { name }),
+    mutationFn: ({ scanId, name }) => Scan.update(scanId, { name }),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['scans'] }),
   });
 
   const updateNotesMutation = useMutation({
-    mutationFn: ({ scanId, notes }) => base44.entities.Scan.update(scanId, { notes }),
+    mutationFn: ({ scanId, notes }) => Scan.update(scanId, { notes }),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['scans'] }),
   });
 

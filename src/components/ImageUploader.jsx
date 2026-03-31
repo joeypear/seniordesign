@@ -2,8 +2,16 @@ import React, { useRef, useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Camera, Upload, Video } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { base44 } from '@/api/base44Client';
 import { useLanguage } from '@/components/LanguageContext';
+
+function fileToDataUrl(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
 import VideoFrameSelector from './VideoFrameSelector';
 import ImageCropper from './ImageCropper';
 import { recordAction, isRateLimited, subscribeRateLimit } from '@/lib/security';
@@ -43,7 +51,7 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
     }
 
     setIsUploading(true);
-    const { file_url } = await base44.integrations.Core.UploadFile({ file });
+    const file_url = URL.createObjectURL(file);
     setPendingImageUrl(file_url);
     setIsUploading(false);
   };
@@ -110,7 +118,7 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
 
   const handleFrameSelected = async (frameFile) => {
     setIsUploading(true);
-    const { file_url } = await base44.integrations.Core.UploadFile({ file: frameFile });
+    const file_url = URL.createObjectURL(frameFile);
     setPendingVideoFile(selectedVideo);
     setSelectedVideo(null);
     setPendingImageUrl(file_url);
@@ -123,7 +131,8 @@ export default function ImageUploader({ onImageUploaded, isUploading, setIsUploa
     const videoFile = pendingVideoFile;
     setPendingImageUrl(null);
     setPendingVideoFile(null);
-    const { file_url } = await base44.integrations.Core.UploadFile({ file: croppedFile });
+    // Convert cropped image to a base64 data URL for offline persistence
+    const file_url = await fileToDataUrl(croppedFile);
     onImageUploaded(file_url, rawUrl, videoFile);
     setIsUploading(false);
   };
