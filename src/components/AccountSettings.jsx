@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { base44 } from '@/api/base44Client';
+import { useQueryClient } from '@tanstack/react-query';
+import { useAuth } from '@/lib/AuthContext';
+import { updateUser, deleteUser } from '@/lib/localAuth';
 import { LogOut, Trash2, Pencil, Check, X, Globe, ImageDown, Moon, Sun, Monitor } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { useLanguage, languages } from '@/components/LanguageContext';
@@ -505,6 +506,7 @@ function applyThemeToDOM(value) {
 
 export default function AccountSettings() {
   const { t, lang, changeLang } = useLanguage();
+  const { user, logout, refreshUser } = useAuth();
   const [downloadFormat, setDownloadFormat] = useState(() => localStorage.getItem('downloadFormat') || 'jpg');
   const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'system');
   const [isDeleting, setIsDeleting] = useState(false);
@@ -541,10 +543,7 @@ export default function AccountSettings() {
     applyThemeToDOM(value);
   };
 
-  const { data: user, isLoading } = useQuery({
-    queryKey: ['currentUser'],
-    queryFn: () => base44.auth.me()
-  });
+  const isLoading = !user;
 
   const handleEditName = () => {
     setNewName(user?.username || user?.full_name || '');
@@ -555,8 +554,8 @@ export default function AccountSettings() {
     if (!newName.trim()) return;
     setIsSavingName(true);
     try {
-      await base44.auth.updateMe({ username: newName.trim() });
-      queryClient.invalidateQueries({ queryKey: ['currentUser'] });
+      updateUser({ username: newName.trim() });
+      refreshUser();
       setIsEditingName(false);
     } catch {
       alert('Unable to update name. Please try again.');
@@ -569,10 +568,10 @@ export default function AccountSettings() {
   const handleDeleteAccount = async () => {
     setIsDeleting(true);
     try {
-      await base44.entities.User.delete(user.id);
-      await base44.auth.logout();
+      deleteUser(user.id);
+      logout();
     } catch {
-      alert('Unable to delete account. Please contact support.');
+      alert('Unable to delete account. Please try again.');
       setIsDeleting(false);
     }
   };
@@ -763,7 +762,7 @@ export default function AccountSettings() {
             <div>
               <div className="as-section-label">Account Actions</div>
               <div className="as-danger-section" style={{ width: '100%', maxWidth: '100%', boxSizing: 'border-box' }}>
-                <button className="as-action-btn" onClick={() => base44.auth.logout()}>
+                <button className="as-action-btn" onClick={logout}>
                   <LogOut size={16} />
                   {t('logOut')}
                 </button>
