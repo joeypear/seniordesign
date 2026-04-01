@@ -180,7 +180,6 @@ export default function Home() {
       image_url: previewImage,
       result,
       confidence,
-      ai_message,
       notes: notes || undefined,
     });
 
