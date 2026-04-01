@@ -297,17 +297,20 @@ function GroupedScanList({ scans, onScanClick, onDownload, onRename, onDelete, d
   );
 }
 
-export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRenameScan }) {
+export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRenameScan, filterState, onFilterStateChange }) {
   const { t } = useLanguage();
-  const [filter, setFilter] = useState('all');
+  const [filter, setFilterLocal] = useState(filterState?.filter ?? 'all');
+  const [sortBy, setSortByLocal] = useState(filterState?.sortBy ?? 'newest');
+  const [searchQuery, setSearchQueryLocal] = useState(filterState?.searchQuery ?? '');
   const hasPending = scans.some(s => s.result === 'pending');
   const hasNoResult = scans.some(s => s.result === 'no_result');
 
-
-  const [sortBy, setSortBy] = useState('newest');
   const [deletingId, setDeletingId] = useState(null);
-  const [searchQuery, setSearchQuery] = useState('');
   const [downloadingId, setDownloadingId] = useState(null);
+
+  const setFilter = (v) => { setFilterLocal(v); onFilterStateChange?.({ filter: v, sortBy, searchQuery }); };
+  const setSortBy = (v) => { setSortByLocal(v); onFilterStateChange?.({ filter, sortBy: v, searchQuery }); };
+  const setSearchQuery = (v) => { setSearchQueryLocal(v); onFilterStateChange?.({ filter, sortBy, searchQuery: v }); };
 
   const handleDownload = async (scan, e) => {
     e?.stopPropagation();

@@ -53,6 +53,7 @@ export default function Home() {
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [activeTab, setActiveTab] = useState(getTabFromUrl);
   const [selectedScanId, setSelectedScanId] = useState(getScanIdFromUrl);
+  const [historyFilterState, setHistoryFilterState] = useState({ filter: 'all', sortBy: 'newest', searchQuery: '' });
   const queryClient = useQueryClient();
 
   useEffect(() => {
@@ -328,6 +329,8 @@ export default function Home() {
                         onScanClick={handleScanClick}
                         onDeleteScan={(scanId) => deleteScanMutation.mutateAsync(scanId)}
                         onRenameScan={(scanId, name) => renameScanMutation.mutateAsync({ scanId, name })}
+                        filterState={historyFilterState}
+                        onFilterStateChange={setHistoryFilterState}
                       />
                     </PullToRefresh>
                   )}
