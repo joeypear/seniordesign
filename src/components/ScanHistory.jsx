@@ -302,6 +302,8 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
   const [filter, setFilter] = useState('all');
   const hasPending = scans.some(s => s.result === 'pending');
   const hasNoResult = scans.some(s => s.result === 'no_result');
+
+
   const [sortBy, setSortBy] = useState('newest');
   const [deletingId, setDeletingId] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -400,8 +402,8 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
             <SelectItem value="all">{t('allResults')}</SelectItem>
             <SelectItem value="abnormal">{t('abnormal')}</SelectItem>
             <SelectItem value="normal">{t('normal')}</SelectItem>
-            {hasPending && <SelectItem value="pending">{t('pending')}</SelectItem>}
-            {hasNoResult && <SelectItem value="no_result">{t('noResult')}</SelectItem>}
+            {(hasPending || filter === 'pending') && <SelectItem value="pending">{t('pending')}</SelectItem>}
+            {(hasNoResult || filter === 'no_result') && <SelectItem value="no_result">{t('noResult')}</SelectItem>}
           </SelectContent>
         </Select>
         <Select value={sortBy} onValueChange={setSortBy}>
