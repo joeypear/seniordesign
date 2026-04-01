@@ -200,8 +200,10 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
                 <HelpCircle className="w-5 h-5" />
               </button>
             </PopoverTrigger>
-            <PopoverContent side="left" className="max-w-[250px] text-sm">
-              {t(status.descKey)}
+            <PopoverContent side="left" className="max-w-[260px] text-sm space-y-1.5">
+              <p>This is a screening tool only. It does not diagnose any condition.</p>
+              <p>The confidence score reflects how certain the model is in its result.</p>
+              <p>If you are concerned about your eye health, please consult a clinician regardless of the result.</p>
             </PopoverContent>
           </Popover>
         </div>
