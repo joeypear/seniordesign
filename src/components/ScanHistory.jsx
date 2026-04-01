@@ -300,6 +300,8 @@ function GroupedScanList({ scans, onScanClick, onDownload, onRename, onDelete, d
 export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRenameScan }) {
   const { t } = useLanguage();
   const [filter, setFilter] = useState('all');
+  const hasPending = scans.some(s => s.result === 'pending');
+  const hasNoResult = scans.some(s => s.result === 'no_result');
   const [sortBy, setSortBy] = useState('newest');
   const [deletingId, setDeletingId] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -398,8 +400,8 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
             <SelectItem value="all">{t('allResults')}</SelectItem>
             <SelectItem value="abnormal">{t('abnormal')}</SelectItem>
             <SelectItem value="normal">{t('normal')}</SelectItem>
-            <SelectItem value="pending">{t('pending')}</SelectItem>
-            <SelectItem value="no_result">{t('noResult')}</SelectItem>
+            {hasPending && <SelectItem value="pending">{t('pending')}</SelectItem>}
+            {hasNoResult && <SelectItem value="no_result">{t('noResult')}</SelectItem>}
           </SelectContent>
         </Select>
         <Select value={sortBy} onValueChange={setSortBy}>
