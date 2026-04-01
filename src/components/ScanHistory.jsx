@@ -399,6 +399,7 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
             <SelectItem value="abnormal">{t('abnormal')}</SelectItem>
             <SelectItem value="normal">{t('normal')}</SelectItem>
             <SelectItem value="pending">{t('pending')}</SelectItem>
+            <SelectItem value="no_result">{t('noResult')}</SelectItem>
           </SelectContent>
         </Select>
         <Select value={sortBy} onValueChange={setSortBy}>
