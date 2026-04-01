@@ -200,8 +200,10 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
                 <HelpCircle className="w-5 h-5" />
               </button>
             </PopoverTrigger>
-            <PopoverContent side="left" className="max-w-[250px] text-sm">
-              {t(status.descKey)}
+            <PopoverContent side="left" className="max-w-[260px] text-sm space-y-2">
+              <p>This is a <strong>screening tool only</strong> — it does not diagnose any condition.</p>
+              <p>The confidence score reflects how certain the model is in its result. A higher score means a stronger signal, but it is never a guarantee.</p>
+              <p>Even if your scan appears normal, you should still consult a clinician if you have any concerns about your eye health.</p>
             </PopoverContent>
           </Popover>
         </div>
