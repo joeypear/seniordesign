@@ -169,13 +169,19 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
           <div className="flex-1 min-w-0">
             {scan.result === 'pending' ? (
               <p className={`font-semibold ${status.color}`}>{t(status.labelKey)}</p>
-            ) : scan.ai_message ? (
+            ) : scan.result === 'normal' || scan.result === 'abnormal' || scan.result === 'no_result' ? (
               <>
                 <p className={`font-semibold ${status.color}`}>
                   {scan.result === 'normal' ? 'Normal' : scan.result === 'abnormal' ? 'Abnormal' : 'No Result'}
                 </p>
-                <p className="text-sm text-gray-600 dark:text-gray-300 mt-0.5">{scan.ai_message}</p>
-                {scan.confidence != null && (
+                <p className="text-sm text-gray-600 dark:text-gray-300 mt-0.5">
+                  {scan.result === 'normal'
+                    ? 'No signs of diabetic retinopathy detected. Routine follow-up screenings are still recommended.'
+                    : scan.result === 'abnormal'
+                    ? 'Potential signs of diabetic retinopathy detected. Please consult a clinician for further evaluation.'
+                    : 'Confidence too low to determine a result. Please retake the image.'}
+                </p>
+                {scan.confidence != null && scan.result !== 'no_result' && (
                   <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
                     Confidence: {scan.result === 'normal' ? (100 - Number(scan.confidence)).toFixed(1) : Number(scan.confidence).toFixed(1)}%
                   </p>
