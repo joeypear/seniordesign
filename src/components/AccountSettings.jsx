@@ -746,7 +746,7 @@ export default function AccountSettings() {
                         {Object.entries(languages).map(([code, { label, flag }]) => (
                           <SelectItem key={code} value={code}>
                             <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                              <img src={flag} alt={label} style={{ width: '18px', height: '13px', objectFit: 'cover', borderRadius: '2px' }} />
+                              <span style={{ fontSize: '16px', lineHeight: 1 }}>{flag}</span>
                               {label}
                             </span>
                           </SelectItem>

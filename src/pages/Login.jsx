@@ -39,7 +39,7 @@ export default function Login() {
         {/* Logo */}
         <div className="flex flex-col items-center mb-8">
           <img
-            src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69b197ac7dc234617b635f3b/957c3239e_fixed_background_with_fade.png"
+            src="/dr-monster-logo.png"
             alt="DR Monster Logo"
             className="w-16 h-16 mb-3"
           />

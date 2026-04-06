@@ -101,7 +101,7 @@ export default function OnboardingGuide({ open, onClose }) {
                           : 'border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:border-teal-400'
                       }`}
                     >
-                      <img src={flag} alt={label} className="w-5 h-3.5 object-cover rounded-sm" />
+                      <span style={{ fontSize: '16px', lineHeight: 1 }}>{flag}</span>
                       <span>{label}</span>
                     </button>
                   ))}
