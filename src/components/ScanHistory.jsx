@@ -245,6 +245,7 @@ function ScanCard({ scan, onScanClick, onDownload, onRename, onDelete, downloadi
         )}
         <p className="text-sm text-gray-400 dark:text-gray-500 mt-0.5 whitespace-nowrap">
           {format(new Date(scan.created_date), 'MMM d, yyyy · h:mm a')}
+          {scan.created_date && !isNaN(new Date(scan.created_date)) ? format(new Date(scan.created_date + 'Z'), 'MMM d, yyyy · h:mm a') : 'Unknown date'}
         </p>
       </div>
       <OverflowMenu
@@ -323,6 +324,7 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
     const title = scan.name || 'retinal-scan';
     const result = scan.result || 'pending';
     const date = format(new Date(scan.created_date), 'yyyy-MM-dd');
+    const date = scan.created_date && !isNaN(new Date(scan.created_date)) ? format(new Date(scan.created_date + 'Z'), 'yyyy-MM-dd') : 'unknown-date';
     const ext = localStorage.getItem('downloadFormat') || 'jpg';
     a.download = `${title}_${result}_${date}.${ext}`;
     document.body.appendChild(a);
