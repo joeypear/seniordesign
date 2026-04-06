@@ -194,7 +194,7 @@ function OverflowMenu({ scan, onDownload, onRename, onDelete, downloadingId, del
 
 function getScanGroup(date) {
   const now = new Date();
-  const d = new Date(date + 'Z');
+  const d = new Date(date);
   const diffMs = now - d;
   const diffDays = diffMs / (1000 * 60 * 60 * 24);
   const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
@@ -244,6 +244,7 @@ function ScanCard({ scan, onScanClick, onDownload, onRename, onDelete, downloadi
           <p className="text-base font-medium text-gray-800 dark:text-gray-200 truncate mt-1">{scan.name}</p>
         )}
         <p className="text-sm text-gray-400 dark:text-gray-500 mt-0.5 whitespace-nowrap">
+          {format(new Date(scan.created_date), 'MMM d, yyyy · h:mm a')}
           {scan.created_date && !isNaN(new Date(scan.created_date)) ? format(new Date(scan.created_date + 'Z'), 'MMM d, yyyy · h:mm a') : 'Unknown date'}
         </p>
       </div>
@@ -297,13 +298,20 @@ function GroupedScanList({ scans, onScanClick, onDownload, onRename, onDelete, d
   );
 }
 
-export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRenameScan }) {
+export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRenameScan, filterState, onFilterStateChange }) {
   const { t } = useLanguage();
-  const [filter, setFilter] = useState('all');
-  const [sortBy, setSortBy] = useState('newest');
+  const [filter, setFilterLocal] = useState(filterState?.filter ?? 'all');
+  const [sortBy, setSortByLocal] = useState(filterState?.sortBy ?? 'newest');
+  const [searchQuery, setSearchQueryLocal] = useState(filterState?.searchQuery ?? '');
+  const hasPending = scans.some(s => s.result === 'pending');
+  const hasNoResult = scans.some(s => s.result === 'no_result');
+
   const [deletingId, setDeletingId] = useState(null);
-  const [searchQuery, setSearchQuery] = useState('');
   const [downloadingId, setDownloadingId] = useState(null);
+
+  const setFilter = (v) => { setFilterLocal(v); onFilterStateChange?.({ filter: v, sortBy, searchQuery }); };
+  const setSortBy = (v) => { setSortByLocal(v); onFilterStateChange?.({ filter, sortBy: v, searchQuery }); };
+  const setSearchQuery = (v) => { setSearchQueryLocal(v); onFilterStateChange?.({ filter, sortBy, searchQuery: v }); };
 
   const handleDownload = async (scan, e) => {
     e?.stopPropagation();
@@ -315,6 +323,7 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
     a.href = url;
     const title = scan.name || 'retinal-scan';
     const result = scan.result || 'pending';
+    const date = format(new Date(scan.created_date), 'yyyy-MM-dd');
     const date = scan.created_date && !isNaN(new Date(scan.created_date)) ? format(new Date(scan.created_date + 'Z'), 'yyyy-MM-dd') : 'unknown-date';
     const ext = localStorage.getItem('downloadFormat') || 'jpg';
     a.download = `${title}_${result}_${date}.${ext}`;
@@ -398,7 +407,8 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
             <SelectItem value="all">{t('allResults')}</SelectItem>
             <SelectItem value="abnormal">{t('abnormal')}</SelectItem>
             <SelectItem value="normal">{t('normal')}</SelectItem>
-            <SelectItem value="pending">{t('pending')}</SelectItem>
+            {(hasPending || filter === 'pending') && <SelectItem value="pending">{t('pending')}</SelectItem>}
+            {(hasNoResult || filter === 'no_result') && <SelectItem value="no_result">{t('noResult')}</SelectItem>}
           </SelectContent>
         </Select>
         <Select value={sortBy} onValueChange={setSortBy}>

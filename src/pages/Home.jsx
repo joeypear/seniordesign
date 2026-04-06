@@ -53,6 +53,7 @@ export default function Home() {
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [activeTab, setActiveTab] = useState(getTabFromUrl);
   const [selectedScanId, setSelectedScanId] = useState(getScanIdFromUrl);
+  const [historyFilterState, setHistoryFilterState] = useState({ filter: 'all', sortBy: 'newest', searchQuery: '' });
   const queryClient = useQueryClient();
 
   useEffect(() => {
@@ -156,10 +157,22 @@ export default function Home() {
         result = data.result || 'pending';
         confidence = data.confidence ?? undefined;
         ai_message = data.message ?? undefined;
+      } else {
+        result = 'pending';
+        base44.analytics.track({
+          eventName: 'ai_inference_failed',
+          properties: { error: `http_${res.status}` }
+        });
       }
-    } catch {
+    } catch (err) {
       // API failed or timed out — save with pending result
       result = 'pending';
+      base44.analytics.track({
+        eventName: 'ai_inference_failed',
+        properties: {
+          error: err?.name === 'AbortError' ? 'timeout' : (err?.message || 'unknown'),
+        }
+      });
     }
 
     await createScanMutation.mutateAsync({
@@ -167,7 +180,6 @@ export default function Home() {
       image_url: previewImage,
       result,
       confidence,
-      ai_message,
       notes: notes || undefined,
     });
 
@@ -316,6 +328,8 @@ export default function Home() {
                         onScanClick={handleScanClick}
                         onDeleteScan={(scanId) => deleteScanMutation.mutateAsync(scanId)}
                         onRenameScan={(scanId, name) => renameScanMutation.mutateAsync({ scanId, name })}
+                        filterState={historyFilterState}
+                        onFilterStateChange={setHistoryFilterState}
                       />
                     </PullToRefresh>
                   )}
