@@ -8,6 +8,11 @@ export default defineConfig({
   plugins: [
     react(),
   ],
+  optimizeDeps: {
+    // onnxruntime-web uses dynamic imports for its worker files; excluding it
+    // from pre-bundling prevents Vite from intercepting those imports.
+    exclude: ['onnxruntime-web'],
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

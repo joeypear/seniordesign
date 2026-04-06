@@ -10,7 +10,7 @@
     "lint:fix": "eslint . --fix",
     "typecheck": "tsc -p ./jsconfig.json",
     "preview": "vite preview",
-    "postinstall": "node -e \"const fs=require('fs');const src='node_modules/onnxruntime-web/dist';const dst='public/ort-wasm';fs.mkdirSync(dst,{recursive:true});fs.readdirSync(src).filter(f=>f.startsWith('ort-wasm-simd-threaded')&&(f.endsWith('.wasm')||f.endsWith('.mjs'))).forEach(f=>fs.copyFileSync(src+'/'+f,dst+'/'+f))\""
+    "postinstall": "node -e \"const fs=require('fs');const src='node_modules/onnxruntime-web/dist';const dst='public/ort-wasm';fs.mkdirSync(dst,{recursive:true});fs.readdirSync(src).filter(f=>f.endsWith('.wasm')).forEach(f=>fs.copyFileSync(src+'/'+f,dst+'/'+f))\""
   },
   "dependencies": {
     "@base44/sdk": "^0.8.24",
