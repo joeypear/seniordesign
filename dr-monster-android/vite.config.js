@@ -11,6 +11,12 @@ export default defineConfig({
     alias: {
       '@': path.resolve(process.cwd(), 'src'),
     },
+    // This custom condition makes Vite pick `ort.wasm.min.mjs` (the non-bundled,
+    // extern-wasm build) instead of `ort.wasm.bundle.min.mjs`. The bundle
+    // embeds a JSEP loader that fires unconditionally even when executionProviders
+    // is ['wasm']. The extern-wasm build reads all .wasm and .mjs glue from
+    // `ort.env.wasm.wasmPaths` and never references JSEP.
+    conditions: ['onnxruntime-web-use-extern-wasm'],
   },
   server: {
     host: '0.0.0.0',
@@ -29,14 +35,13 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          ort: ['onnxruntime-web'],
+          ort: ['onnxruntime-web/wasm'],
           react: ['react', 'react-dom'],
         },
       },
     },
   },
   optimizeDeps: {
-    // onnxruntime-web ships its own wasm loader — let Vite pre-bundle the JS entry.
-    include: ['onnxruntime-web'],
+    include: ['onnxruntime-web/wasm'],
   },
 });

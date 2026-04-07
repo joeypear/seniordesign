@@ -16,11 +16,15 @@ if (!fs.existsSync(src)) {
 }
 
 fs.mkdirSync(dst, { recursive: true });
-// Copy both the .wasm binaries AND the .mjs ESM glue files.
-// ORT 1.19+ dynamically imports .mjs loader modules at runtime; without them
-// the session creation fails with "Failed to fetch dynamically imported module".
-const files = fs.readdirSync(src).filter((f) => f.endsWith('.wasm') || f.endsWith('.mjs'));
+// Only copy the runtime glue files (ort-wasm-simd-threaded.*), not the ORT
+// bundle/entry .mjs files which belong in node_modules, not in public/.
+// ORT's extern-wasm build dynamically imports ort-wasm-simd-threaded.mjs from
+// wasmPaths at runtime — without it the session fails with "Failed to fetch
+// dynamically imported module".
+const files = fs.readdirSync(src).filter(
+  (f) => f.startsWith('ort-wasm-simd-threaded') && (f.endsWith('.wasm') || f.endsWith('.mjs'))
+);
 for (const f of files) {
   fs.copyFileSync(path.join(src, f), path.join(dst, f));
 }
-console.log(`[copy-wasm] copied ${files.length} wasm file(s) → public/ort-wasm/`);
+console.log(`[copy-wasm] copied ${files.length} file(s) (.wasm + .mjs) → public/ort-wasm/`);
