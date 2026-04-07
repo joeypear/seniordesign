@@ -1,0 +1,19 @@
+{
+  "appId": "com.drmonster.app",
+  "appName": "DR Monster",
+  "webDir": "dist",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "https",
+    "allowNavigation": []
+  },
+  "android": {
+    "allowMixedContent": false,
+    "webContentsDebuggingEnabled": false
+  },
+  "plugins": {
+    "Camera": {
+      "androidScaleType": "CENTER_CROP"
+    }
+  }
+}

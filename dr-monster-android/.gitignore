@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.DS_Store
+*.log
+
+# Capacitor-generated native project (regenerated via `npx cap add android`)
+android/
+
+# Bundled ONNX model(s) are large — commit out-of-band or via Git LFS.
+public/model/*.onnx
+public/ort-wasm/*.wasm
