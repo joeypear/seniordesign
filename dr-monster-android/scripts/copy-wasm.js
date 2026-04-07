@@ -16,7 +16,10 @@ if (!fs.existsSync(src)) {
 }
 
 fs.mkdirSync(dst, { recursive: true });
-const files = fs.readdirSync(src).filter((f) => f.endsWith('.wasm'));
+// Copy both the .wasm binaries AND the .mjs ESM glue files.
+// ORT 1.19+ dynamically imports .mjs loader modules at runtime; without them
+// the session creation fails with "Failed to fetch dynamically imported module".
+const files = fs.readdirSync(src).filter((f) => f.endsWith('.wasm') || f.endsWith('.mjs'));
 for (const f of files) {
   fs.copyFileSync(path.join(src, f), path.join(dst, f));
 }
