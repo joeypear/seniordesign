@@ -4,7 +4,7 @@ import jsPDF from 'jspdf';
 export async function exportAsPdf(scan, notes) {
   const title = scan.name || 'retinal-scan';
   const result = scan.result || 'pending';
-  const date = format(new Date(scan.created_date), 'yyyy-MM-dd');
+  const date = format(new Date(scan.created_date.replace(/Z$/, '') + 'Z'), 'yyyy-MM-dd');
   const filename = `${title}_${result}_${date}`;
 
   const img = new Image();
@@ -19,7 +19,7 @@ export async function exportAsPdf(scan, notes) {
   pdf.text('DR Monster – Retinal Scan Report', margin, 20);
   pdf.setFontSize(11); pdf.setFont('helvetica', 'normal');
   pdf.text(`Scan Name: ${scan.name || 'Untitled'}`, margin, 32);
-  pdf.text(`Date: ${format(new Date(scan.created_date), 'MMMM d, yyyy')}`, margin, 40);
+  pdf.text(`Date: ${format(new Date(scan.created_date.replace(/Z$/, '') + 'Z'), 'MMMM d, yyyy')}`, margin, 40);
   pdf.text(`Result: ${result.charAt(0).toUpperCase() + result.slice(1)}`, margin, 48);
   if (notes) { const splitNotes = pdf.splitTextToSize(`Notes: ${notes}`, contentWidth); pdf.text(splitNotes, margin, 56); }
   const imgAspect = img.naturalWidth / img.naturalHeight;
@@ -35,7 +35,7 @@ export async function exportAsPdf(scan, notes) {
 export async function exportAsDicom(scan, notes) {
   const title = scan.name || 'retinal-scan';
   const result = scan.result || 'pending';
-  const date = format(new Date(scan.created_date), 'yyyy-MM-dd');
+  const date = format(new Date(scan.created_date.replace(/Z$/, '') + 'Z'), 'yyyy-MM-dd');
   const filename = `${title}_${result}_${date}`;
 
   // Load image onto canvas to extract raw pixel data
@@ -61,7 +61,7 @@ export async function exportAsDicom(scan, notes) {
     grayPixels[i] = Math.round((r + g + b) / 3);
   }
 
-  const scanDate = new Date(scan.created_date);
+  const scanDate = new Date(scan.created_date.replace(/Z$/, '') + 'Z');
   const studyDate = format(scanDate, 'yyyyMMdd');
   const studyTime = format(scanDate, 'HHmmss');
   const uid = `2.25.${Date.now()}${Math.floor(Math.random() * 1000000)}`;
@@ -176,7 +176,7 @@ export async function exportAsDicom(scan, notes) {
 export function exportAsFhir(scan, notes) {
   const title = scan.name || 'retinal-scan';
   const result = scan.result || 'pending';
-  const date = format(new Date(scan.created_date), 'yyyy-MM-dd');
+  const date = format(new Date(scan.created_date.replace(/Z$/, '') + 'Z'), 'yyyy-MM-dd');
   const filename = `${title}_${result}_${date}`;
 
   const fhirReport = {
@@ -184,8 +184,8 @@ export function exportAsFhir(scan, notes) {
     status: scan.result === 'pending' ? 'registered' : 'final',
     category: [{ coding: [{ system: 'http://terminology.hl7.org/CodeSystem/v2-0074', code: 'RAD', display: 'Radiology' }] }],
     code: { coding: [{ system: 'http://loinc.org', code: '71237-0', display: 'Diabetic retinopathy study' }], text: 'Diabetic Retinopathy Screening' },
-    effectiveDateTime: new Date(scan.created_date).toISOString(),
-    issued: new Date(scan.created_date).toISOString(),
+    effectiveDateTime: new Date(scan.created_date.replace(/Z$/, '') + 'Z').toISOString(),
+    issued: new Date(scan.created_date.replace(/Z$/, '') + 'Z').toISOString(),
     conclusion: scan.result === 'normal' ? 'No signs of diabetic retinopathy detected.' : scan.result === 'abnormal' ? 'Potential signs of diabetic retinopathy detected. Further evaluation recommended.' : 'Analysis pending.',
     conclusionCode: [{ coding: [{ system: 'http://snomed.info/sct', code: scan.result === 'normal' ? '38103003' : scan.result === 'abnormal' ? '4855003' : '261665006', display: scan.result === 'normal' ? 'Normal' : scan.result === 'abnormal' ? 'Diabetic retinopathy' : 'Unknown' }] }],
     ...(notes ? { note: [{ text: notes }] } : {}),
@@ -202,7 +202,7 @@ export function exportAsFhir(scan, notes) {
 export function exportAsCsv(scan, notes) {
   const title = scan.name || 'retinal-scan';
   const result = scan.result || 'pending';
-  const date = format(new Date(scan.created_date), 'yyyy-MM-dd');
+  const date = format(new Date(scan.created_date.replace(/Z$/, '') + 'Z'), 'yyyy-MM-dd');
   const filename = `${title}_${result}_${date}`;
 
   const rows = [['Field', 'Value'], ['Scan Name', scan.name || 'Untitled'], ['Date', date], ['Result', result], ['Notes', notes || '']];

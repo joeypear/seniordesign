@@ -28,3 +28,14 @@ dist-ssr
 *.sw?
 
 .env
+
+# ONNX model files (too large for GitHub — store separately)
+public/model/
+src/public/model/
+dr-monster-api/model/
+
+# ORT Web WASM binaries (copied from node_modules by postinstall)
+public/ort-wasm-simd-threaded*.wasm
+
+# Claude Code internal files
+src/.claude/

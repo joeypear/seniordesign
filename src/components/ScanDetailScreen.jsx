@@ -4,7 +4,7 @@ import { useLanguage } from '@/components/LanguageContext';
 import {
   CheckCircle2, XCircle, Clock, Calendar, Loader2,
   HelpCircle, Pencil, Check, X, Trash2, Download,
-  FileDown, ChevronDown, ArrowLeft, AlertTriangle
+  FileDown, ChevronDown, ArrowLeft, AlertTriangle, RefreshCw
 } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
@@ -14,6 +14,8 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { motion } from 'framer-motion';
 import { validateFilename, recordAction, isRateLimited, subscribeRateLimit } from '@/lib/security';
 import { exportAsPdf, exportAsDicom, exportAsFhir, exportAsCsv } from '@/lib/exporters';
+import { runDRInference } from '@/lib/inference';
+import { Scan } from '@/lib/localScans';
 
 const statusConfig = {
   pending: { icon: Clock, color: 'text-amber-500 dark:text-amber-400', bg: 'bg-amber-100 dark:bg-amber-900/50', labelKey: 'pendingAnalysis', descKey: 'pendingDesc' },
@@ -22,7 +24,7 @@ const statusConfig = {
   no_result: { icon: AlertTriangle, color: 'text-amber-500 dark:text-amber-400', bg: 'bg-amber-100 dark:bg-amber-900/50', labelKey: 'pendingAnalysis', descKey: 'pendingDesc' },
 };
 
-export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateNotes, onRenameScan, onDeleteScan }) {
+export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateNotes, onRenameScan, onDeleteScan, onScanUpdated }) {
   const { t } = useLanguage();
   const [notes, setNotes] = useState('');
   const [savedNotes, setSavedNotes] = useState('');
@@ -33,6 +35,7 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
   const [isDeleting, setIsDeleting] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
+  const [isRedoing, setIsRedoing] = useState(false);
   const [renameError, setRenameError] = useState('');
   const [rateLimited, setRateLimited] = useState(isRateLimited());
   useEffect(() => subscribeRateLimit(setRateLimited), []);
@@ -91,12 +94,32 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
     a.href = url;
     const title = scan.name || 'retinal-scan';
     const result = scan.result || 'pending';
-    const date = format(new Date(scan.created_date), 'yyyy-MM-dd');
+    const date = format(new Date(scan.created_date.replace(/Z$/, '') + 'Z'), 'yyyy-MM-dd');
     const ext = localStorage.getItem('downloadFormat') || 'jpg';
     a.download = `${title}_${result}_${date}.${ext}`;
     document.body.appendChild(a); a.click(); document.body.removeChild(a);
     URL.revokeObjectURL(url);
     setIsDownloading(false);
+  };
+
+  const handleRedo = async () => {
+    setIsRedoing(true);
+    try {
+      const response = await fetch(scan.image_url);
+      const blob = await response.blob();
+      const inference = await runDRInference(blob);
+      if (inference) {
+        await Scan.update(scan.id, {
+          result: inference.result,
+          confidence: inference.confidence,
+          ai_message: inference.message,
+        });
+        onScanUpdated?.();
+      }
+    } catch {
+      // silently fail
+    }
+    setIsRedoing(false);
   };
 
   const handleExport = async (exportFormat) => {
@@ -149,7 +172,7 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
         {/* Metadata row */}
         <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 px-1">
           <Calendar className="w-4 h-4 shrink-0" />
-          <span>{format(new Date(scan.created_date), 'MMMM d, yyyy · h:mm a')}</span>
+          <span>{format(new Date(scan.created_date.replace(/Z$/, '') + 'Z'), 'MMMM d, yyyy · h:mm a')}</span>
           {scan.name && (
             <>
               <span className="text-gray-300 dark:text-gray-600">·</span>
@@ -200,7 +223,7 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
                 <HelpCircle className="w-5 h-5" />
               </button>
             </PopoverTrigger>
-            <PopoverContent side="left" className="max-w-[260px] text-sm space-y-1.5">
+            <PopoverContent side="left" className="max-w-[250px] text-sm space-y-2">
               <p>This is a screening tool only. It does not diagnose any condition.</p>
               <p>The confidence score reflects how certain the model is in its result.</p>
               <p>If you are concerned about your eye health, please consult a clinician regardless of the result.</p>
@@ -277,10 +300,10 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem onSelect={() => handleExport('pdf')}>Export as PDF</DropdownMenuItem>
-                <DropdownMenuItem onSelect={() => handleExport('dicom')}>Export as DICOM</DropdownMenuItem>
-                <DropdownMenuItem onSelect={() => handleExport('fhir')}>Export as FHIR</DropdownMenuItem>
-                <DropdownMenuItem onSelect={() => handleExport('csv')}>Export as CSV</DropdownMenuItem>
+                <DropdownMenuItem onSelect={() => handleExport('pdf')} className="text-base py-3 px-4">Export as PDF</DropdownMenuItem>
+                <DropdownMenuItem onSelect={() => handleExport('dicom')} className="text-base py-3 px-4">Export as DICOM</DropdownMenuItem>
+                <DropdownMenuItem onSelect={() => handleExport('fhir')} className="text-base py-3 px-4">Export as FHIR</DropdownMenuItem>
+                <DropdownMenuItem onSelect={() => handleExport('csv')} className="text-base py-3 px-4">Export as CSV</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
 
@@ -289,6 +312,10 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
               {isDownloading ? t('processing') : 'Save Image'}
             </Button>
           </div>
+          <Button variant="outline" onClick={handleRedo} disabled={isRedoing} className="w-full h-12 text-base text-yellow-600 dark:text-yellow-400 border-yellow-200 dark:border-yellow-800 hover:bg-yellow-50 dark:hover:bg-yellow-900/20 flex items-center justify-center">
+            {isRedoing ? <Loader2 className="w-5 h-5 mr-2 animate-spin" /> : <RefreshCw className="w-5 h-5 mr-2" />}
+            {isRedoing ? 'Analyzing...' : 'Redo Scan'}
+          </Button>
 
         </div>
 

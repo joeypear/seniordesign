@@ -194,7 +194,7 @@ function OverflowMenu({ scan, onDownload, onRename, onDelete, downloadingId, del
 
 function getScanGroup(date) {
   const now = new Date();
-  const d = new Date(date);
+  const d = new Date(date.replace(/Z$/, '') + 'Z');
   const diffMs = now - d;
   const diffDays = diffMs / (1000 * 60 * 60 * 24);
   const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
@@ -244,8 +244,7 @@ function ScanCard({ scan, onScanClick, onDownload, onRename, onDelete, downloadi
           <p className="text-base font-medium text-gray-800 dark:text-gray-200 truncate mt-1">{scan.name}</p>
         )}
         <p className="text-sm text-gray-400 dark:text-gray-500 mt-0.5 whitespace-nowrap">
-          {format(new Date(scan.created_date), 'MMM d, yyyy · h:mm a')}
-          {scan.created_date && !isNaN(new Date(scan.created_date)) ? format(new Date(scan.created_date + 'Z'), 'MMM d, yyyy · h:mm a') : 'Unknown date'}
+          {format(new Date(scan.created_date.replace(/Z$/, '') + 'Z'), 'MMM d, yyyy · h:mm a')}
         </p>
       </div>
       <OverflowMenu
@@ -298,20 +297,12 @@ function GroupedScanList({ scans, onScanClick, onDownload, onRename, onDelete, d
   );
 }
 
-export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRenameScan, filterState, onFilterStateChange }) {
+export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRenameScan, filter, onFilterChange, sortBy, onSortByChange, searchQuery, onSearchQueryChange }) {
   const { t } = useLanguage();
-  const [filter, setFilterLocal] = useState(filterState?.filter ?? 'all');
-  const [sortBy, setSortByLocal] = useState(filterState?.sortBy ?? 'newest');
-  const [searchQuery, setSearchQueryLocal] = useState(filterState?.searchQuery ?? '');
   const hasPending = scans.some(s => s.result === 'pending');
   const hasNoResult = scans.some(s => s.result === 'no_result');
-
   const [deletingId, setDeletingId] = useState(null);
   const [downloadingId, setDownloadingId] = useState(null);
-
-  const setFilter = (v) => { setFilterLocal(v); onFilterStateChange?.({ filter: v, sortBy, searchQuery }); };
-  const setSortBy = (v) => { setSortByLocal(v); onFilterStateChange?.({ filter, sortBy: v, searchQuery }); };
-  const setSearchQuery = (v) => { setSearchQueryLocal(v); onFilterStateChange?.({ filter, sortBy, searchQuery: v }); };
 
   const handleDownload = async (scan, e) => {
     e?.stopPropagation();
@@ -323,8 +314,7 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
     a.href = url;
     const title = scan.name || 'retinal-scan';
     const result = scan.result || 'pending';
-    const date = format(new Date(scan.created_date), 'yyyy-MM-dd');
-    const date = scan.created_date && !isNaN(new Date(scan.created_date)) ? format(new Date(scan.created_date + 'Z'), 'yyyy-MM-dd') : 'unknown-date';
+    const date = format(new Date(scan.created_date.replace(/Z$/, '') + 'Z'), 'yyyy-MM-dd');
     const ext = localStorage.getItem('downloadFormat') || 'jpg';
     a.download = `${title}_${result}_${date}.${ext}`;
     document.body.appendChild(a);
@@ -340,8 +330,10 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
     setDeletingId(null);
   };
 
+  const activeFilter = (filter === 'pending' || filter === 'no_result') && !scans.some(s => s.result === filter) ? 'all' : filter;
+
   let filteredScans = scans.filter(scan => {
-    if (filter !== 'all' && scan.result !== filter) return false;
+    if (activeFilter !== 'all' && scan.result !== activeFilter) return false;
     if (searchQuery && !(scan.name || '').toLowerCase().includes(searchQuery.toLowerCase())) return false;
     return true;
   });
@@ -391,14 +383,14 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
         <Input
           placeholder={t('searchByName')}
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={(e) => onSearchQueryChange(e.target.value)}
           className="pl-9 h-12 text-base bg-white dark:bg-gray-800 dark:border-gray-600 w-full focus-visible:ring-offset-0"
         />
       </div>
 
       {/* Filter + Sort row */}
       <div className="flex gap-2">
-        <Select value={filter} onValueChange={setFilter}>
+        <Select value={filter} onValueChange={onFilterChange}>
           <SelectTrigger className="flex-1 bg-white dark:bg-gray-800 dark:border-gray-600 text-sm h-12 text-base focus:ring-0 focus:ring-offset-0 data-[state=open]:ring-0">
             <Filter className="w-4 h-4 mr-1 flex-shrink-0" />
             <SelectValue />
@@ -411,7 +403,7 @@ export default function ScanHistory({ scans, onScanClick, onDeleteScan, onRename
             {(hasNoResult || filter === 'no_result') && <SelectItem value="no_result">{t('noResult')}</SelectItem>}
           </SelectContent>
         </Select>
-        <Select value={sortBy} onValueChange={setSortBy}>
+        <Select value={sortBy} onValueChange={onSortByChange}>
           <SelectTrigger className="flex-1 bg-white dark:bg-gray-800 dark:border-gray-600 text-sm h-12 text-base focus:ring-0 focus:ring-offset-0 data-[state=open]:ring-0">
             <ArrowUpDown className="w-4 h-4 mr-1 flex-shrink-0" />
             <SelectValue />

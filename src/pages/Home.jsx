@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Scan } from '@/lib/localScans';
 import { useLanguage } from '@/components/LanguageContext';
+import { runDRInference } from '@/lib/inference';
 
 import ImageUploader from '@/components/ImageUploader';
 import AccountSettings from '@/components/AccountSettings';
@@ -53,7 +54,9 @@ export default function Home() {
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [activeTab, setActiveTab] = useState(getTabFromUrl);
   const [selectedScanId, setSelectedScanId] = useState(getScanIdFromUrl);
-  const [historyFilterState, setHistoryFilterState] = useState({ filter: 'all', sortBy: 'newest', searchQuery: '' });
+  const [historyFilter, setHistoryFilter] = useState('all');
+  const [historySortBy, setHistorySortBy] = useState('newest');
+  const [historySearchQuery, setHistorySearchQuery] = useState('');
   const queryClient = useQueryClient();
 
   useEffect(() => {
@@ -129,7 +132,6 @@ export default function Home() {
   const handleAnalyze = async (scanName, notes) => {
     setIsAnalyzing(true);
 
-    // Run inference
     let result = 'pending';
     let confidence = undefined;
     let ai_message = undefined;
@@ -137,42 +139,14 @@ export default function Home() {
     try {
       const response = await fetch(previewImage);
       const blob = await response.blob();
-      const file = new File([blob], 'scan.jpg', { type: blob.type || 'image/jpeg' });
-
-      const formData = new FormData();
-      formData.append('file', file);
-
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 30000);
-
-      const res = await fetch('https://joeypear-dr-monster-api.hf.space/predict', {
-        method: 'POST',
-        body: formData,
-        signal: controller.signal,
-      });
-      clearTimeout(timeout);
-
-      if (res.ok) {
-        const data = await res.json();
-        result = data.result || 'pending';
-        confidence = data.confidence ?? undefined;
-        ai_message = data.message ?? undefined;
-      } else {
-        result = 'pending';
-        base44.analytics.track({
-          eventName: 'ai_inference_failed',
-          properties: { error: `http_${res.status}` }
-        });
+      const inference = await runDRInference(blob);
+      if (inference) {
+        result     = inference.result;
+        confidence = inference.confidence ?? undefined;
+        ai_message = inference.message ?? undefined;
       }
-    } catch (err) {
-      // API failed or timed out — save with pending result
+    } catch {
       result = 'pending';
-      base44.analytics.track({
-        eventName: 'ai_inference_failed',
-        properties: {
-          error: err?.name === 'AbortError' ? 'timeout' : (err?.message || 'unknown'),
-        }
-      });
     }
 
     await createScanMutation.mutateAsync({
@@ -180,6 +154,7 @@ export default function Home() {
       image_url: previewImage,
       result,
       confidence,
+      ai_message,
       notes: notes || undefined,
     });
 
@@ -202,7 +177,6 @@ export default function Home() {
 
   const selectedScan = scans.find(s => s.id === selectedScanId) || null;
 
-  // Show scan detail screen (full-screen overlay within the page)
   if (selectedScanId) {
     return (
       <ScanDetailScreen
@@ -215,6 +189,7 @@ export default function Home() {
           await deleteScanMutation.mutateAsync(scanId);
           handleBackFromDetail();
         }}
+        onScanUpdated={() => queryClient.invalidateQueries({ queryKey: ['scans'] })}
       />
     );
   }
@@ -230,7 +205,7 @@ export default function Home() {
       {isHistory && (
         <div className={activeTab === 'account' ? 'w-full mx-auto px-4 flex items-center justify-between' : 'max-w-lg mx-auto px-4 flex items-center justify-between'} style={{ height: 56 }}>
           <img
-            src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69b197ac7dc234617b635f3b/957c3239e_fixed_background_with_fade.png"
+            src="/dr-monster-logo.png"
             alt="DR Monster Logo"
             className="w-9 h-9"
             style={{ imageRendering: 'auto' }}
@@ -250,7 +225,7 @@ export default function Home() {
           >
             <div className="flex justify-center mb-3">
               <img
-                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69b197ac7dc234617b635f3b/957c3239e_fixed_background_with_fade.png"
+                src="/dr-monster-logo.png"
                 alt="DR Monster Logo"
                 className="w-16 h-16"
                 style={{ imageRendering: 'auto' }}
@@ -328,8 +303,12 @@ export default function Home() {
                         onScanClick={handleScanClick}
                         onDeleteScan={(scanId) => deleteScanMutation.mutateAsync(scanId)}
                         onRenameScan={(scanId, name) => renameScanMutation.mutateAsync({ scanId, name })}
-                        filterState={historyFilterState}
-                        onFilterStateChange={setHistoryFilterState}
+                        filter={historyFilter}
+                        onFilterChange={setHistoryFilter}
+                        sortBy={historySortBy}
+                        onSortByChange={setHistorySortBy}
+                        searchQuery={historySearchQuery}
+                        onSearchQueryChange={setHistorySearchQuery}
                       />
                     </PullToRefresh>
                   )}
