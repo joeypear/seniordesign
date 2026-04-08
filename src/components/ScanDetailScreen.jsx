@@ -91,7 +91,7 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
     a.href = url;
     const title = scan.name || 'retinal-scan';
     const result = scan.result || 'pending';
-    const date = format(new Date(scan.created_date + 'Z'), 'yyyy-MM-dd');
+    const date = format(new Date(scan.created_date.replace(/Z$/, '') + 'Z'), 'yyyy-MM-dd');
     const ext = localStorage.getItem('downloadFormat') || 'jpg';
     a.download = `${title}_${result}_${date}.${ext}`;
     document.body.appendChild(a); a.click(); document.body.removeChild(a);
@@ -149,7 +149,7 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
         {/* Metadata row */}
         <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 px-1">
           <Calendar className="w-4 h-4 shrink-0" />
-          <span>{format(new Date(scan.created_date + 'Z'), 'MMMM d, yyyy · h:mm a')}</span>
+          <span>{format(new Date(scan.created_date.replace(/Z$/, '') + 'Z'), 'MMMM d, yyyy · h:mm a')}</span>
           {scan.name && (
             <>
               <span className="text-gray-300 dark:text-gray-600">·</span>
