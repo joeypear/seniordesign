@@ -108,6 +108,11 @@ export default function Home() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['scans'] }),
   });
 
+  const updateScanMutation = useMutation({
+    mutationFn: ({ scanId, data }) => base44.entities.Scan.update(scanId, data),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['scans'] }),
+  });
+
   const handleImageUploaded = (url, rawUrl, videoFile) => {
     setPreCropImage(rawUrl || null);
     setRestoreVideoFile(videoFile || null);
@@ -202,6 +207,32 @@ export default function Home() {
 
   const selectedScan = scans.find(s => s.id === selectedScanId) || null;
 
+  const handleRedoScan = async (scan) => {
+    let result = 'pending';
+    let confidence = undefined;
+    try {
+      const response = await fetch(scan.image_url);
+      const blob = await response.blob();
+      const file = new File([blob], 'scan.jpg', { type: blob.type || 'image/jpeg' });
+      const formData = new FormData();
+      formData.append('file', file);
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 30000);
+      const res = await fetch('https://joeypear-dr-monster-api.hf.space/predict', {
+        method: 'POST',
+        body: formData,
+        signal: controller.signal,
+      });
+      clearTimeout(timeout);
+      if (res.ok) {
+        const data = await res.json();
+        result = data.result || 'pending';
+        confidence = data.confidence ?? undefined;
+      }
+    } catch {}
+    await updateScanMutation.mutateAsync({ scanId: scan.id, data: { result, confidence } });
+  };
+
   // Show scan detail screen (full-screen overlay within the page)
   if (selectedScanId) {
     return (
@@ -215,6 +246,7 @@ export default function Home() {
           await deleteScanMutation.mutateAsync(scanId);
           handleBackFromDetail();
         }}
+        onRedoScan={handleRedoScan}
       />
     );
   }

@@ -4,7 +4,7 @@ import { useLanguage } from '@/components/LanguageContext';
 import {
   CheckCircle2, XCircle, Clock, Calendar, Loader2,
   HelpCircle, Pencil, Check, X, Trash2, Download,
-  FileDown, ChevronDown, ArrowLeft, AlertTriangle
+  FileDown, ChevronDown, ArrowLeft, AlertTriangle, RefreshCw
 } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
@@ -22,7 +22,7 @@ const statusConfig = {
   no_result: { icon: AlertTriangle, color: 'text-amber-500 dark:text-amber-400', bg: 'bg-amber-100 dark:bg-amber-900/50', labelKey: 'pendingAnalysis', descKey: 'pendingDesc' },
 };
 
-export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateNotes, onRenameScan, onDeleteScan }) {
+export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateNotes, onRenameScan, onDeleteScan, onRedoScan }) {
   const { t } = useLanguage();
   const [notes, setNotes] = useState('');
   const [savedNotes, setSavedNotes] = useState('');
@@ -31,6 +31,7 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
   const [editName, setEditName] = useState('');
   const [isRenaming, setIsRenaming] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isRedoing, setIsRedoing] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
   const [renameError, setRenameError] = useState('');
@@ -80,6 +81,12 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
   const handleDelete = async () => {
     setIsDeleting(true);
     await onDeleteScan(scan.id);
+  };
+
+  const handleRedo = async () => {
+    setIsRedoing(true);
+    await onRedoScan(scan);
+    setIsRedoing(false);
   };
 
   const handleDownload = async () => {
@@ -292,7 +299,11 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
 
         </div>
 
-        <div className="bg-white/80 dark:bg-[#22263A] rounded-2xl p-3 shadow-sm border border-gray-100 dark:border-[#2E3350]">
+        <div className="bg-white/80 dark:bg-[#22263A] rounded-2xl p-3 shadow-sm border border-gray-100 dark:border-[#2E3350] flex flex-col gap-3">
+            <Button variant="outline" onClick={handleRedo} disabled={isRedoing} className="w-full h-11 text-sm text-amber-600 hover:text-amber-700 border border-amber-300 dark:border-amber-700 hover:bg-amber-50 dark:hover:bg-amber-900/20">
+              {isRedoing ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <RefreshCw className="w-4 h-4 mr-2" />}
+              {isRedoing ? 'Analyzing...' : 'Redo Scan'}
+            </Button>
             <Button variant="outline" onClick={handleDelete} disabled={isDeleting} className="w-full h-11 text-sm text-rose-500 hover:text-rose-600 border border-rose-200 dark:border-rose-800 hover:bg-rose-50 dark:hover:bg-rose-900/20">
               {isDeleting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Trash2 className="w-4 h-4 mr-2" />}
               {t('deleteScan')}
