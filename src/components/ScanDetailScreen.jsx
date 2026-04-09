@@ -297,7 +297,7 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
             </Button>
           </div>
 
-          <Button variant="outline" onClick={handleRedo} disabled={isRedoing} className="w-full h-11 text-sm text-amber-600 hover:text-amber-700 border border-amber-300 dark:border-amber-700 hover:bg-amber-50 dark:hover:bg-amber-900/20">
+          <Button variant="outline" onClick={handleRedo} disabled={isRedoing} className="w-full h-11 text-base text-amber-600 hover:text-amber-700 border border-amber-300 dark:border-amber-700 hover:bg-amber-50 dark:hover:bg-amber-900/20">
             {isRedoing ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <RefreshCw className="w-4 h-4 mr-2" />}
             {isRedoing ? t('redoing') : t('redoScan')}
           </Button>
