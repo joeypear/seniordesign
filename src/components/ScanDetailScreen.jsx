@@ -276,11 +276,11 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
                   <ChevronDown className="w-4 h-4 ml-1" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem onSelect={() => handleExport('pdf')}>Export as PDF</DropdownMenuItem>
-                <DropdownMenuItem onSelect={() => handleExport('dicom')}>Export as DICOM</DropdownMenuItem>
-                <DropdownMenuItem onSelect={() => handleExport('fhir')}>Export as FHIR</DropdownMenuItem>
-                <DropdownMenuItem onSelect={() => handleExport('csv')}>Export as CSV</DropdownMenuItem>
+              <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuItem className="py-3 text-base" onSelect={() => handleExport('pdf')}>Export as PDF</DropdownMenuItem>
+                <DropdownMenuItem className="py-3 text-base" onSelect={() => handleExport('dicom')}>Export as DICOM</DropdownMenuItem>
+                <DropdownMenuItem className="py-3 text-base" onSelect={() => handleExport('fhir')}>Export as FHIR</DropdownMenuItem>
+                <DropdownMenuItem className="py-3 text-base" onSelect={() => handleExport('csv')}>Export as CSV</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
 
