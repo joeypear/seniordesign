@@ -585,9 +585,9 @@ export default function AccountSettings() {
   const avatarLetter = (user?.username || user?.full_name)?.[0]?.toUpperCase() || user?.email?.[0]?.toUpperCase() || 'U';
 
   const themeOptions = [
-    { value: 'system', icon: <Monitor size={13} />, label: 'System' },
-    { value: 'light', icon: <Sun size={13} />, label: 'Light' },
-    { value: 'dark', icon: <Moon size={13} />, label: 'Dark' },
+    { value: 'system', icon: <Monitor size={13} />, labelKey: 'themeSystem' },
+    { value: 'light', icon: <Sun size={13} />, labelKey: 'themeLight' },
+    { value: 'dark', icon: <Moon size={13} />, labelKey: 'themeDark' },
   ];
 
   return (
@@ -603,7 +603,7 @@ export default function AccountSettings() {
 
             {/* — PROFILE — */}
             <div>
-              <div className="as-section-label">Profile</div>
+            <div className="as-section-label">{t('profile')}</div>
               <div className="as-profile-card" style={{ width: '100%', maxWidth: '100%', boxSizing: 'border-box' }}>
                 <div className="as-profile-row">
                   <div className="as-avatar-wrap">
@@ -659,7 +659,7 @@ export default function AccountSettings() {
 
             {/* — PREFERENCES — */}
             <div>
-              <div className="as-section-label">Preferences</div>
+              <div className="as-section-label">{t('preferences')}</div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
 
                 {/* Appearance */}
@@ -667,19 +667,19 @@ export default function AccountSettings() {
                   <div className="as-setting-left">
                     <div className="as-setting-label">
                       <Moon size={16} />
-                      Appearance
+                      {t('appearance')}
                     </div>
                   </div>
                   <div className="as-setting-right">
                     <div className="as-seg">
-                      {themeOptions.map(({ value, icon, label }) => (
+                      {themeOptions.map(({ value, icon, labelKey }) => (
                         <button
                           key={value}
                           className={`as-seg-btn${theme === value ? ' active' : ''}`}
                           onClick={() => handleTheme(value)}
                         >
                           {icon}
-                          {label}
+                          {t(labelKey)}
                         </button>
                       ))}
                     </div>
@@ -690,13 +690,13 @@ export default function AccountSettings() {
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="system">
-                            <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><Monitor size={13} />System</span>
+                            <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><Monitor size={13} />{t('themeSystem')}</span>
                           </SelectItem>
                           <SelectItem value="light">
-                            <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><Sun size={13} />Light</span>
+                            <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><Sun size={13} />{t('themeLight')}</span>
                           </SelectItem>
                           <SelectItem value="dark">
-                            <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><Moon size={13} />Dark</span>
+                            <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><Moon size={13} />{t('themeDark')}</span>
                           </SelectItem>
                         </SelectContent>
                       </Select>
@@ -709,7 +709,7 @@ export default function AccountSettings() {
                   <div className="as-setting-left">
                     <div className="as-setting-label">
                       <ImageDown size={16} />
-                      Download Format
+                      {t('downloadFormat')}
                     </div>
                   </div>
                   <div className="as-setting-right">
@@ -761,7 +761,7 @@ export default function AccountSettings() {
 
             {/* — DANGER ZONE — */}
             <div>
-              <div className="as-section-label">Account Actions</div>
+              <div className="as-section-label">{t('accountActions')}</div>
               <div className="as-danger-section" style={{ width: '100%', maxWidth: '100%', boxSizing: 'border-box' }}>
                 <button className="as-action-btn" onClick={() => base44.auth.logout()}>
                   <LogOut size={16} />

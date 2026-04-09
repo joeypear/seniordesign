@@ -126,7 +126,7 @@ function OverflowMenu({ scan, onDownload, onRename, onDelete, downloadingId, del
             disabled={downloadingId === scan.id}
           >
             {downloadingId === scan.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4 text-emerald-500" />}
-            Download
+            {t('download')}
           </button>
           <button
             className="flex items-center gap-3 w-full px-4 py-3 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors min-h-[44px]"
@@ -205,17 +205,17 @@ function getScanGroup(date) {
   const lastMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1);
   const yearStart = new Date(now.getFullYear(), 0, 1);
 
-  if (d >= todayStart) return 'Today';
-  if (d >= yesterdayStart) return 'Yesterday';
-  if (d >= weekStart) return 'This Week';
-  if (d >= lastWeekStart) return 'Last Week';
-  if (d >= monthStart) return 'This Month';
-  if (d >= lastMonthStart) return 'Last Month';
-  if (d >= yearStart) return 'Earlier This Year';
-  return 'A Long Time Ago';
+  if (d >= todayStart) return 'groupToday';
+  if (d >= yesterdayStart) return 'groupYesterday';
+  if (d >= weekStart) return 'groupThisWeek';
+  if (d >= lastWeekStart) return 'groupLastWeek';
+  if (d >= monthStart) return 'groupThisMonth';
+  if (d >= lastMonthStart) return 'groupLastMonth';
+  if (d >= yearStart) return 'groupEarlierThisYear';
+  return 'groupLongTimeAgo';
 }
 
-const GROUP_ORDER_NEWEST = ['Today', 'Yesterday', 'This Week', 'Last Week', 'This Month', 'Last Month', 'Earlier This Year', 'A Long Time Ago'];
+const GROUP_ORDER_NEWEST = ['groupToday', 'groupYesterday', 'groupThisWeek', 'groupLastWeek', 'groupThisMonth', 'groupLastMonth', 'groupEarlierThisYear', 'groupLongTimeAgo'];
 const GROUP_ORDER_OLDEST = [...GROUP_ORDER_NEWEST].reverse();
 
 function ScanCard({ scan, onScanClick, onDownload, onRename, onDelete, downloadingId, deletingId, t, index }) {
@@ -274,7 +274,7 @@ function GroupedScanList({ scans, onScanClick, onDownload, onRename, onDelete, d
     <div className="space-y-5">
       {groupOrder.filter(g => groups[g]?.length).map(group => (
         <div key={group}>
-          <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-2 px-1">{group}</p>
+          <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-2 px-1">{t(group)}</p>
           <div className="space-y-3">
             {groups[group].map(scan => (
               <ScanCard

@@ -179,18 +179,18 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
             ) : scan.result === 'normal' || scan.result === 'abnormal' || scan.result === 'no_result' ? (
               <>
                 <p className={`font-semibold ${status.color}`}>
-                  {scan.result === 'normal' ? 'Normal' : scan.result === 'abnormal' ? 'Abnormal' : 'No Result'}
+                  {scan.result === 'normal' ? t('normalLabel') : scan.result === 'abnormal' ? t('abnormalLabel') : t('noResult')}
                 </p>
                 <p className="text-sm text-gray-600 dark:text-gray-300 mt-0.5">
                   {scan.result === 'normal'
-                    ? 'No signs of diabetic retinopathy detected. Routine follow-up screenings are still recommended.'
+                    ? t('normalDesc')
                     : scan.result === 'abnormal'
-                    ? 'Potential signs of diabetic retinopathy detected. Please consult a clinician for further evaluation.'
-                    : 'Confidence too low to determine a result. Please retake the image.'}
+                    ? t('abnormalDesc')
+                    : t('noResultDesc')}
                 </p>
                 {scan.confidence != null && scan.result !== 'no_result' && (
                   <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
-                    Confidence: {scan.result === 'normal' ? (100 - Number(scan.confidence)).toFixed(1) : Number(scan.confidence).toFixed(1)}%
+                    {t('confidence')}: {scan.result === 'normal' ? (100 - Number(scan.confidence)).toFixed(1) : Number(scan.confidence).toFixed(1)}%
                   </p>
                 )}
               </>
@@ -208,16 +208,16 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
               </button>
             </PopoverTrigger>
             <PopoverContent side="left" className="max-w-[260px] text-sm space-y-1.5">
-              <p>This is a screening tool only. It does not diagnose any condition.</p>
-              <p>The confidence score reflects how certain the model is in its result.</p>
-              <p>If you are concerned about your eye health, please consult a clinician regardless of the result.</p>
+            <p>{t('popoverScreening')}</p>
+            <p>{t('popoverConfidence')}</p>
+            <p>{t('popoverConsult')}</p>
             </PopoverContent>
           </Popover>
         </div>
 
         {/* Editable scan name */}
         <div className="bg-white/80 dark:bg-[#22263A] rounded-2xl p-3 shadow-sm border border-gray-100 dark:border-[#2E3350]">
-          <p className="text-xs font-medium text-gray-400 dark:text-gray-500 mb-1.5 px-1">Eye / Title</p>
+          <p className="text-xs font-medium text-gray-400 dark:text-gray-500 mb-1.5 px-1">{t('eyeTitle')}</p>
           {isEditingName ? (
             <div className="flex flex-col gap-1">
               <div className="flex items-center gap-1">
@@ -256,9 +256,9 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
 
         {/* Notes */}
         <div className="bg-white/80 dark:bg-[#22263A] rounded-2xl p-3 shadow-sm border border-gray-100 dark:border-[#2E3350] space-y-2">
-          <p className="text-xs font-medium text-gray-400 dark:text-gray-500 px-1">Notes</p>
+          <p className="text-xs font-medium text-gray-400 dark:text-gray-500 px-1">{t('notes')}</p>
           <Textarea
-            placeholder="Add clinical notes…"
+            placeholder={t('addClinicalNotes')}
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
             className="min-h-[80px] resize-none"
@@ -279,27 +279,27 @@ export default function ScanDetailScreen({ scan, scansLoading, onBack, onUpdateN
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" disabled={isExporting} className="w-full h-12 text-base text-indigo-600 dark:text-indigo-400 border-indigo-200 dark:border-indigo-800 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 flex items-center justify-center">
                   {isExporting ? <Loader2 className="w-5 h-5 mr-2 animate-spin" /> : <FileDown className="w-5 h-5 mr-2" />}
-                  {isExporting ? t('processing') : 'Export'}
+                  {isExporting ? t('processing') : t('export')}
                   <ChevronDown className="w-4 h-4 ml-1" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-48">
-                <DropdownMenuItem className="py-3 text-base" onSelect={() => handleExport('pdf')}>Export as PDF</DropdownMenuItem>
-                <DropdownMenuItem className="py-3 text-base" onSelect={() => handleExport('dicom')}>Export as DICOM</DropdownMenuItem>
-                <DropdownMenuItem className="py-3 text-base" onSelect={() => handleExport('fhir')}>Export as FHIR</DropdownMenuItem>
-                <DropdownMenuItem className="py-3 text-base" onSelect={() => handleExport('csv')}>Export as CSV</DropdownMenuItem>
+                <DropdownMenuItem className="py-3 text-base" onSelect={() => handleExport('pdf')}>{t('export')} PDF</DropdownMenuItem>
+                <DropdownMenuItem className="py-3 text-base" onSelect={() => handleExport('dicom')}>{t('export')} DICOM</DropdownMenuItem>
+                <DropdownMenuItem className="py-3 text-base" onSelect={() => handleExport('fhir')}>{t('export')} FHIR</DropdownMenuItem>
+                <DropdownMenuItem className="py-3 text-base" onSelect={() => handleExport('csv')}>{t('export')} CSV</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
 
             <Button variant="outline" onClick={handleDownload} disabled={isDownloading} className="w-full h-12 text-base text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 flex items-center justify-center">
               {isDownloading ? <Loader2 className="w-5 h-5 mr-2 animate-spin" /> : <Download className="w-5 h-5 mr-2" />}
-              {isDownloading ? t('processing') : 'Save Image'}
+              {isDownloading ? t('processing') : t('saveImage')}
             </Button>
           </div>
 
           <Button variant="outline" onClick={handleRedo} disabled={isRedoing} className="w-full h-11 text-sm text-amber-600 hover:text-amber-700 border border-amber-300 dark:border-amber-700 hover:bg-amber-50 dark:hover:bg-amber-900/20">
             {isRedoing ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <RefreshCw className="w-4 h-4 mr-2" />}
-            {isRedoing ? 'Analyzing...' : 'Redo Scan'}
+            {isRedoing ? t('redoing') : t('redoScan')}
           </Button>
 
         </div>
