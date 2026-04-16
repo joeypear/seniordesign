@@ -1,0 +1,8 @@
+# Android build artifacts
+android/build/
+android/.gradle/
+android/.idea/
+android/.kotlin/
+
+# Claude Code internal
+.claude/
