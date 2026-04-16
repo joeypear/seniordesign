@@ -2,7 +2,7 @@
 
 The 'main' branch is the online version, that is dependent on Base44's backend, an internet connection, and Hugging Face.
 
-View and Edit your app on [Base44.com](http://Base44.com) 
+Can be edited on [Base44.com](http://Base44.com) 
 
 This project contains everything you need to run your app locally.
 
