@@ -1,0 +1,13 @@
+{
+  "name": "User",
+  "type": "object",
+  "properties": {
+    "username": {
+      "type": "string",
+      "description": "Custom display name chosen by the user"
+    }
+  },
+  "required": [
+    "username"
+  ]
+}
