@@ -16,6 +16,7 @@ import PullToRefresh from '@/components/PullToRefresh';
 import ScanDetailScreen from '@/components/ScanDetailScreen';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 function getTabFromUrl() {
   const params = new URLSearchParams(window.location.search);
@@ -380,6 +381,11 @@ export default function Home() {
             <MissionInfoButton />
             <span className="text-gray-300 dark:text-gray-600">•</span>
             <ContactUsButton />
+          </div>
+          <div className="flex items-center justify-center gap-2 text-xs">
+            <Link to="/About" className="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300">About</Link>
+            <span className="text-gray-300 dark:text-gray-600">•</span>
+            <Link to="/Contact" className="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300">Contact</Link>
           </div>
         </div>
       </div>

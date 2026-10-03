@@ -1,0 +1,30 @@
+{
+  "name": "FaqEntry",
+  "type": "object",
+  "properties": {
+    "question": {
+      "type": "string",
+      "description": "The FAQ question shown to users"
+    },
+    "answer": {
+      "type": "string",
+      "description": "The FAQ answer shown to users"
+    },
+    "description": {
+      "type": "string",
+      "description": "Short description of what this FAQ covers"
+    },
+    "category": {
+      "type": "string",
+      "description": "Topic category, e.g. usage, privacy, medical"
+    },
+    "sort_order": {
+      "type": "number",
+      "description": "Display order (ascending)"
+    }
+  },
+  "required": [
+    "question",
+    "answer"
+  ]
+}
